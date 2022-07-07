@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profilPengguna"
+            android:icon="@drawable/ikon_pengguna"
+            android:title="@string/menu_profilPengguna" />
+        <item
+            android:id="@+id/nav_lamanUtamaJuruteknik"
+            android:icon="@drawable/ikon_laman_utama"
+            android:title="@string/menu_lamanUtama" />
+        <item
+            android:id="@+id/nav_jadualTugasanJuruteknik"
+            android:icon="@drawable/ikon_tambah_tugasan"
+            android:title="@string/menu_jadualTugasan" />
+        <item
+            android:id="@+id/nav_senaraiAduanJuruteknik"
+            android:icon="@drawable/ikon_senarai"
+            android:title="@string/menu_senaraiAduan" />
+        <item
+            android:id="@+id/nav_logKeluar"
+            android:icon="@drawable/ikon_log_keluar"
+            android:title="@string/menu_logKeluar" />
+    </group>
+</menu>

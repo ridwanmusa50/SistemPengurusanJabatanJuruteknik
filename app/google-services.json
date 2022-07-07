@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "118673995110",
+    "project_id": "spjj-b9fa5",
+    "storage_bucket": "spjj-b9fa5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118673995110:android:20460eb94fe9106b7444a7",
+        "android_client_info": {
+          "package_name": "com.sistempengurusanjabatanjuruteknik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118673995110-gusbtj2uqqnckhhu8d198l4rs7ll778g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg9hx_vrD9ahrnrzFMWz46JMMSNc9ypWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118673995110-gusbtj2uqqnckhhu8d198l4rs7ll778g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

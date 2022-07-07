@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_lamanUtama">
+
+    <fragment
+        android:id="@+id/nav_profilPengguna"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.profilPengguna.profilPengguna"
+        android:label="@string/menu_profilPengguna"
+        tools:layout="@layout/fragment_profil_pengguna" />
+
+    <fragment
+        android:id="@+id/nav_lamanUtama"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.lamanutama.lamanUtama"
+        android:label="@string/menu_lamanUtama"
+        tools:layout="@layout/fragment_laman_utama_pentadbir" />
+
+    <fragment
+        android:id="@+id/nav_daftarTugasan"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.daftarTugasan.daftarTugasan"
+        android:label="@string/menu_daftarTugasan"
+        tools:layout="@layout/fragment_daftar_tugasan_pentadbir" />
+
+    <fragment
+        android:id="@+id/nav_kemaskiniBuangTugasan"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.kemaskiniBuangTugasan.kemaskiniBuangTugasan"
+        android:label="@string/menu_kemaskiniBuangTugasan"
+        tools:layout="@layout/fragment_kemaskini_buang_tugasan_pentadbir" />
+
+    <fragment
+        android:id="@+id/nav_daftarPengguna"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.akaunPengguna.daftarPengguna.daftarPengguna"
+        android:label="@string/menu_daftarPengguna"
+        tools:layout="@layout/fragment_daftar_pengguna" />
+
+    <fragment
+        android:id="@+id/nav_kemaskiniPengguna"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.akaunPengguna.kemaskiniPengguna.kemaskiniPengguna"
+        android:label="@string/menu_kemaskiniPengguna"
+        tools:layout="@layout/fragment_kemaskini_pengguna" />
+
+    <fragment
+        android:id="@+id/nav_buangPengguna"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.akaunPengguna.buangPengguna.buangPengguna"
+        android:label="@string/menu_buangPengguna"
+        tools:layout="@layout/fragment_buang_pengguna" />
+
+    <fragment
+        android:id="@+id/nav_laporanAduanKerosakan"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanAduanKerosakan.laporanAduanKerosakan"
+        android:label="Laporan Aduan Kerosakan"
+        tools:layout="@layout/fragment_senarai_aduan_juruteknik" />
+    <fragment
+        android:id="@+id/nav_laporanJadualTugasan"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanJadualTugasan.laporanJadualTugasan"
+        android:label="Laporan Jadual Tugasan"
+        tools:layout="@layout/fragment_laporan_jadual_tugasan" />
+    <fragment
+        android:id="@+id/nav_laporanBilanganAduan"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanBilanganAduan.laporanBilanganAduan"
+        android:label="Laporan Bilangan Aduan"
+        tools:layout="@layout/fragment_laporan_bilangan_aduan" />
+    <fragment
+        android:id="@+id/nav_logKeluar"
+        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.logKeluar.logKeluar"
+        android:label="@string/menu_logKeluar"
+        tools:layout="@layout/log_keluar"/>
+</navigation>

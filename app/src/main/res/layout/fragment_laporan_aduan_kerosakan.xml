@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_up_background"
+    android:paddingBottom="20dp"
+    android:fillViewport="true"
+    tools:context=".ui.pentadbir.senaraiPenuhAduanPentadbir">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/id_doc"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/idAduan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="ID Aduan"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/blokteks"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="18sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout01"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/factorymachine"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/idMesin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="ID Mesin"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/ikon_pengguna"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/namaPenuhPengadu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Nama Penuh Pengadu"
+                    android:inputType="textEmailAddress"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/calendar"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/tarikhAduan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Tarikh Aduan"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/clock"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/masaAduan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Masa Aduan"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/description"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/hurainAduan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Huraian Aduan"
+                    android:inputType="textMultiLine"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/calendar"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/tarikhPenerima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Tarikh Aduan Selesai"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout6"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/clock"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/masaPenerima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Masa Aduan Selesai"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout7"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ikon_pengguna"
+                app:startIconTint="@color/black"
+                android:enabled="false"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/idJuruteknik"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:digits="PM0123456789"
+                    android:hint="ID Juruteknik"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="4"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout8"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/description"
+                app:startIconTint="@color/black"
+                android:enabled="false"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/huraianPenerima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Huraian Tindakan"
+                    android:inputType="textMultiLine"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout9"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/calendar"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/tarikhPengesah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Tarikh Tindakan Disahkan"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout10"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/clock"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/masaPengesah"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Masa Tindakan Disahkan"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout11"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ikon_pengguna"
+                app:startIconTint="@color/black"
+                android:enabled="false"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/idPentadbir"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:digits="PM0123456789"
+                    android:hint="ID Pentadbir"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="4"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textColor="@color/blokteks"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/butangTambahPengesah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout12"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:padding="20dp"
+                android:backgroundTint="@color/tema"
+                android:fontFamily="sans-serif-medium"
+                android:text="SAHKAN ADUAN SELESAI"
+                android:textSize="18sp"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/butangCetakAduan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/butangTambahPengesah"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:padding="20dp"
+                android:backgroundTint="@color/tema"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cetak ADUAN"
+                android:textSize="18sp"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#BC1717"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="MAKLUMAT PENUH ADUAN"
+                android:textColor="@color/white"
+                android:textSize="23sp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

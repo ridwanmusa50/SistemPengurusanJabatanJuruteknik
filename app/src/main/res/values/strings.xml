@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">SPJJ</string>
+    <string name="utama_pentadbir">utamaPentadbir</string>
+    <string name="utama_juruteknik">utamaJuruteknik</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_profilPengguna">Profil Pengguna</string>
+    <string name="menu_lamanUtama">Laman Utama</string>
+    <string name="menu_jadualTugasan">Jadual Tugasan</string>
+    <string name="menu_daftarTugasan">Daftar Tugasan</string>
+    <string name="menu_kemaskiniBuangTugasan">Kemaskini Tugasan</string>
+    <string name="menu_akaunPengguna">Akaun Pengguna</string>
+    <string name="menu_daftarPengguna">Daftar Pengguna</string>
+    <string name="menu_kemaskiniPengguna">Kemaskini Pengguna</string>
+    <string name="menu_buangPengguna">Buang Pengguna</string>
+    <string name="menu_senaraiAduan">Senarai Aduan</string>
+    <string name="menu_laporan">Laporan</string>
+    <string name="menu_logKeluar">Log Keluar</string>
+    <string name="nama_pengguna">Nama Pengguna</string>
+    <string name="kata_laluan">Kata Laluan</string>
+    <string name="jawatan_pengguna">Pilih Jawatan Pengguna</string>
+    <string name="SPJJ">SPJJ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

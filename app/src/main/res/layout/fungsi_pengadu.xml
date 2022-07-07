@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pengadu.fungsiPengadu"
+    android:background="#D61A1A">
+
+    <TextView
+        android:id="@+id/labelSelamatDatang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/adamina"
+        android:text="SELAMAT DATANG"
+        android:textColor="#F6F5F5"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tajukPengadu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:fontFamily="@font/archivo_black"
+        android:text="PENGADU"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelSelamatDatang" />
+
+    <Button
+        android:id="@+id/butangAduan"
+        android:layout_width="350dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="64dp"
+        android:text="ADUAN KEROSAKAN MESIN ATAU KEMUDAHAN"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tajukPengadu"
+        android:fontFamily="sans-serif-medium"
+        android:backgroundTint="#EFEFEF"/>
+
+    <Button
+        android:id="@+id/butangMaklumatKomukasi"
+        android:layout_width="350dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="40dp"
+        android:text="MAKLUMAT KOMUNIKASI"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/butangAduan"
+        app:layout_constraintVertical_bias="0.096"
+        android:fontFamily="sans-serif-medium"
+        android:backgroundTint="#EFEFEF"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

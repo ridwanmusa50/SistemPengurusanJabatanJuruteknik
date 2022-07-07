@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_up_background"
+    tools:context=".ui.pentadbir.akaunPengguna.kemaskiniPengguna.kemaskiniPengguna" >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        android:backgroundTint="@color/white"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/tema">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_baseline_update_24"
+                    android:background="@drawable/circle"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="23sp"
+                    android:text="KEMASKINI PENGGUNA"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:rotation="45"
+                android:layout_marginTop="-10dp"
+                android:layout_below="@+id/linearLayout1"
+                android:src="@drawable/square"
+                android:layout_centerHorizontal="true"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout01"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView1"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/id_logo"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/black"
+                >
+
+                <EditText
+                    android:id="@+id/idPengguna"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ID Pengguna"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:background="@color/editTextBG"
+                    android:layout_alignParentTop="true"
+                    android:minHeight="48dp"
+                    android:inputType="textCapCharacters"
+                    android:digits="PM0123456789"
+                    android:maxLength="4"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/butangCariPengguna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/relativeLayout01"
+                android:layout_below="@id/imageView1"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/tema"
+                android:layout_alignTop="@id/relativeLayout01"
+                android:layout_alignBottom="@id/relativeLayout01"
+                android:layout_marginRight="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cari"
+                android:textSize="15dp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout01"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ikon_pengguna"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:id="@+id/namaPenuh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama Penuh"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:background="@color/editTextBG"
+                    android:layout_alignParentTop="true"
+                    android:minHeight="48dp"
+                    android:inputType="textCapCharacters"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout1"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:id="@+id/emelPengguna"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Emel"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:background="@color/editTextBG"
+                    android:layout_alignParentTop="true"
+                    android:inputType="textEmailAddress"
+                    android:minHeight="48dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout2"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ic_baseline_password"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:id="@+id/kataLaluan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Kata Laluan"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:background="@color/editTextBG"
+                    android:layout_alignParentTop="true"
+                    android:minHeight="48dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout3"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:startIconDrawable="@drawable/ic_baseline_phone_24"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/black"
+                >
+
+                <EditText
+                    android:id="@+id/nomborTelefon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombor Telefon"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:background="@color/editTextBG"
+                    android:layout_alignParentTop="true"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:digits="0123456789"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/relativeLayout4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="#BCBBBB"
+                />
+
+            <Button
+                android:id="@+id/butangKemaskiniPengguna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinner"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/tema"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:padding="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="18sp"
+                android:text="KEMASKINI"
+                />
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

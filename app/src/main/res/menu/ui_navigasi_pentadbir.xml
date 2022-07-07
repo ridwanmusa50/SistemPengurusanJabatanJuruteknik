@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+        <item
+            android:id="@+id/nav_profilPengguna"
+            android:icon="@drawable/ikon_pengguna"
+            android:title="@string/menu_profilPengguna"/>
+        <item
+            android:id="@+id/nav_lamanUtama"
+            android:icon="@drawable/ikon_laman_utama"
+            android:title="@string/menu_lamanUtama" />
+
+        <group>
+            <item
+                android:title="@string/menu_jadualTugasan">
+
+                <menu>
+                    <item
+                        android:id="@+id/nav_daftarTugasan"
+                        android:icon="@drawable/ikon_tambah_tugasan"
+                        android:title="@string/menu_daftarTugasan" />
+                    <item
+                        android:id="@+id/nav_kemaskiniBuangTugasan"
+                        android:icon="@drawable/ikon_kemaskini_buang_tugasan"
+                        android:title="@string/menu_kemaskiniBuangTugasan"
+                        />
+                </menu>
+            </item>
+        </group>
+
+        <group>
+            <item
+                android:title="@string/menu_akaunPengguna" >
+
+                <menu>
+                    <item
+                        android:id="@+id/nav_daftarPengguna"
+                        android:icon="@drawable/ic_baseline_person_add_24"
+                        android:title="@string/menu_daftarPengguna" />
+                    <item
+                        android:id="@+id/nav_kemaskiniPengguna"
+                        android:icon="@drawable/ic_baseline_update_24"
+                        android:title="@string/menu_kemaskiniPengguna" />
+                    <item
+                        android:id="@+id/nav_buangPengguna"
+                        android:icon="@drawable/ic_baseline_delete_24"
+                        android:title="@string/menu_buangPengguna" />
+                </menu>
+
+            </item>
+        </group>
+
+        <group>
+            <item
+                android:title="Laporan">
+
+                <menu>
+                    <item
+                        android:id="@+id/nav_laporanAduanKerosakan"
+                        android:icon="@drawable/ikon_laporan_aduan_kerosakan"
+                        android:title= "Laporan Aduan Kerosakan" />
+                    <item
+                        android:id="@+id/nav_laporanJadualTugasan"
+                        android:icon="@drawable/ikon_laporan_jadual_tugasan"
+                        android:title="Laporan Jadual Tugasan"/>
+                    <item
+                        android:id="@+id/nav_laporanBilanganAduan"
+                        android:icon="@drawable/ikon_laporan_bilangan_aduan"
+                        android:title="Laporan Bilangan Aduan"/>
+                </menu>
+
+            </item>
+        </group>
+
+    <item
+        android:id="@+id/nav_logKeluar"
+        android:icon="@drawable/ikon_log_keluar"
+        android:title="@string/menu_logKeluar" />
+
+</menu>

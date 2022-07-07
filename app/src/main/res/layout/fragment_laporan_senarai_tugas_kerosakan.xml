@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_up_background"
+    android:paddingBottom="20dp"
+    tools:context=".ui.pentadbir.laporan.laporanJadualTugasan.senaraiPenuhTugasPentadbir">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#BC1717"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="MAKLUMAT PENUH JADUAL"
+                android:textColor="@color/white"
+                android:textSize="23sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/id_doc"
+                android:textColorHint="@color/blokteks"
+                app:startIconTint="@color/black">
+
+                <EditText
+                    android:id="@+id/idJadual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:textColor="@color/blokteks"
+                    android:hint="ID Jadual"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-condensed-medium"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relativeLayout1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:enabled="false"
+                app:startIconDrawable="@drawable/calendar"
+                app:startIconTint="@color/black"
+                android:textColorHint="@color/blokteks">
+
+                <EditText
+                    android:id="@+id/tarikhJadual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/blokbackground"
+                    android:hint="Tarikh Jadual"
+                    android:minHeight="48dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/blokteks"
+                    android:fontFamily="sans-serif-condensed-medium"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tajukTugas"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@id/relativeLayout2"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Senarai Tugas :"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:gravity="center_vertical"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tajukTugas"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/blokbackground"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp" />
+
+            <Button
+                android:id="@+id/butangCetakTugas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recyclerView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:padding="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/tema"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cetak JADUAL"
+                android:textSize="18sp"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

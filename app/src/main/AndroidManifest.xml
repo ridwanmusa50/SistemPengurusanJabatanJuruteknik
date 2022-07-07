@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sistempengurusanjabatanjuruteknik">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logocompanyicon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logocompanyicon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:name=".ui.pentadbir.jadualTugasan.daftarTugasan.daftarTugasan"
+            android:exported="false"
+            tools:ignore="Instantiatable"
+            android:label="Jadual Tugasan"
+            android:noHistory="true"/>
+        <activity
+            android:name=".ui.juruteknik.senaraiPenuhAduan"
+            android:exported="false"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar"/>
+        <activity
+            android:name=".ui.pentadbir.senaraiPenuhAduanPentadbir"
+            android:exported="false"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
+        <activity
+            android:name=".ui.pentadbir.laporan.laporanJadualTugasan.senaraiPenuhTugasPentadbir"
+            android:exported="false"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
+        <activity
+            android:name=".ui.profilPengguna.profilPengguna"
+            android:exported="false"
+            android:label="@string/menu_profilPengguna"
+            android:noHistory="true"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".ui.pentadbir.akaunPengguna.kemaskiniPengguna.kemaskiniPengguna"
+            android:exported="false"
+            android:label="@string/menu_kemaskiniPengguna"
+            android:noHistory="true"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".ui.pentadbir.akaunPengguna.daftarPengguna.daftarPengguna"
+            android:exported="false"
+            android:label="@string/menu_daftarPengguna"
+            android:noHistory="true"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".ui.pentadbir.utamaPentadbir"
+            android:exported="false"
+            android:label="@string/utama_pentadbir"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
+        <activity
+            android:name=".ui.juruteknik.utamaJuruteknik"
+            android:exported="false"
+            android:label="@string/utama_juruteknik"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
+        <activity
+            android:name=".ui.pentadbir.loginPentadbir"
+            android:exported="false"
+            android:noHistory="true"
+            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+        <activity
+            android:name=".ui.juruteknik.loginJuruteknik"
+            android:exported="false"
+            android:noHistory="true"
+            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+        <activity
+            android:name=".setSemulaKataLaluan"
+            android:exported="false"
+            android:noHistory="true"
+            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+        <activity
+            android:name=".ui.pengadu.membuatAduan.membuatAduan"
+            android:exported="false"
+            android:noHistory="true"
+            android:parentActivityName=".ui.pengadu.fungsiPengadu" /> <!-- Tetapkan keluarga activiti sebagai fungsiPengadu -->
+        <service
+            android:name=".ui.pengadu.membuatAduan.FirebaseMessagingService"
+            android:exported="false"
+            android:permission="TODO"
+            tools:ignore="ExportedService,IntentFilterExportedReceiver">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <activity
+            android:name=".ui.pengadu.maklumatKomunikasi.maklumatKomunikasi"
+            android:exported="false"
+            android:noHistory="true"
+            android:parentActivityName=".ui.pengadu.fungsiPengadu" /> <!-- Tetapkan keluarga activiti sebagai fungsiPengadu -->
+        <activity
+            android:name=".ui.pengadu.fungsiPengadu"
+            android:exported="false"
+            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+        <activity
+            android:name=".pemilihanPengguna"
+            android:exported="false"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
+        <activity
+            android:name=".mulaAplikasi"
+            android:exported="true"
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
