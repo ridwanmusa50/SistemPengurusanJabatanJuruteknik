@@ -27,7 +27,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
@@ -58,7 +57,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button butangCetakAduan;
     private Button butangTambahPengesah;
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     SharedPreferences sp;
 
@@ -90,7 +88,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         butangCetakAduan = findViewById(R.id.butangCetakAduan);
         butangTambahPengesah = findViewById(R.id.butangTambahPengesah);
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         tunjukkanMaklumat(value);
@@ -242,7 +239,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         String emel = sp.getString("idPengguna", "");
 

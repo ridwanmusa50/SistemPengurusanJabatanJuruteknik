@@ -3,6 +3,8 @@ package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanBilang
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -56,6 +58,7 @@ public class laporanBilanganAduan extends Fragment
     private FirebaseFirestore db;
     private Button butangCetakCarta;
     private SwipeRefreshLayout refreshCarta;
+    SharedPreferences sp;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -137,11 +140,13 @@ public class laporanBilanganAduan extends Fragment
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         paparanPdf.getWindow().setAttributes(lp);
+        sp = getContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
         Button butangMuatTurun = paparanPdf.findViewById(R.id.butangMuatTurun);
         TextView tarikhCetak = paparanPdf.findViewById(R.id.tarikhCetak);
         TextView masaCetak = paparanPdf.findViewById(R.id.masaCetak);
         AnyChartView cartaBilanganAduanPdf = paparanPdf.findViewById(R.id.cartaBilanganAduanPertama);
+        TextView idPenggunaCetak = paparanPdf.findViewById(R.id.idPenggunaCetak);
 
         Pie pie1 = AnyChart.pie();
         List<DataEntry> dataEntries1 = new ArrayList<>();
@@ -159,6 +164,7 @@ public class laporanBilanganAduan extends Fragment
 
         tarikhCetak.setText(currentDate);
         masaCetak.setText(currentTime);
+        idPenggunaCetak.setText(sp.getString("idPengguna", ""));
         paparanPdf.show();
 
         butangMuatTurun.setOnClickListener(v1 -> {
