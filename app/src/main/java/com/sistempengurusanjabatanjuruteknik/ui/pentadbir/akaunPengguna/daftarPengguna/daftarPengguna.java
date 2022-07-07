@@ -160,14 +160,6 @@ public class daftarPengguna extends Fragment
                                                                 progressBar.setVisibility(View.VISIBLE);
 
                                                                 daftarPengguna(emelPengguna, kataLaluan, idPengguna, jawatanPengguna, namaPenuh, nomborTelefon);
-
-                                                                mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
-                                                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                                                            @Override
-                                                                            public void onSuccess(AuthResult authResult) {
-                                                                                startActivity(new Intent(getContext(), utamaPentadbir.class));
-                                                                            }
-                                                                        });
                                                             }
                                                         }
                                                     }
@@ -318,6 +310,8 @@ public class daftarPengguna extends Fragment
     private void daftarPengguna(String emelPengguna, String kataLaluan, String idPengguna, String jawatanPengguna, String namaPenuh, String nomborTelefon)
     {
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         Map<String, Object> Pengguna = new HashMap<>();
         Pengguna.put("idPengguna", idPengguna);
         Pengguna.put("emelPengguna", emelPengguna);
@@ -365,15 +359,23 @@ public class daftarPengguna extends Fragment
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void unused) {
-                                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
                                                             progressBar.setVisibility(View.GONE);
+                                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
+
+                                                            mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
+                                                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                                                        @Override
+                                                                        public void onSuccess(AuthResult authResult) {
+                                                                            startActivity(new Intent(getContext(), getActivity().getClass()));
+                                                                        }
+                                                                    });
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception e) {
-                                                            Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
                                                             progressBar.setVisibility(View.GONE);
+                                                            Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
                                                         }
                                                     });
                                         }
@@ -383,8 +385,8 @@ public class daftarPengguna extends Fragment
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
                                     }
                                 });
                     }
