@@ -119,6 +119,8 @@ public class kemaskiniPengguna extends Fragment {
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         if (documentSnapshot.exists()) {
                                             v.findViewById(R.id.idPengguna).setEnabled(false);
+                                            idPengguna1.setBackgroundColor(getResources().getColor(R.color.blokbackground));
+                                            idPengguna1.setTextColor(getResources().getColor(R.color.blokteks));
                                             int i;
 
                                             namaPenuh[0] = (String) documentSnapshot.get("namaPenuh");
