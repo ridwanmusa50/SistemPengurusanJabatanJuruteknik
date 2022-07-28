@@ -76,58 +76,12 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
             @Override
             public void onRefresh() {
                 list.clear();
-                db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error != null)
-                                {
-                                    Log.e("Firestore bermasalah", error.getMessage());
-                                    return;
-                                }
-
-                                for (DocumentChange dc : value.getDocumentChanges())
-                                {
-                                    if (dc.getType() == DocumentChange.Type.ADDED)
-                                    {
-                                        // Tugas selesai sahaja dipamer
-                                        if (!dc.getDocument().contains("idJuruteknik"))
-                                        {
-                                            list.add(dc.getDocument().toObject(Aduan.class));
-                                        }
-                                    }
-                                    penyambungSenaraiAduan.notifyDataSetChanged();
-                                }
-                            }
-                        });
+                tunjukMaklumat();
                 refresh.setRefreshing(false);
             }
         });
 
-        db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error != null)
-                                {
-                                    Log.e("Firestore bermasalah", error.getMessage());
-                                    return;
-                                }
-
-                                for (DocumentChange dc : value.getDocumentChanges())
-                                {
-                                    if (dc.getType() == DocumentChange.Type.ADDED)
-                                    {
-                                        // Tugas selesai sahaja dipamer
-                                        if (!dc.getDocument().contains("idJuruteknik"))
-                                        {
-                                            list.add(dc.getDocument().toObject(Aduan.class));
-                                        }
-                                    }
-                                    penyambungSenaraiAduan.notifyDataSetChanged();
-                                }
-                            }
-                        });
+        tunjukMaklumat();
 
         String tarikh = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
         String tarikhSemalam = new SimpleDateFormat("dd/MMM/YYYY").format(System.currentTimeMillis() - 24*60*60*1000);
@@ -268,6 +222,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                                                                                                     @Override
                                                                                                                                                     public void onSuccess(Void unused) {
                                                                                                                                                         Log.d("TAG", "Berjaya tambah");
+                                                                                                                                                        startActivity(new Intent(getContext(), getActivity().getClass()));
                                                                                                                                                     }
                                                                                                                                                 });
                                                                                                                                     } else {
@@ -359,5 +314,33 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         Intent intent = new Intent(getContext(), senaraiPenuhAduan.class);
         intent.putExtra("lokasi", list.get(position).getIdAduan());
         startActivity(intent);
+    }
+
+    public  void tunjukMaklumat()
+    {
+        db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null)
+                        {
+                            Log.e("Firestore bermasalah", error.getMessage());
+                            return;
+                        }
+
+                        for (DocumentChange dc : value.getDocumentChanges())
+                        {
+                            if (dc.getType() == DocumentChange.Type.ADDED)
+                            {
+                                // Tugas selesai sahaja dipamer
+                                if (!dc.getDocument().contains("idJuruteknik"))
+                                {
+                                    list.add(dc.getDocument().toObject(Aduan.class));
+                                }
+                            }
+                            penyambungSenaraiAduan.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 }

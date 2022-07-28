@@ -333,49 +333,33 @@ public class daftarPengguna extends Fragment
                                             // menukar maklumat idPengguna dalam objek Pengguna kepada idJuruteknik
                                             Pengguna.remove("idPengguna");
                                             Pengguna.put("idJuruteknik", idPengguna);
+                                            mAuth.signOut();
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
 
-                                            db.collection("Juruteknik").document(idPengguna)
-                                                    .set(Pengguna)
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            db.collection("Juruteknik").document(idPengguna).set(Pengguna);
+
+                                            mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
+                                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                                         @Override
-                                                        public void onSuccess(Void unused) {
-                                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
-                                                            progressBar.setVisibility(View.GONE);
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
-                                                            progressBar.setVisibility(View.GONE);
+                                                        public void onSuccess(AuthResult authResult) {
+                                                            startActivity(new Intent(getContext(), getActivity().getClass()));
                                                         }
                                                     });
                                         } else {
                                             Pengguna.remove("idPengguna");
                                             Pengguna.put("idPentadbir", idPengguna);
+                                            mAuth.signOut();
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
 
-                                            db.collection("Pentadbir").document(idPengguna)
-                                                    .set(Pengguna)
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void unused) {
-                                                            progressBar.setVisibility(View.GONE);
-                                                            Toast.makeText(getContext(), "Sistem berjaya menambah pengguna!", Toast.LENGTH_LONG).show();
+                                            db.collection("Pentadbir").document(idPengguna).set(Pengguna);
 
-                                                            mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
-                                                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                                                        @Override
-                                                                        public void onSuccess(AuthResult authResult) {
-                                                                            startActivity(new Intent(getContext(), getActivity().getClass()));
-                                                                        }
-                                                                    });
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
+                                            mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
+                                                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                                         @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            progressBar.setVisibility(View.GONE);
-                                                            Toast.makeText(getContext(), "Sistem gagal menambah pengguna! Sila cuba lagi", Toast.LENGTH_LONG).show();
+                                                        public void onSuccess(AuthResult authResult) {
+                                                            startActivity(new Intent(getContext(), getActivity().getClass()));
                                                         }
                                                     });
                                         }

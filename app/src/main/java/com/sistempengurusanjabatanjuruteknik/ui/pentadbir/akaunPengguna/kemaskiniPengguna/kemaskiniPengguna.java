@@ -240,9 +240,14 @@ public class kemaskiniPengguna extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                             boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
-                                            boolean isCurrentUser = task.getResult().getSignInMethods().size() == 1;
 
-                                            if (isNewUser || isCurrentUser)
+                                            if(!isNewUser && !emelPengguna.equals(email[0]))
+                                            {
+                                                emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
+                                                emelPengguna1.requestFocus();
+                                                return;
+                                            }
+                                            else
                                             {
                                                 if (kataLaluan.isEmpty())
                                                 {
@@ -325,12 +330,6 @@ public class kemaskiniPengguna extends Fragment {
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else if(!isNewUser && !isCurrentUser)
-                                            {
-                                                emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
-                                                emelPengguna1.requestFocus();
-                                                return;
                                             }
                                         }
                                     });

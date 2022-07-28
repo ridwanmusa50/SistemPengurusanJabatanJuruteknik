@@ -94,21 +94,18 @@ public class maklumatKomunikasi extends AppCompatActivity
                                                 Log.e("Firestore bermasalah", error.getMessage());
                                             }
 
-                                            String emel;
-                                            final boolean[] isNewUser = new boolean[1];
-
                                             for (DocumentChange dc : value.getDocumentChanges())
                                             {
-                                                emel = dc.getDocument().get("emelPengguna").toString().trim();
+                                                String emel = dc.getDocument().get("emelPengguna").toString().trim();
 
                                                 mAuth.fetchSignInMethodsForEmail(emel)
                                                                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                                                         if (task.isSuccessful()) {
-                                                                            isNewUser[0] = task.getResult().getSignInMethods().isEmpty();
+                                                                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
 
-                                                                            if (!isNewUser[0]) {
+                                                                            if (!isNewUser) {
                                                                                 if (dc.getType() == DocumentChange.Type.ADDED) {
                                                                                     list.add(dc.getDocument().toObject(Pengguna.class));
                                                                                 }
