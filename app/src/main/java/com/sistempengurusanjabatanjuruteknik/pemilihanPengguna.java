@@ -2,30 +2,27 @@ package com.sistempengurusanjabatanjuruteknik;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.loginJuruteknik;
 import com.sistempengurusanjabatanjuruteknik.ui.pengadu.fungsiPengadu;
-import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.loginPentadbir;
+import com.sistempengurusanjabatanjuruteknik.ui.login;
 
 public class pemilihanPengguna extends AppCompatActivity {
-    private Button pengadu;
-    private Button juruteknik;
-    private Button pengurus;
     private long keluarAplikasi;
     private Toast backToast;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pemilihan_pengguna);
 
         // cipta pengendali bagi butang TETAMU bergerak ke fungsiPengadu antara muka
-        pengadu = findViewById(R.id.butangTetamu);
+        Button pengadu = findViewById(R.id.butangTetamu);
         pengadu.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
             @Override
             public void onClick(View v) {
@@ -34,22 +31,12 @@ public class pemilihanPengguna extends AppCompatActivity {
             }
         });
 
-        // cipta pengendali bagi butang AHLI bergerak ke loginJuruteknik antara muka
-        juruteknik = findViewById(R.id.butangAhli);
-        juruteknik.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
+        // cipta pengendali bagi butang AHLI bergerak ke login antara muka
+        Button logMasuk = findViewById(R.id.butangLogMasuk);
+        logMasuk.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(pemilihanPengguna.this, loginJuruteknik.class); // pergerakan dari pemilihanPengguna antara muka ke loginJuruteknik antara muka
-                startActivity(intent);
-            }
-        });
-
-        // cipta pengendali bagi butang PENGURUS bergerak ke loginJuruteknik antara muka
-        pengurus = findViewById(R.id.butangPentadbir);
-        pengurus.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(pemilihanPengguna.this, loginPentadbir.class); // pergerakan dari pemilihanPengguna antara muka ke loginJuruteknik antara muka
+                Intent intent = new Intent(pemilihanPengguna.this, login.class); // pergerakan dari pemilihanPengguna antara muka ke login antara muka
                 startActivity(intent);
             }
         });

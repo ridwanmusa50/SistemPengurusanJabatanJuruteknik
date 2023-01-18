@@ -27,8 +27,9 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:text="Memindahkan mesin XY23 di sebelah mesin JK231."
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:paddingTop="10dp"
+                android:justificationMode="inter_word"
                 android:paddingBottom="10dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

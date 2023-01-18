@@ -49,7 +49,7 @@
                         android:layout_alignParentTop="true"
                         android:background="@color/editTextBG"
                         android:hint="ID Aduan"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:textColor="@color/blokteks"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
@@ -79,7 +79,7 @@
                         android:background="@color/editTextBG"
                         android:hint="ID Mesin"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:backgroundTint="@color/blokbackground"
@@ -108,7 +108,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Nama Penuh Pengadu"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:inputType="textEmailAddress"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
@@ -138,7 +138,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Tarikh Aduan"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:backgroundTint="@color/blokbackground"
@@ -167,7 +167,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Masa Aduan"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:backgroundTint="@color/blokbackground"
@@ -196,10 +196,11 @@
                         android:background="@color/editTextBG"
                         android:hint="Huraian Aduan"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:inputType="textMultiLine"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
+                        android:justificationMode="inter_word"
                         android:backgroundTint="@color/blokbackground"
                         android:textSize="18sp" />
 
@@ -226,7 +227,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Tarikh Aduan Selesai"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:backgroundTint="@color/blokbackground"
@@ -255,7 +256,7 @@
                         android:background="@color/editTextBG"
                         android:hint="Masa Aduan Selesai"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:backgroundTint="@color/blokbackground"
@@ -285,7 +286,7 @@
                         android:digits="PM0123456789"
                         android:hint="ID Juruteknik"
                         android:textColor="@color/blokteks"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:inputType="textCapCharacters"
                         android:maxLength="4"
                         android:minHeight="48dp"
@@ -315,8 +316,9 @@
                         android:background="@color/editTextBG"
                         android:hint="Huraian Tindakan"
                         android:textColor="@color/black"
-                        android:fontFamily="sans-serif-condensed-medium"
+                        android:fontFamily="sans-serif-condensed"
                         android:inputType="textMultiLine"
+                        android:justificationMode="inter_word"
                         android:minHeight="48dp"
                         android:paddingLeft="20dp"
                         android:textSize="18sp" />
@@ -333,12 +335,12 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/tema"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:text="TAMBAH MAKLUMAT TINDAKAN"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -362,7 +364,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="MAKLUMAT PENUH ADUAN"
                     android:textColor="@color/white"
-                    android:textSize="23sp" />
+                    android:textSize="22sp" />
             </LinearLayout>
 
             <ProgressBar

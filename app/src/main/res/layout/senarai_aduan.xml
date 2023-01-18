@@ -30,7 +30,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="DOC-MAINT-1-RO"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -49,7 +49,7 @@
                 android:fontFamily="sans-serif"
                 android:text="AS928128"
                 android:textColor="#3C3C3C"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -64,11 +64,11 @@
                 android:id="@+id/hurainAduan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:justificationMode="inter_word"
+                android:fontFamily="sans-serif-condensed"
                 android:text="Mesin telah direset semula tetapi lampu merah masih menyala."
                 android:textColor="#757575"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:fontFamily="sans-serif"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/masaAduan"
@@ -99,7 +99,7 @@
                 android:textColor="@color/black"
                 android:text="09:00:00"
                 android:fontFamily="sans-serif"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
     </LinearLayout>

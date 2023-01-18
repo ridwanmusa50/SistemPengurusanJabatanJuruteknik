@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:textSize="23sp"
+                android:textSize="22sp"
                 android:text="KEMASKINI JADUAL TUGASAN"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
@@ -96,18 +96,18 @@
                     android:layout_height="wrap_content"
                     android:hint="ID Jadual Tugasan"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/blokbackground"
                     android:textColor="@color/blokteks"
                     android:layout_alignParentTop="true"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:minHeight="48dp"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textLayout2"
-                android:layout_width="240dp"
+                android:layout_width="219dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
@@ -123,9 +123,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Tarikh Tugas"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:background="@color/editTextBG"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:layout_alignParentTop="true"
                     android:textColor="@color/black"
                     android:minHeight="48dp"/>
@@ -141,7 +141,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_below="@id/textLayout1"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:text="CARI"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
@@ -154,7 +154,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="Senarai Tugas :"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
@@ -196,12 +196,12 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="KEMASKINI"
                 android:textColor="@color/white"
-                android:textSize="24sp"/>
+                android:textSize="22sp"/>
 
             <Button
                 android:id="@+id/butangBuangTugas"
@@ -211,12 +211,12 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="BUANG"
                 android:textColor="@color/white"
-                android:textSize="24sp"/>
+                android:textSize="22sp"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"

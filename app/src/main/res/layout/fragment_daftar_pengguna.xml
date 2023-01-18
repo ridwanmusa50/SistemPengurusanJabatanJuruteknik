@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
-                    android:textSize="23sp"
+                    android:textSize="22sp"
                     android:text="DAFTAR PENGGUNA"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/white"
@@ -100,12 +100,12 @@
                     android:layout_height="wrap_content"
                     android:hint="ID Pengguna"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/blokbackground"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
                     android:inputType="textCapCharacters"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:digits="PM0123456789"
                     android:maxLength="4"
                     android:textColor="@color/blokteks"
@@ -131,13 +131,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Penuh"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
                     android:inputType="textCapCharacters"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/black"
                     />
 
@@ -161,13 +161,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Emel"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -192,13 +192,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Kata Laluan"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="textPassword"
                     android:minHeight="48dp"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -223,12 +223,12 @@
                     android:layout_height="wrap_content"
                     android:hint="Taip Semula Kata Laluan"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="textPassword"
                     android:minHeight="48dp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/black"
                     />
 
@@ -253,14 +253,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Nombor Telefon"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="number"
                     android:minHeight="48dp"
                     android:digits="0123456789"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -274,14 +274,15 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
                 android:padding="15dp"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="DAFTAR"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

@@ -52,7 +52,7 @@
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
                     android:textColor="@color/blokteks"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -79,8 +79,8 @@
                     android:hint="ID Mesin"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -108,8 +108,8 @@
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -136,8 +136,8 @@
                     android:hint="Tarikh Aduan"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -164,8 +164,8 @@
                     android:hint="Masa Aduan"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -193,8 +193,9 @@
                     android:inputType="textMultiLine"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:justificationMode="inter_word"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -221,8 +222,8 @@
                     android:hint="Tarikh Aduan Selesai"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -249,8 +250,8 @@
                     android:hint="Masa Aduan Selesai"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -280,8 +281,8 @@
                     android:maxLength="4"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -309,8 +310,8 @@
                     android:inputType="textMultiLine"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -337,8 +338,8 @@
                     android:hint="Tarikh Tindakan Disahkan"
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -366,7 +367,7 @@
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
                     android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -397,7 +398,7 @@
                     android:minHeight="48dp"
                     android:paddingLeft="20dp"
                     android:textSize="18sp"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="@color/blokteks"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -412,9 +413,9 @@
                 android:layout_marginRight="20dp"
                 android:padding="20dp"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="SAHKAN ADUAN SELESAI"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/white" />
 
             <Button
@@ -428,9 +429,9 @@
                 android:layout_marginBottom="20dp"
                 android:padding="20dp"
                 android:backgroundTint="@color/tema"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="Cetak ADUAN"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@color/white" />
 
         </LinearLayout>
@@ -456,7 +457,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="MAKLUMAT PENUH ADUAN"
                 android:textColor="@color/white"
-                android:textSize="23sp" />
+                android:textSize="22sp" />
         </LinearLayout>
 
         <ProgressBar

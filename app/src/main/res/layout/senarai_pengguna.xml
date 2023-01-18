@@ -28,9 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PENGURUSAN"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 />
 
@@ -48,9 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MOHAMAD NOOR RIDWAN BIN MUSA"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 />
 
         </LinearLayout>
@@ -68,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:text="0197485063"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:textSize="22sp"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="20sp"
                 />
 
         </LinearLayout>

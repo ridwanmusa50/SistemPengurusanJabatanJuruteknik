@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
-                    android:textSize="23sp"
+                    android:textSize="22sp"
                     android:text="KEMASKINI PENGGUNA"
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/white"
@@ -68,12 +68,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/relativeLayout01"
-                android:layout_width="230dp"
+                android:layout_width="219dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView1"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 app:startIconDrawable="@drawable/id_logo"
                 app:startIconTint="@color/black"
                 android:textColorHint="@color/black"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:hint="ID Pengguna"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
@@ -93,14 +93,14 @@
                     android:digits="PM0123456789"
                     android:maxLength="4"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/butangCariPengguna"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/relativeLayout01"
                 android:layout_below="@id/imageView1"
@@ -111,7 +111,7 @@
                 android:layout_marginRight="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Cari"
-                android:textSize="15dp"
+                android:textSize="17dp"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -132,14 +132,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Nama Penuh"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
                     android:inputType="textCapCharacters"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -162,13 +162,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Emel"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -191,12 +191,12 @@
                     android:layout_height="wrap_content"
                     android:hint="Kata Laluan"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -220,14 +220,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Nombor Telefon"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:inputType="number"
                     android:minHeight="48dp"
                     android:digits="0123456789"
                     android:textColor="@color/black"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -256,7 +256,7 @@
                 android:layout_marginBottom="20dp"
                 android:padding="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:text="KEMASKINI"
                 />
 

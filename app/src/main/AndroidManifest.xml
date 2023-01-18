@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.sistempengurusanjabatanjuruteknik">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logocompanyicon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logocompanyicon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik"
-        android:requestLegacyExternalStorage="true">
+        android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik">
         <activity
             android:name=".ui.pentadbir.jadualTugasan.daftarTugasan.daftarTugasan"
             android:exported="false"
-            tools:ignore="Instantiatable"
             android:label="Jadual Tugasan"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".ui.juruteknik.senaraiPenuhAduan"
             android:exported="false"
-            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar"/>
+            android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
         <activity
             android:name=".ui.pentadbir.senaraiPenuhAduanPentadbir"
             android:exported="false"
@@ -61,20 +63,16 @@
             android:label="@string/utama_juruteknik"
             android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
         <activity
-            android:name=".ui.pentadbir.loginPentadbir"
+            android:name=".ui.login"
             android:exported="false"
             android:noHistory="true"
             android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
-        <activity
-            android:name=".ui.juruteknik.loginJuruteknik"
-            android:exported="false"
-            android:noHistory="true"
-            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+        <!-- Tetapkan keluarga activiti sebagai login -->
         <activity
             android:name=".setSemulaKataLaluan"
             android:exported="false"
             android:noHistory="true"
-            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
+            android:parentActivityName=".ui.login" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
         <activity
             android:name=".ui.pengadu.membuatAduan.membuatAduan"
             android:exported="false"
@@ -89,6 +87,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".ui.pengadu.maklumatKomunikasi.maklumatKomunikasi"
             android:exported="false"

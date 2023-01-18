@@ -37,9 +37,8 @@
 
                 <ImageView
                     android:id="@+id/logoSyarikat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@drawable/logocompanytransparent"/>
             </LinearLayout>
 
@@ -52,11 +51,11 @@
                 android:layout_below="@+id/linearLayout1">
 
                 <Button
-                    android:id="@+id/butangPentadbir"
+                    android:id="@+id/butangLogMasuk"
                     android:layout_width="309dp"
                     android:layout_height="88dp"
-                    android:text="PENTADBIR"
-                    android:textSize="24sp"
+                    android:text="LOG MASUK"
+                    android:textSize="22sp"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -64,30 +63,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:layout_below="@id/linearLayout2">
-
-                <Button
-                    android:id="@+id/butangAhli"
-                    android:layout_width="309dp"
-                    android:layout_height="88dp"
-                    android:text="JURUTEKNIK"
-                    android:textSize="24sp"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/purple_500"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:layout_marginHorizontal="50dp"/>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/linearLayout3"
+                android:layout_below="@id/linearLayout2"
                 android:gravity="center">
 
                 <Button
@@ -95,7 +74,7 @@
                     android:layout_width="309dp"
                     android:layout_height="88dp"
                     android:text="PENGADU"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/purple_500"
                     android:fontFamily="sans-serif-condensed-medium"

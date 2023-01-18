@@ -11,57 +11,63 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         android:padding="20dp"
         android:background="@color/tema">
 
         <ImageView
             android:id="@+id/gambarProfil"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ikon_pengguna"
             android:layout_centerVertical="true"/>
 
-        <TextView
-            android:id="@+id/namaPenuhTajuk"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nama_pengguna"
-            android:textSize="24sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-black"
-            android:layout_toRightOf="@id/gambarProfil"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
-
-        <TextView
-            android:id="@+id/jawatanPenggunaTajuk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/jawatan_pengguna"
-            android:textSize="20sp"
-            android:textColor="@color/white"
             android:layout_toRightOf="@+id/gambarProfil"
-            android:layout_below="@id/namaPenuhTajuk"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginLeft="10dp"
-            android:includeFontPadding="false"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:id="@+id/namaPenuhTajuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nama_pengguna"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:justificationMode="inter_word"
+                android:fontFamily="sans-serif-black"/>
+
+            <TextView
+                android:id="@+id/jawatanPenggunaTajuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jawatan_pengguna"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_below="@id/namaPenuhTajuk"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="20dp"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -89,7 +95,7 @@
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/black"
                             android:enabled="false"
-                            android:fontFamily="sans-serif-condensed-medium"
+                            android:fontFamily="sans-serif-condensed"
                             android:text="Id Pengguna"
                             android:textColor="@color/blokteks"
                             android:textSize="20sp" />
@@ -119,7 +125,7 @@
                             android:drawableLeft="@drawable/ikon_pengguna"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/black"
-                            android:fontFamily="sans-serif-condensed-medium"
+                            android:fontFamily="sans-serif-condensed"
                             android:inputType="textCapCharacters"
                             android:text="Nama Penuh"
                             android:textColor="@color/black"
@@ -149,7 +155,7 @@
                             android:drawableLeft="@drawable/ic_baseline_email_24"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/black"
-                            android:fontFamily="sans-serif-condensed-medium"
+                            android:fontFamily="sans-serif-condensed"
                             android:inputType="textEmailAddress"
                             android:text="Emel Pengguna"
                             android:textColor="@color/black"
@@ -179,7 +185,7 @@
                             android:drawableLeft="@drawable/ic_baseline_password"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/black"
-                            android:fontFamily="sans-serif-condensed-medium"
+                            android:fontFamily="sans-serif-condensed"
                             android:inputType="text"
                             android:text="Kata Laluan"
                             android:textColor="@color/black"
@@ -210,7 +216,7 @@
                             android:drawableLeft="@drawable/ic_baseline_phone_24"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/black"
-                            android:fontFamily="sans-serif-condensed-medium"
+                            android:fontFamily="sans-serif-condensed"
                             android:inputType="number"
                             android:text="Nombor Telefon"
                             android:textColor="@color/black"
@@ -249,7 +255,7 @@
                     android:paddingBottom="15dp"
                     android:text="KEMASKINI"
                     android:textColor="@color/white"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <ProgressBar

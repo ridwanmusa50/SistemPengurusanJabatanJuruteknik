@@ -39,6 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/logoSyarikat"
         android:fontFamily="@font/sansita"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="SISTEM PENGURUSAN JABATAN JURUTEKNIK"
         android:textAlignment="center"
         android:textColor="@color/white"

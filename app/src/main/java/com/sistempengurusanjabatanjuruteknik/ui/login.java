@@ -1,4 +1,4 @@
-package com.sistempengurusanjabatanjuruteknik.ui.juruteknik;
+package com.sistempengurusanjabatanjuruteknik.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -19,26 +19,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth; // import Firebase library
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.AuthResult; // memanggil fungsi keputusan pengesahan Firebase
+import com.google.firebase.auth.FirebaseAuth; // memanggil fungsi pengesahan Firebase
+import com.google.firebase.firestore.DocumentSnapshot; // memanggil fungsi aktiviti dokumen dalam Firestore
+import com.google.firebase.firestore.FirebaseFirestore; // memanggil fungsi Firestore
 import com.sistempengurusanjabatanjuruteknik.R;
 import com.sistempengurusanjabatanjuruteknik.setSemulaKataLaluan;
+import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.utamaJuruteknik;
+import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.utamaPentadbir;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-public class loginJuruteknik extends AppCompatActivity {
+public class login extends AppCompatActivity {
     private ProgressBar progressBar;
-    private  TextView emelPengguna1;
+    private TextView emelPengguna1;
     private TextView idPengguna1;
-    private  TextView kataLaluan1;
-    private MaterialButton butangLogMasuk;
-    private MaterialButton lupaKataLaluan;
-    private FirebaseFirestore db; // declare Firebase Firestore variable
-    private FirebaseAuth mAuth; // declare Firebase variable
+    private TextView kataLaluan1;
+    private FirebaseFirestore db; // istihar nama pembolehubah Firestore
+    private FirebaseAuth mAuth; // istihar nama pembolehubah pengesahan Firebase
     SharedPreferences sp;
 
     @Override
@@ -47,24 +43,27 @@ public class loginJuruteknik extends AppCompatActivity {
         setContentView(R.layout.log_masuk);
         ActionBar actionBar;
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.tema_bar));
+
+        ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.tema));
         actionBar.setBackgroundDrawable(colorDrawable);
         actionBar.setDisplayHomeAsUpEnabled(true); // atur butang patah balik ke antara muka sebelum di navigation bar atas
 
+            // tetapkan pembolehubah mengambil maklumat
             db = FirebaseFirestore.getInstance();
-            mAuth = FirebaseAuth.getInstance(); // initialize FirebaseAuth
+            mAuth = FirebaseAuth.getInstance();
             sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
             emelPengguna1 = findViewById(R.id.emelPengguna);
             idPengguna1 = findViewById(R.id.idPengguna);
             kataLaluan1 = findViewById(R.id.kataLaluan);
-            butangLogMasuk =  findViewById(R.id.butangLogMasuk);
-            progressBar =  findViewById(R.id.progressBar);
-            lupaKataLaluan = findViewById(R.id.lupaKataLaluan);
+        MaterialButton butangLogMasuk = findViewById(R.id.butangLogMasuk);
+            progressBar = findViewById(R.id.progressBar);
+        MaterialButton lupaKataLaluan = findViewById(R.id.lupaKataLaluan);
 
             butangLogMasuk.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+                    // tetapkan pembolehubah mengambil maklumat jenis String
                     String emelPengguna = emelPengguna1.getText().toString().trim();
                     String kataLaluan = kataLaluan1.getText().toString().trim();
                     String idPengguna = idPengguna1.getText().toString().trim();
@@ -114,8 +113,7 @@ public class loginJuruteknik extends AppCompatActivity {
             lupaKataLaluan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
-                    startActivity(new Intent(loginJuruteknik.this, setSemulaKataLaluan.class));
+                    startActivity(new Intent(login.this, setSemulaKataLaluan.class));
                 }
             });
     }
@@ -137,35 +135,37 @@ public class loginJuruteknik extends AppCompatActivity {
                                     if (documentSnapshot.exists()) {
                                         String jawatan = documentSnapshot.getString("jawatanPengguna");
 
-                                        if (jawatan.equals("JURUTEKNIK")) {
-                                            progressBar.setVisibility(View.GONE);
-                                            if (emelPengguna.equals(documentSnapshot.getString("emelPengguna"))) {
-                                                SharedPreferences.Editor editor = sp.edit();
+                                        progressBar.setVisibility(View.GONE);
 
-                                                db.collection("Pengguna").document(idPengguna)
-                                                        .update("kataLaluan", kataLaluan);
-                                                db.collection("Juruteknik").document(idPengguna)
-                                                        .update("kataLaluan", kataLaluan);
+                                        if (emelPengguna.equals(documentSnapshot.getString("emelPengguna"))) {
+                                            SharedPreferences.Editor editor = sp.edit();
 
-                                                editor.putString("idPengguna", idPengguna);
-                                                editor.putString("kataLaluan", kataLaluan);
-                                                editor.putString("emelPengguna", emelPengguna);
-                                                editor.commit();
+                                            db.collection("Pengguna").document(idPengguna)
+                                                    .update("kataLaluan", kataLaluan);
+                                            db.collection("Pentadbir").document(idPengguna)
+                                                    .update("kataLaluan", kataLaluan);
 
-                                                finish();
-                                                startActivity(new Intent(loginJuruteknik.this, utamaJuruteknik.class)); //terus ke laman utama pentadbir
-                                            } else {
-                                                Toast.makeText(loginJuruteknik.this, "Gagal untuk log masuk! ID Pengguna tidak sepadan dengan Emel", Toast.LENGTH_LONG).show();
+                                            editor.putString("idPengguna", idPengguna);
+                                            editor.putString("kataLaluan", kataLaluan);
+                                            editor.putString("emelPengguna", emelPengguna);
+                                            editor.apply();
+
+                                            finish();
+                                            if (jawatan.equals("JURUTEKNIK")) {
+                                                progressBar.setVisibility(View.GONE);
+                                                startActivity(new Intent(login.this, utamaJuruteknik.class)); //terus ke laman utama juruteknik
+                                            }
+                                            else {
+                                                startActivity(new Intent(login.this, utamaPentadbir.class)); //terus ke laman utama pentadbir
                                             }
                                         } else {
-                                            progressBar.setVisibility(View.GONE);
-                                            Toast.makeText(loginJuruteknik.this, "Gagal untuk log masuk! Akaun terdaftar sebagai akaun PENTADBIR", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(login.this, "Gagal untuk log masuk! ID Pengguna tidak sepadan dengan Emel", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                     else
                                     {
                                         progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(loginJuruteknik.this, "Gagal untuk log masuk! ID Pengguna tiada dalam pangkalan data", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(login.this, "Gagal untuk log masuk! ID Pengguna tiada dalam pangkalan data", Toast.LENGTH_LONG).show();
                                         idPengguna1.requestFocus();
                                     }
                                 }
@@ -174,7 +174,7 @@ public class loginJuruteknik extends AppCompatActivity {
                 else
                 {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(loginJuruteknik.this, "Gagal untuk log masuk! Sila semak kesahihan akaun", Toast.LENGTH_LONG).show();
+                    Toast.makeText(login.this, "Gagal untuk log masuk! Sila semak kesahihan akaun", Toast.LENGTH_LONG).show();
                 }
             }
         });

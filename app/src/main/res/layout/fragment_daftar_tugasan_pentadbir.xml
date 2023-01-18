@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
-                android:textSize="23sp"
+                android:textSize="22sp"
                 android:text="DAFTAR JADUAL TUGASAN"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
@@ -96,19 +96,19 @@
                     android:layout_height="wrap_content"
                     android:hint="ID Jadual Tugasan"
                     android:paddingLeft="20dp"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:background="@color/editTextBG"
                     android:layout_alignParentTop="true"
                     android:minHeight="48dp"
                     android:textColor="@color/blokteks"
                     android:backgroundTint="@color/blokbackground"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textLayout2"
-                android:layout_width="240dp"
+                android:layout_width="222dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
@@ -124,9 +124,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Tarikh Tugas"
-                    android:fontFamily="sans-serif-condensed-medium"
+                    android:fontFamily="sans-serif-condensed"
                     android:background="@color/editTextBG"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:layout_alignParentTop="true"
                     android:textColor="@color/black"
                     android:minHeight="48dp"/>
@@ -134,7 +134,7 @@
 
             <Button
                 android:id="@+id/butangCariTarikh"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/textLayout2"
                 android:layout_alignTop="@id/textLayout2"
@@ -155,7 +155,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="Senarai Tugas :"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
@@ -203,7 +203,7 @@
                 android:paddingBottom="10dp"
                 android:text="TAMBAH"
                 android:textColor="@color/white"
-                android:textSize="24sp"/>
+                android:textSize="20sp"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sistempengurusanjabatanjuruteknik.ui.login;
 
 public class setSemulaKataLaluan extends AppCompatActivity {
     private FirebaseAuth mAuth; // declare Firebase variable
@@ -75,4 +77,7 @@ public class setSemulaKataLaluan extends AppCompatActivity {
             }
         });
     }
-}
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, login.class));
+    }}
