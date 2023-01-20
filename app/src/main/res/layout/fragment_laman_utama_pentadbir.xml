@@ -75,6 +75,8 @@
                 android:id="@+id/refreshCarta"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+
                 <com.anychart.AnyChartView
                     android:id="@+id/cartaBilanganAduanPertama"
                     android:layout_width="match_parent"

@@ -53,10 +53,9 @@ import java.util.regex.Pattern;
 public class laporanBilanganAduan extends Fragment
 {
     private AnyChartView cartaBilanganAduan;
-    private String[] bulan = {"Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"};
-    private int[] aduan = {0, 0, 0, 0, 0, 0};
+    private final String[] bulan = {"Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"};
+    private final int[] aduan = {0, 0, 0, 0, 0, 0};
     private FirebaseFirestore db;
-    private Button butangCetakCarta;
     private SwipeRefreshLayout refreshCarta;
     SharedPreferences sp;
 
@@ -66,7 +65,7 @@ public class laporanBilanganAduan extends Fragment
 
         db = FirebaseFirestore.getInstance();
         cartaBilanganAduan = v.findViewById(R.id.cartaBilanganAduanPertama);
-        butangCetakCarta = v.findViewById(R.id.butangCetakCarta);
+        Button butangCetakCarta = v.findViewById(R.id.butangCetakCarta);
         refreshCarta = v.findViewById(R.id.refreshCarta);
 
         cartaBilanganGenerate();
@@ -116,13 +115,9 @@ public class laporanBilanganAduan extends Fragment
     }
 
     private boolean checkPermissionGranted(){
-        if((ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                && (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
-            // Permission has already been granted
-            return  true;
-        } else {
-            return false;
-        }
+        // Permission has already been granted
+        return (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission(){
@@ -159,8 +154,8 @@ public class laporanBilanganAduan extends Fragment
         pie1.title("Bilangan Aduan Mesin Bagi Jul - Dis");
         cartaBilanganAduanPdf.setChart(pie1);
 
-        String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
 
         tarikhCetak.setText(currentDate);
         masaCetak.setText(currentTime);

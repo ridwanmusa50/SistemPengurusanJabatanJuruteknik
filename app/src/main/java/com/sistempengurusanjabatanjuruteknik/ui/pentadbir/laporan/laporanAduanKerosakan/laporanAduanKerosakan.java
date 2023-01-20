@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 public class laporanAduanKerosakan extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout refresh;
     private FirebaseFirestore db;
     private penyambungSenaraiAduan penyambungSenaraiAduan;
@@ -39,13 +38,13 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
                              ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_senarai_aduan_juruteknik, container, false);
 
-        recyclerView = v.findViewById(R.id.senaraiAduan);
+        RecyclerView recyclerView = v.findViewById(R.id.senaraiAduan);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refresh = v.findViewById(R.id.refresh);
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<>();
-        penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this::onAduanClick);
+        penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
         recyclerView.setAdapter(penyambungSenaraiAduan);
 
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

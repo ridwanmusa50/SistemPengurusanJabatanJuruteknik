@@ -32,8 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -109,7 +109,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                 String masaPengesah = masaPengesah1.getText().toString().trim();
                 String idPentadbir = idPentadbir1.getText().toString().trim();
 
-                String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
+                String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                 tarikhPengesah1.setText(currentDate);
 
                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -181,6 +181,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                 String idPentadbir2 = idPentadbir1.getText().toString().trim();
 
                 if(checkPermissionGranted()){
+
                     ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
                             tarikhPenerima2, masaPenerima2, idJuruteknik2, huraianPenerima2,
                             tarikhPengesah2, masaPengesah2, idPentadbir2);
@@ -236,7 +237,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
         TextView idPenggunaCetak = paparanPdf.findViewById(R.id.idPenggunaCetak);
 
-        String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
@@ -261,9 +262,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
         paparanPdf.show();
 
-        butangMuatTurun.setOnClickListener(v1 -> {
-                generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan));
-        });
+        butangMuatTurun.setOnClickListener(v1 -> generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan)));
     }
 
     private void tunjukkanMaklumat(String value)
@@ -322,7 +321,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                                 huraianPenerima[0] = (String) documentSnapshot.get("huraianPenerima");
                                 huraianPenerima1.setText(huraianPenerima[0]);
 
-                                String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
+                                String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                                 tarikhPengesah1.setText(currentDate);
 
                                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -360,13 +359,9 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     }
 
     private boolean checkPermissionGranted(){
-        if((ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
-            // Permission has already been granted
-            return  true;
-        } else {
-            return false;
-        }
+        // Permission has already been granted
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission(){
@@ -386,7 +381,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idAduan + ".pdf");
 
         try{
-            document.writeTo(new FileOutputStream(file));
+            document.writeTo(Files.newOutputStream(file.toPath()));
             Toast.makeText(senaraiPenuhAduanPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();

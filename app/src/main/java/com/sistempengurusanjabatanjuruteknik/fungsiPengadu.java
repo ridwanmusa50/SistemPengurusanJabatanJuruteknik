@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.sistempengurusanjabatanjuruteknik.ui.pengadu.maklumatKomunikasi.maklumatKomunikasi;
+import com.sistempengurusanjabatanjuruteknik.ui.pengadu.maklumatKomunikasi.maklumat_pengguna;
 
 public class fungsiPengadu extends AppCompatActivity {
     private Button butangMaklumatKomunikasi;
@@ -25,7 +25,7 @@ public class fungsiPengadu extends AppCompatActivity {
         butangMaklumatKomunikasi.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(fungsiPengadu.this, maklumatKomunikasi.class); // pergerakan dari pemilihanPengguna antara muka ke fungsiPengguna antara muka
+                Intent intent = new Intent(fungsiPengadu.this, maklumat_pengguna.class); // pergerakan dari pemilihanPengguna antara muka ke fungsiPengguna antara muka
                 startActivity(intent);
             }
         });
@@ -35,7 +35,7 @@ public class fungsiPengadu extends AppCompatActivity {
         butangAduan.setOnClickListener(new View.OnClickListener() { // pengendali jenis tekan butang
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(fungsiPengadu.this, com.sistempengurusanjabatanjuruteknik.ui.pengadu.membuatAduan.membuatAduan.class); // pergerakan dari pemilihanPengguna antara muka ke fungsiPengguna antara muka
+                Intent intent = new Intent(fungsiPengadu.this, com.sistempengurusanjabatanjuruteknik.ui.pengadu.membuatAduan.aduan_pengguna.class); // pergerakan dari pemilihanPengguna antara muka ke fungsiPengguna antara muka
                 startActivity(intent);
             }
         });

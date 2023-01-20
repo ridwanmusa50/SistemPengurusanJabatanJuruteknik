@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:text="DOC-MAINT-1-RO"
+                android:text="@string/contoh_id_laporan"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="AS928128"
+                android:text="@string/contoh_id_mesin"
                 android:textColor="#3C3C3C"
                 android:textSize="20sp" />
 
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:justificationMode="inter_word"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Mesin telah direset semula tetapi lampu merah masih menyala."
+                android:text="@string/contoh_tugasan"
                 android:textColor="#757575"
                 android:textSize="20sp" />
 
@@ -83,8 +83,8 @@
                 android:id="@+id/tarikhAduan"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="09/May/2022"
-                android:gravity="left"
+                android:text="@string/contoh_tarikh"
+                android:gravity="start"
                 android:layout_weight="1"
                 android:textColor="@color/black"
                 android:fontFamily="sans-serif"
@@ -94,10 +94,10 @@
                 android:id="@+id/masaAduan"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right"
+                android:gravity="end"
                 android:layout_weight="1"
                 android:textColor="@color/black"
-                android:text="09:00:00"
+                android:text="@string/contoh_masa"
                 android:fontFamily="sans-serif"
                 android:textSize="16sp"/>
 

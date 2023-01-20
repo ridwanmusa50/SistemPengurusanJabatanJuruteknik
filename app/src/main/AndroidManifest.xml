@@ -62,44 +62,25 @@
             android:exported="false"
             android:label="@string/utama_juruteknik"
             android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
-        <activity
-            android:name=".ui.login"
-            android:exported="false"
-            android:noHistory="true"
-            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
         <!-- Tetapkan keluarga activiti sebagai login -->
         <activity
             android:name=".setSemulaKataLaluan"
             android:exported="false"
             android:noHistory="true"
-            android:parentActivityName=".ui.login" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
-        <activity
-            android:name=".ui.pengadu.membuatAduan.membuatAduan"
-            android:exported="false"
-            android:noHistory="true"
-            android:parentActivityName=".ui.pengadu.fungsiPengadu" /> <!-- Tetapkan keluarga activiti sebagai fungsiPengadu -->
+            android:parentActivityName="log_masuk" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
         <service
             android:name=".ui.pengadu.membuatAduan.FirebaseMessagingService"
             android:exported="false"
-            android:permission="TODO"
-            tools:ignore="ExportedService,IntentFilterExportedReceiver">
+            android:enabled="true"
+            android:permission="TODO">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <activity
-            android:name=".ui.pengadu.maklumatKomunikasi.maklumatKomunikasi"
+            android:name=".utamaAplikasi"
             android:exported="false"
             android:noHistory="true"
-            android:parentActivityName=".ui.pengadu.fungsiPengadu" /> <!-- Tetapkan keluarga activiti sebagai fungsiPengadu -->
-        <activity
-            android:name=".ui.pengadu.fungsiPengadu"
-            android:exported="false"
-            android:parentActivityName=".pemilihanPengguna" /> <!-- Tetapkan keluarga activiti sebagai pemilihanPengguna -->
-        <activity
-            android:name=".pemilihanPengguna"
-            android:exported="false"
             android:theme="@style/Theme.SistemPengurusanJabatanJuruteknik.NoActionBar" />
         <activity
             android:name=".mulaAplikasi"

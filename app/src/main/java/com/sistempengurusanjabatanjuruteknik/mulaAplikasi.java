@@ -68,7 +68,7 @@ public class mulaAplikasi extends AppCompatActivity {
                     }
                 }
                 else {
-                    startActivity(new Intent(mulaAplikasi.this, pemilihanPengguna.class));
+                    startActivity(new Intent(mulaAplikasi.this, utamaAplikasi.class));
                     finish(); // keluar aplikasi apabila page selepasnya menekan butang kembali
                 }
             }

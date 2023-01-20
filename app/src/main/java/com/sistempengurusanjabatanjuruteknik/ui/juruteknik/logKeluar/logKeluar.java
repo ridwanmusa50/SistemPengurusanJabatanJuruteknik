@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sistempengurusanjabatanjuruteknik.pemilihanPengguna;
 import com.sistempengurusanjabatanjuruteknik.R;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.utamaJuruteknik;
+import com.sistempengurusanjabatanjuruteknik.utamaAplikasi;
 
 public class logKeluar extends Fragment
 {
@@ -47,7 +47,7 @@ public class logKeluar extends Fragment
 
                         mAuth.signOut();
 
-                        Intent intent = new Intent(getActivity(), pemilihanPengguna.class);
+                        Intent intent = new Intent(getActivity(), utamaAplikasi.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // beritahu aplikasi akan melakukan aktiviti yang baru dan aktiviti semasa akan dibersihkan
                         startActivity(intent);
                     }

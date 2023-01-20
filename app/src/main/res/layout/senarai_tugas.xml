@@ -22,13 +22,13 @@
             android:orientation="vertical"
             >
 
-            <com.codesgood.views.JustifiedTextView
+            <TextView
                 android:id="@+id/hurainTugas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:justificationMode="inter_word"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Selenggara kesemua penghawa dingin yang berada di Bangunan A."
+                android:text="@string/contoh_tugasan"
                 android:textColor="#757575"
                 android:textSize="20sp" />
 
@@ -36,26 +36,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+            android:layout_gravity="start"
             >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left">
                 <TextView
                     android:id="@+id/tarikhAduan"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="09/May/2022"
+                    android:text="@string/contoh_tarikh"
                     android:textAlignment="gravity"
                     android:textColor="@color/black"
                     android:fontFamily="sans-serif"
-                    android:gravity="left"
                     android:textSize="16sp"/>
-            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

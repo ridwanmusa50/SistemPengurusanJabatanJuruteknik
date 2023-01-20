@@ -1,0 +1,257 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.pengadu.membuatAduan.aduan_pengguna"
+    android:background="@drawable/sign_up_background">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:backgroundTint="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#BC1717"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/circle"
+                            android:padding="9dp"
+                            android:src="@drawable/add_report"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="TAMBAH ADUAN"
+                            android:textColor="@color/white"
+                            android:textSize="23sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutIdAduan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/linearLayout1"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/id_doc"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/blokteks">
+
+                        <EditText
+                            android:id="@+id/idAduan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blokbackground"
+                            android:enabled="false"
+                            android:hint="ID Aduan"
+                            android:inputType="none"
+                            android:minHeight="48dp"
+                            android:textColor="@color/blokteks"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textSize="19sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutTarikhAduan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutIdAduan"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/calendar"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/blokteks">
+
+                        <EditText
+                            android:id="@+id/tarikhAduan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blokbackground"
+                            android:enabled="false"
+                            android:hint="Tarikh Aduan"
+                            android:textColor="@color/blokteks"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="date"
+                            android:minHeight="48dp"
+                            android:textSize="19sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutMasaAduan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutTarikhAduan"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/clock"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/blokteks">
+
+                        <EditText
+                            android:id="@+id/masaAduan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blokbackground"
+                            android:textColor="@color/blokteks"
+                            android:enabled="false"
+                            android:hint="Masa Aduan"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="time"
+                            android:minHeight="48dp"
+                            android:textSize="19sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutNamaPenuh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutMasaAduan"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/ikon_pengguna"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/black">
+
+                        <EditText
+                            android:id="@+id/namaPenuhPengadu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                            android:hint="Nama Penuh"
+                            android:textColor="@color/black"
+                            android:background="@color/editTextBG"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="textCapCharacters"
+                            android:minHeight="48dp"
+                            android:textSize="19sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutIdMesin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutNamaPenuh"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/factorymachine"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/black">
+
+                        <EditText
+                            android:id="@+id/idMesin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                            android:hint="ID Mesin"
+                            android:textColor="@color/black"
+                            android:background="@color/editTextBG"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="textCapCharacters"
+                            android:minHeight="48dp"
+                            android:textSize="19sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutHuraianAduan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutIdMesin"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        app:startIconDrawable="@drawable/description"
+                        app:startIconTint="@color/black"
+                        android:textColorHint="@color/black">
+
+                        <EditText
+                            android:id="@+id/hurainAduan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Huraian Aduan"
+                            android:fontFamily="sans-serif-condensed"
+                            android:inputType="textMultiLine"
+                            android:justificationMode="inter_word"
+                            android:minHeight="48dp"
+                            android:textSize="19sp"
+                            android:textColor="@color/black"
+                            android:background="@color/editTextBG"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/butangTambahAduan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layoutHuraianAduan"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:backgroundTint="@color/tema"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="HANTAR"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        tools:ignore="MissingConstraints" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

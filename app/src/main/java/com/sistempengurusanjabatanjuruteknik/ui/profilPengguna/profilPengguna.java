@@ -46,11 +46,11 @@ public class profilPengguna extends Fragment
     private EditText emelPengguna1;
     private EditText kataLaluan1;
     private EditText nomborTelefon1;
-    private Button butangKemaskiniProfil;
     private ProgressBar progressBar;
     private Spinner spinner;
     private String jawatanPengguna2;
     SharedPreferences sp;
+    SharedPreferences.Editor editor = sp.edit();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class profilPengguna extends Fragment
         emelPengguna1 = v.findViewById(R.id.emelPengguna);
         kataLaluan1 = v.findViewById(R.id.kataLaluan);
         nomborTelefon1 = v.findViewById(R.id.nomborTelefon);
-        butangKemaskiniProfil = v.findViewById(R.id.butangKemaskiniProfil);
+        Button butangKemaskiniProfil = v.findViewById(R.id.butangKemaskiniProfil);
         progressBar = v.findViewById(R.id.progressBar);
         spinner = v.findViewById(R.id.spinner);
         mAuth = FirebaseAuth.getInstance(); // initialize FirebaseAuth
@@ -153,7 +153,6 @@ public class profilPengguna extends Fragment
                 {
                     namaPenuh1.setError("Nama Penuh perlu diisi!");
                     namaPenuh1.requestFocus();
-                    return;
                 }
                 else
                 {
@@ -161,7 +160,6 @@ public class profilPengguna extends Fragment
                     {
                         emelPengguna1.setError("Emel Pengguna perlu diisi!");
                         emelPengguna1.requestFocus();
-                        return;
                     }
                     else
                     {
@@ -169,7 +167,6 @@ public class profilPengguna extends Fragment
                         {
                             emelPengguna1.setError("Sila masukkan Email Pengguna yang sah!");
                             emelPengguna1.requestFocus();
-                            return;
                         }
                         else
                         {
@@ -186,7 +183,6 @@ public class profilPengguna extends Fragment
                                                 {
                                                     kataLaluan1.setError("Kata Laluan perlu diisi!");
                                                     kataLaluan1.requestFocus();
-                                                    return;
                                                 }
                                                 else
                                                 {
@@ -194,7 +190,6 @@ public class profilPengguna extends Fragment
                                                     {
                                                         kataLaluan1.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
                                                         kataLaluan1.requestFocus();
-                                                        return;
                                                     }
                                                     else
                                                     {
@@ -202,7 +197,6 @@ public class profilPengguna extends Fragment
                                                         {
                                                             kataLaluan1.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
                                                             kataLaluan1.requestFocus();
-                                                            return;
                                                         }
                                                         else
                                                         {
@@ -210,7 +204,6 @@ public class profilPengguna extends Fragment
                                                             {
                                                                 nomborTelefon1.setError("Nombor Telefon perlu diisi");
                                                                 nomborTelefon1.requestFocus();
-                                                                return;
                                                             }
                                                             else
                                                             {
@@ -218,7 +211,6 @@ public class profilPengguna extends Fragment
                                                                 {
                                                                     nomborTelefon1.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
                                                                     nomborTelefon1.requestFocus();
-                                                                    return;
                                                                 }
                                                                 else
                                                                 {
@@ -305,7 +297,6 @@ public class profilPengguna extends Fragment
     public void tukarEmail(String emelPengguna)
     {
         mAuth.getCurrentUser().updateEmail(emelPengguna);
-        SharedPreferences.Editor editor = sp.edit();
 
         editor = sp.edit();
         editor.putString("emelPengguna", emelPengguna);
@@ -317,7 +308,6 @@ public class profilPengguna extends Fragment
         mAuth.getCurrentUser().updatePassword(kataLaluan).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                SharedPreferences.Editor editor = sp.edit();
                 editor = sp.edit();
 
                 editor.putString("kataLaluan", kataLaluan);

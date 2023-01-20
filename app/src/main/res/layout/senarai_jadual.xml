@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:text="Memindahkan mesin XY23 di sebelah mesin JK231."
+                android:text="@string/contoh_tugasan"
                 android:fontFamily="sans-serif-condensed"
                 android:paddingTop="10dp"
                 android:justificationMode="inter_word"

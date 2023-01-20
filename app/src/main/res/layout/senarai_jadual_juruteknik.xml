@@ -26,10 +26,11 @@
                 android:id="@+id/tugasJadual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:paddingTop="10dp"
+                android:justificationMode="inter_word"
                 android:paddingBottom="10dp"
-                android:text="Memindahkan mesin XY23 di sebelah mesin JK231."
+                android:text="@string/contoh_tugasan"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -38,7 +39,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ikon_keyboard_arrow_right_silver"
-                android:layout_gravity="right"/>
+                android:layout_gravity="end"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

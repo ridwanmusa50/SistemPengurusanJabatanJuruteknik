@@ -284,6 +284,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
+                    android:justificationMode="inter_word"
                     android:lines="7"
                     android:maxLines="7"
                     android:text="Produk yang dihasilkan tidak mencapai kualiti yang diingini. Apabila dilihat secara teliti, lampu amaran mesin menyala. Lampu amaran mesin masih tetap bernyala walaupun mesin telah dimulakan semula."
@@ -411,6 +412,7 @@
                     android:fontFamily="sans-serif"
                     android:lines="7"
                     android:maxLines="7"
+                    android:justificationMode="inter_word"
                     android:text="Skru yang menghubungkan antara motor mesin telah rosak geriginya membuatkan motor mesin tidak dapat mencengkam permukaan skru. Tindakan diambil ialah menukar skru tersebut dengan yang baru."
                     android:textColor="@color/black"
                     android:textSize="13sp" />

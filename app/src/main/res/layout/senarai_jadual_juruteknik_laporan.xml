@@ -24,20 +24,20 @@
                 android:id="@+id/idJadual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="J001"
+                android:text="@string/contoh_id"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed"
                 android:textStyle="bold"/>
             
             <TextView
                 android:id="@+id/tarikhJadual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10/Jun/2022"
+                android:text="@string/contoh_tarikh"
                 android:textSize="20sp"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-condensed-medium"/>
+                android:fontFamily="sans-serif-condensed"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
