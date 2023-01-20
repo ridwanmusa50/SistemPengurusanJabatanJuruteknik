@@ -11,8 +11,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -163,8 +166,29 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         butangCetakAduan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.requestPermissions(senaraiPenuhAduanPentadbir.this, new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+                // Permission for sdk between 23 and 29
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(senaraiPenuhAduanPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                    }
+                }
+
+                // Permission storage for sdk 30 or above
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+                    if (!Environment.isExternalStorageManager()){
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            intent.addCategory("android.intent.category.DEFAULT");
+                            intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                            startActivityIfNeeded(intent, 101);
+                        }catch (Exception e)
+                        {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            startActivityIfNeeded(intent, 101);
+                        }
+                    }
+                }
 
                 String idAduan2 = idAduan1.getText().toString().trim();
                 String tarikhAduan2 = tarikhAduan1.getText().toString().trim();
@@ -181,7 +205,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                 String idPentadbir2 = idPentadbir1.getText().toString().trim();
 
                 if(checkPermissionGranted()){
-
                     ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
                             tarikhPenerima2, masaPenerima2, idJuruteknik2, huraianPenerima2,
                             tarikhPengesah2, masaPengesah2, idPentadbir2);
@@ -235,10 +258,8 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         TextView masaPengesahCetak = paparanPdf.findViewById(R.id.masaPengesah);
         TextView idPentadbirCetak = paparanPdf.findViewById(R.id.idPentadbir);
 
-        TextView idPenggunaCetak = paparanPdf.findViewById(R.id.idPenggunaCetak);
-
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
         String emel = sp.getString("idPengguna", "");
@@ -258,7 +279,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         tarikhPengesahCetak.setText(tarikhPengesah);
         masaPengesahCetak.setText(masaPengesah);
         idPentadbirCetak.setText(idPentadbir);
-        idPenggunaCetak.setText(emel);
 
         paparanPdf.show();
 
@@ -324,7 +344,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                                 String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                                 tarikhPengesah1.setText(currentDate);
 
-                                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                                String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
                                 masaPengesah1.setText(currentTime);
                             }
 
@@ -360,8 +380,8 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
     private boolean checkPermissionGranted(){
         // Permission has already been granted
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(getApplication(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission(){
