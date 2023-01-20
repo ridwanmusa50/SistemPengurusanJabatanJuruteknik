@@ -8,6 +8,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="tugasan">Tugasan</string>
+    <string name="maklumat_aduan"><u>MAKLUMAT ADUAN</u></string>
+    <string name="maklumat_tindakan"><u>MAKLUMAT TINDAKAN</u></string>
+    <string name="maklumat_pengesahan"><u>MAKLUMAT PENGESAHAN</u></string>
     <string name="set_semula">SET SEMULA</string>
     <string name="lupa">Lupa</string>
     <string name="tarikh_title">Tarikh:</string>

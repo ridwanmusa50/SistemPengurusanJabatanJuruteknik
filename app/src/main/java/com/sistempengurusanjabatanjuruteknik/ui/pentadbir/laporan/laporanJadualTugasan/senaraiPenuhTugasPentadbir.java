@@ -3,6 +3,7 @@ package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanJadual
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,15 +11,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
@@ -37,6 +39,7 @@ import com.sistempengurusanjabatanjuruteknik.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,14 +49,12 @@ import java.util.Map;
 public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     private EditText idJadual1;
     private EditText tarikhJadual1;
-    private ProgressBar progressBar;
-    private Button butangCetakTugas;
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private RecyclerView recylerview;
-    private ArrayList<TugasPenuh> list = new ArrayList<>();
-    private ArrayList<String> tugas = new ArrayList<>();
+    private final ArrayList<TugasPenuh> list = new ArrayList<>();
+    private final ArrayList<String> tugas = new ArrayList<>();
     SharedPreferences sp;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         idJadual1 = findViewById(R.id.idJadual);
         tarikhJadual1 = findViewById(R.id.tarikhJadual);
-        butangCetakTugas = findViewById(R.id.butangCetakTugas);
-        progressBar = findViewById(R.id.progressBar);
-        mAuth = FirebaseAuth.getInstance();
+        Button butangCetakTugas = findViewById(R.id.butangCetakTugas);
         db = FirebaseFirestore.getInstance();
 
         tunjukkanMaklumat(value);
@@ -84,8 +83,28 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         butangCetakTugas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.requestPermissions(senaraiPenuhTugasPentadbir.this, new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(senaraiPenuhTugasPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                    }
+                }
+
+                // Permission storage for sdk 30 or above
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+                    if (!Environment.isExternalStorageManager()){
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            intent.addCategory("android.intent.category.DEFAULT");
+                            intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                            startActivityIfNeeded(intent, 101);
+                        }catch (Exception e)
+                        {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            startActivityIfNeeded(intent, 101);
+                        }
+                    }
+                }
 
                 String idJadual = idJadual1.getText().toString().trim();
                 String tarikhJadual = tarikhJadual1.getText().toString().trim();
@@ -129,10 +148,9 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         TextView tugasJadual4 = paparanPdf.findViewById(R.id.tugasJadual4);
         TextView tugasJadual5 = paparanPdf.findViewById(R.id.tugasJadual5);
 
-        String currentDate = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
 
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
         String emel = sp.getString("idPengguna", "");
@@ -237,13 +255,9 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     }
 
     private boolean checkPermissionGranted(){
-        if((ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
-            // Permission has already been granted
-            return  true;
-        } else {
-            return false;
-        }
+        // Permission has already been granted
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission(){
@@ -262,8 +276,13 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         String idJadual = idJadual1.getText().toString().trim();
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idJadual + ".pdf");
 
+        while (file.exists()){
+            count++;
+            file.renameTo(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idJadual+ "(" + count + ")" + ".pdf"));
+        }
+
         try{
-            document.writeTo(new FileOutputStream(file));
+            document.writeTo(Files.newOutputStream(file.toPath()));
             Toast.makeText(senaraiPenuhTugasPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -62,7 +63,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     private Button butangTambahPengesah;
     private FirebaseFirestore db;
     SharedPreferences sp;
-
+    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +137,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                 if (idJuruteknik.isEmpty())
                 {
                     Toast.makeText(senaraiPenuhAduanPentadbir.this, "Juruteknik masih belum menyelesaikan aduan!", Toast.LENGTH_LONG).show();
-                    return;
                 }
                 else
                 {
@@ -234,8 +234,11 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(paparanPdf.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = 1800;
+        lp.dimAmount = 10;
+        lp.gravity = Gravity.CENTER;
         paparanPdf.getWindow().setAttributes(lp);
+
         sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
         Button butangMuatTurun = paparanPdf.findViewById(R.id.butangMuatTurun);
@@ -262,7 +265,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
-        String emel = sp.getString("idPengguna", "");
 
         tarikhCetak.setText(currentDate);
         masaCetak.setText(currentTime);
@@ -399,6 +401,11 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         document.finishPage(myPage);
         String idAduan = idAduan1.getText().toString().trim();
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idAduan + ".pdf");
+
+        while (file.exists()){
+            count++;
+            file.renameTo(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idAduan + "(" + count + ")" + ".pdf"));
+        }
 
         try{
             document.writeTo(Files.newOutputStream(file.toPath()));
