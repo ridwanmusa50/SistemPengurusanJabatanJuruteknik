@@ -239,8 +239,6 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         lp.gravity = Gravity.CENTER;
         paparanPdf.getWindow().setAttributes(lp);
 
-        sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
-
         Button butangMuatTurun = paparanPdf.findViewById(R.id.butangMuatTurun);
         TextView tarikhCetak = paparanPdf.findViewById(R.id.tarikhCetak);
         TextView masaCetak = paparanPdf.findViewById(R.id.masaCetak);

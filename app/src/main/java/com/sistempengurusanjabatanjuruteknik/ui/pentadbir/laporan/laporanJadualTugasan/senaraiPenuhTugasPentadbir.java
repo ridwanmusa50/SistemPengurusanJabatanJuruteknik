@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -131,7 +132,9 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(paparanPdf.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = 1800;
+        lp.dimAmount = 10;
+        lp.gravity = Gravity.CENTER;
         paparanPdf.getWindow().setAttributes(lp);
 
         Button butangMuatTurun = paparanPdf.findViewById(R.id.butangMuatTurun);
@@ -140,7 +143,6 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         TextView idJadualCetak = paparanPdf.findViewById(R.id.idJadual);
         TextView tarikhJadualCetak = paparanPdf.findViewById(R.id.tarikhJadual);
-        TextView idPenggunaCetak = paparanPdf.findViewById(R.id.idPenggunaCetak);
 
         TextView tugasJadual1 = paparanPdf.findViewById(R.id.tugasJadual1);
         TextView tugasJadual2 = paparanPdf.findViewById(R.id.tugasJadual2);
@@ -152,14 +154,11 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
-        sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
-        String emel = sp.getString("idPengguna", "");
 
         tarikhCetak.setText(currentDate);
         masaCetak.setText(currentTime);
         idJadualCetak.setText(idJadual);
         tarikhJadualCetak.setText(tarikhJadual);
-        idPenggunaCetak.setText(emel);
 
         if (list.size() == 1)
         {

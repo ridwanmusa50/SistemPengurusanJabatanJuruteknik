@@ -6,416 +6,379 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/paparanCetakan"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal"
+        android:scaleY="0.9"
+        android:transformPivotY="5dp">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="196dp"
-            android:layout_height="76dp"
-            android:contentDescription="@string/logo_syarikat"
-            android:src="@drawable/logocompanytransparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tarikhCetakTajuk"
+        <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="@string/tarikh_title"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tarikhCetak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:text="@string/contoh_tarikh"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tarikhCetakTajuk"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="8.268in"
+                android:layout_height="11.683in">
 
-        <TextView
-            android:id="@+id/masaCetakTajuk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toLeftOf="@+id/masaCetak"
-            android:text="@string/masa_title"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tarikhCetakTajuk"
-            app:layout_constraintTop_toBottomOf="@+id/tarikhCetakTajuk" />
-
-        <TextView
-            android:id="@+id/masaCetak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contoh_masa"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/tarikhCetak"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tarikhCetak"
-            app:layout_constraintTop_toBottomOf="@+id/tarikhCetak" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="JABATAN JURUTEKNIK"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="SYARIKAT GAN HONG PRECISION SDN BHD"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="LAPORAN JADUAL TUGAS"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/rectangle"
-            android:orientation="vertical"
-            android:paddingLeft="10sp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-            <TextView
-                android:id="@+id/maklumatJadual"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="MAKLUMAT JADUAL"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ID Jadual: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/idJadual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="J001"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tarikh Jadual: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tarikhJadual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="30/Jun/2022"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Senarai Tugas: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/paparanCetakan"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="28dp"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="384dp"
+                        android:layout_height="152dp"
+                        android:src="@drawable/logocompanytransparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tarikhCetakTajuk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1) "
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
+                        android:layout_marginStart="260dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Tarikh"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tugasJadual1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:layout_marginRight="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                        android:id="@+id/tarikhCetak"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2) "
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/contoh_tarikh"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tarikhCetakTajuk"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tugasJadual2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:layout_marginRight="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                        android:id="@+id/masaCetakTajuk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3) "
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
+                        android:text="Masa"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/tarikhCetakTajuk"
+                        app:layout_constraintTop_toBottomOf="@+id/tarikhCetakTajuk" />
 
                     <TextView
-                        android:id="@+id/tugasJadual3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:layout_marginRight="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                        android:id="@+id/masaCetak"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4) "
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/contoh_masa"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="@+id/tarikhCetak"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toRightOf="@id/tarikhCetakTajuk"
+                        app:layout_constraintStart_toStartOf="@+id/tarikhCetak"
+                        app:layout_constraintTop_toBottomOf="@+id/tarikhCetak" />
 
                     <TextView
-                        android:id="@+id/tugasJadual4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:layout_marginRight="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
+                        android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5) "
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="JABATAN JURUTEKNIK"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textSize="32sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
                     <TextView
-                        android:id="@+id/tugasJadual5"
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:fontFamily="sans-serif-medium"
+                        android:text="SYARIKAT GAN HONG PRECISION SDN BHD"
                         android:textColor="@color/black"
-                        android:fontFamily="sans-serif"
-                        android:textSize="13sp"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:layout_marginRight="15dp"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+                        android:textSize="32sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:paddingLeft="10sp"
-            android:paddingBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="LAPORAN JADUAL TUGAS"
+                        android:textColor="@color/black"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/linearLayout1"
+                        android:layout_width="8.268in"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:background="@drawable/rectangle"
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dicetak oleh: "
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/maklumatAduan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="MAKLUMAT JADUAL"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:textColor="@color/black"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/idPenggunaCetak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="P002"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ID Jadual: "
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textStyle="bold" />
 
+                            <TextView
+                                android:id="@+id/idJadual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text="J001"
+                                android:textColor="@color/black"
+                                android:textSize="28sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tarikh Jadual: "
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tarikhJadual"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-condensed"
+                                android:text="@string/contoh_tarikh"
+                                android:textColor="@color/black"
+                                android:textSize="28sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Senarai Tugas: "
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1) "
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tugasJadual1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:justificationMode="inter_word"
+                                android:textSize="28sp"
+                                android:lines="3"
+                                android:maxLines="3"
+                                android:layout_marginEnd="15dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2) "
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tugasJadual2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:justificationMode="inter_word"
+                                android:lines="3"
+                                android:maxLines="3"
+                                android:layout_marginEnd="15dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3) "
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tugasJadual3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:justificationMode="inter_word"
+                                android:textSize="28sp"
+                                android:lines="3"
+                                android:maxLines="3"
+                                android:layout_marginEnd="15dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4) "
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tugasJadual4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:justificationMode="inter_word"
+                                android:textSize="28sp"
+                                android:lines="3"
+                                android:maxLines="3"
+                                android:layout_marginEnd="15dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5) "
+                                android:fontFamily="sans-serif-condensed"
+                                android:textSize="28sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tugasJadual5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:fontFamily="sans-serif-condensed"
+                                android:justificationMode="inter_word"
+                                android:textSize="28sp"
+                                android:lines="3"
+                                android:maxLines="3"
+                                android:layout_marginEnd="15dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </HorizontalScrollView>
+    </ScrollView>
     <Button
         android:id="@+id/butangMuatTurun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/tema"
         android:fontFamily="sans-serif-condensed-medium"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="MUAT TURUN"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/paparanCetakan"
-        app:layout_constraintVertical_bias="0.285" />
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
