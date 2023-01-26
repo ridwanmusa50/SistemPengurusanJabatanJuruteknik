@@ -1,6 +1,5 @@
 package com.sistempengurusanjabatanjuruteknik.ui;
 
-// ambil maklumat dari Firebase children
 public class Aduan {
     String idAduan, idMesin, huraianAduan, tarikhAduan, masaAduan;
 

@@ -1,13 +1,11 @@
+// used to setup the notification service.
 package com.sistempengurusanjabatanjuruteknik.ui.pengadu.membuatAduan;
 
 import android.app.Activity;
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.sistempengurusanjabatanjuruteknik.R;
@@ -25,7 +23,6 @@ public class FcmNotificationsSender  {
     Context mContext;
     Activity mActivity;
 
-    private RequestQueue requestQueue;
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
     private final String fcmServerKey ="AAAAG6GFdWY:APA91bFfeyZbi217IRPWy4-sXPhtfbhJjdAXUKTXeTgHAWcvQ8iyUsMI9AOdnL8uUMgQjUsbu5v9XGTKurqXPHEVMy-SoJBgfEsmLrGEHQqZmT_4cLenCOhfi-Rkw0MJXV2Yx_BhvxzH";
 
@@ -38,7 +35,7 @@ public class FcmNotificationsSender  {
     }
 
     public void SendNotifications() {
-        requestQueue = Volley.newRequestQueue(mActivity);
+        RequestQueue requestQueue = Volley.newRequestQueue(mActivity);
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to", userFcmToken);
@@ -49,19 +46,13 @@ public class FcmNotificationsSender  {
             mainObj.put("notification", notiObject);
 
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // code run is got response
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // code run is got error
-                }
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
+                // code run is got response
+            }, error -> {
+                // code run is got error
             }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
+                public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
                     header.put("authorization", "key=" + fcmServerKey);

@@ -8,8 +8,5 @@ public class Tugas {
         this.tugasJadual = tugasJadual;
     }
 
-    public Tugas()
-    {
-
-    }
+    public Tugas() {}
 }

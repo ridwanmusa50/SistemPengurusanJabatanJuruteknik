@@ -1,9 +1,9 @@
+// Used for add, modify and delete the task in the schedule.
+
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.kemaskiniBuangTugasan;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,17 +19,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sistempengurusanjabatanjuruteknik.R;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.Tugas;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.penyambungJadual;
@@ -39,19 +35,19 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.OnDateSetListener
 {
     private EditText tarikhJadual1;
     private EditText idJadual1;
-    private Button butangCariTarikh1;
     private Button butangKemaskiniTugas1;
     private Button butangBuangTugas1;
     private Button butangTambahSenaraiTugas1;
     private RecyclerView recylerview;
     private FirebaseFirestore db; // declare Firebase Firestore variable
     private ProgressBar progressBar;
-    private ArrayList<Tugas> list = new ArrayList<>();
+    private final ArrayList<Tugas> list = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +55,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
         tarikhJadual1 = v.findViewById(R.id.tarikhJadual);
         idJadual1 = v.findViewById(R.id.idJadual);
-        butangCariTarikh1 = v.findViewById(R.id.butangCariTarikh);
+        Button butangCariTarikh1 = v.findViewById(R.id.butangCariTarikh);
         butangKemaskiniTugas1 = v.findViewById(R.id.butangKemaskiniTugas);
         butangBuangTugas1 = v.findViewById(R.id.butangBuangTugas);
         butangTambahSenaraiTugas1 = v.findViewById(R.id.butangTambahSenaraiTugas);
@@ -73,139 +69,102 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
         initialize();
 
-        butangCariTarikh1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tunjukJadual();
-            }
-        });
+        butangCariTarikh1.setOnClickListener(v1 -> tunjukJadual());
 
-        butangTambahSenaraiTugas1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.tambah_kemaskini_jadual);
+        butangTambahSenaraiTugas1.setOnClickListener(v12 -> {
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.tambah_kemaskini_jadual);
 
-                EditText tugasJadual1 = dialog.findViewById(R.id.tugasJadual);
-                Button butangTambah = dialog.findViewById(R.id.butangTambah);
+            EditText tugasJadual1 = dialog.findViewById(R.id.tugasJadual);
+            Button butangTambah = dialog.findViewById(R.id.butangTambah);
 
-                butangTambah.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String tugasJadual = tugasJadual1.getText().toString().trim();
+            butangTambah.setOnClickListener(v121 -> {
+                String tugasJadual = tugasJadual1.getText().toString().trim();
 
-                        if (tugasJadual.isEmpty())
-                        {
-                            tugasJadual1.setError("Tugasan perlu diisi!");
-                            tugasJadual1.requestFocus();
-                            return;
-                        }
-                        else
-                        {
-                            list.add(new Tugas(tugasJadual));
-                            penyambung.notifyItemInserted(list.size() - 1);
-
-                            recylerview.scrollToPosition(list.size() - 1);
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                dialog.show();
-            }
-        });
-
-        butangBuangTugas1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String idJadual = idJadual1.getText().toString().trim();
-
-                AlertDialog dialog = new AlertDialog.Builder(getContext())
-                        .setTitle("Adakah anda pasti?")
-                        .setMessage("Tindakan membuang jadual ini akan membuatkan jadual dikeluarkan dari sistem sepenuhnya")
-                        .setPositiveButton("Buang", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                progressBar.setVisibility(View.VISIBLE);
-
-                                db.collection("JadualTugasan").document(idJadual)
-                                        .delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        progressBar.setVisibility(View.GONE);
-                                                        Toast.makeText(getContext(), "Sistem berjaya membuang jadual!", Toast.LENGTH_LONG).show();
-                                                        startActivity(new Intent(getContext(), getActivity().getClass()));
-                                                    }
-                                                });
-                            }
-                        })
-                        .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .create();
-                dialog.show();
-            }
-        });
-
-        butangKemaskiniTugas1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tarikhJadual = tarikhJadual1.getText().toString().trim();
-                String idJadual = idJadual1.getText().toString().trim();
-
-                Map<String, Object> tugasan = new HashMap<>();
-                tugasan.put("idJadual", idJadual);
-                tugasan.put("tarikhJadual", tarikhJadual);
-
-                Map<String, Object> tugasJadual2 = new HashMap<>();
-                Map<String, String> statusTugas2 = new HashMap<>();
-
-                for (int i = 0; i < list.size(); i++)
+                if (tugasJadual.isEmpty())
                 {
-                    tugasJadual2.put("" + (i+1), list.get(i).tugasJadual);
-                    statusTugas2.put("" + (i+1), "TIDAK SELESAI");
-                }
-
-                tugasan.put("tugasJadual", tugasJadual2);
-                tugasan.put("statusTugas", statusTugas2);
-
-                if (tarikhJadual.isEmpty())
-                {
-                    Toast.makeText(getContext(), "Tarikh jadual perlu dimasukkan!", Toast.LENGTH_LONG).show();
-                    return;
+                    tugasJadual1.setError("Tugasan perlu diisi!");
+                    tugasJadual1.requestFocus();
                 }
                 else
                 {
-                    if (list.isEmpty())
-                    {
-                        Toast.makeText(getContext(), "Senarai tugas perlu dimasukkan!", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    else {
+                    list.add(new Tugas(tugasJadual));
+                    penyambung.notifyItemInserted(list.size() - 1);
+
+                    recylerview.scrollToPosition(list.size() - 1);
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        });
+
+        butangBuangTugas1.setOnClickListener(v13 -> {
+            String idJadual = idJadual1.getText().toString().trim();
+
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setTitle("Adakah anda pasti?")
+                    .setMessage("Tindakan membuang jadual ini akan membuatkan jadual dikeluarkan dari sistem sepenuhnya")
+                    .setPositiveButton("Buang", (dialog1, which) -> {
                         progressBar.setVisibility(View.VISIBLE);
 
                         db.collection("JadualTugasan").document(idJadual)
-                                .update(tugasan).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        progressBar.setVisibility(View.GONE);
+                                .delete()
+                                        .addOnSuccessListener(unused -> {
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(getContext(), "Sistem berjaya membuang jadual!", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(getContext(), requireActivity().getClass()));
+                                        });
+                    })
+                    .setNegativeButton("Tidak", (dialog12, which) -> dialog12.dismiss())
+                    .create();
+            dialog.show();
+        });
 
-                                        Toast.makeText(getContext(), "Sistem berjaya mengemaskini jadual!", Toast.LENGTH_LONG).show();
+        butangKemaskiniTugas1.setOnClickListener(v14 -> {
+            String tarikhJadual = tarikhJadual1.getText().toString().trim();
+            String idJadual = idJadual1.getText().toString().trim();
 
-                                        startActivity(new Intent(getContext(), getActivity().getClass()));
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(getContext(), "Sistem gagal mengemaskini jadual! Sila cuba lagi", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                    }
+            Map<String, Object> tugasan = new HashMap<>();
+            tugasan.put("idJadual", idJadual);
+            tugasan.put("tarikhJadual", tarikhJadual);
+
+            Map<String, Object> tugasJadual2 = new HashMap<>();
+            Map<String, String> statusTugas2 = new HashMap<>();
+
+            for (int i = 0; i < list.size(); i++)
+            {
+                tugasJadual2.put("" + (i+1), list.get(i).tugasJadual);
+                statusTugas2.put("" + (i+1), "TIDAK SELESAI");
+            }
+
+            tugasan.put("tugasJadual", tugasJadual2);
+            tugasan.put("statusTugas", statusTugas2);
+
+            if (tarikhJadual.isEmpty())
+            {
+                Toast.makeText(getContext(), "Tarikh jadual perlu dimasukkan!", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                if (list.isEmpty())
+                {
+                    Toast.makeText(getContext(), "Senarai tugas perlu dimasukkan!", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    db.collection("JadualTugasan").document(idJadual)
+                            .update(tugasan).addOnSuccessListener(unused -> {
+                                progressBar.setVisibility(View.GONE);
+
+                                Toast.makeText(getContext(), "Sistem berjaya mengemaskini jadual!", Toast.LENGTH_LONG).show();
+
+                                startActivity(new Intent(getContext(), requireActivity().getClass()));
+                            })
+                            .addOnFailureListener(e -> {
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Sistem gagal mengemaskini jadual! Sila cuba lagi", Toast.LENGTH_LONG).show();
+                            });
                 }
             }
         });
@@ -255,49 +214,43 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
         db = FirebaseFirestore.getInstance();
         db.collection("JadualTugasan")
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
 
-                            for (DocumentSnapshot snapshot : snapshotList) {
-                                if (snapshot.getString("tarikhJadual").equals(tarikh)) {
-                                    tarikhJadual1.setText(tarikh);
-                                    String idJadual = snapshot.getString("idJadual");
+                        for (DocumentSnapshot snapshot : snapshotList) {
+                            if (Objects.equals(snapshot.getString("tarikhJadual"), tarikh)) {
+                                tarikhJadual1.setText(tarikh);
+                                String idJadual = snapshot.getString("idJadual");
 
-                                    idJadual1.setText(idJadual);
-                                    butangTambahSenaraiTugas1.setEnabled(true);
-                                    butangBuangTugas1.setEnabled(true);
-                                    butangKemaskiniTugas1.setEnabled(true);
-                                    butangTambahSenaraiTugas1.setBackgroundColor(getResources().getColor(R.color.tema));
-                                    butangKemaskiniTugas1.setBackgroundColor(getResources().getColor(R.color.tema));
-                                    butangBuangTugas1.setBackgroundColor(getResources().getColor(R.color.tema));
+                                idJadual1.setText(idJadual);
+                                butangTambahSenaraiTugas1.setEnabled(true);
+                                butangBuangTugas1.setEnabled(true);
+                                butangKemaskiniTugas1.setEnabled(true);
+                                butangTambahSenaraiTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                butangKemaskiniTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                butangBuangTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
 
-                                    paparkanTugas();
-                                    break;
-                                }
-                            }
-
-                            if (tarikhJadual1.getText().toString().isEmpty())
-                            {
-                                penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-                                idJadual1.getText().clear();
-                                initialize();
-                                recylerview.setAdapter(penyambung);
-
-                                Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas! Sila pilih tarikh yang lain.", Toast.LENGTH_LONG).show();
-                                return;
+                                paparkanTugas();
+                                break;
                             }
                         }
-                        else
+
+                        if (tarikhJadual1.getText().toString().isEmpty())
                         {
+                            penyambungJadual penyambung = new penyambungJadual(getContext(), list);
                             idJadual1.getText().clear();
+                            initialize();
+                            recylerview.setAdapter(penyambung);
 
-                            Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas!", Toast.LENGTH_LONG).show();
-                            return;
+                            Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas! Sila pilih tarikh yang lain.", Toast.LENGTH_LONG).show();
                         }
+                    }
+                    else
+                    {
+                        idJadual1.getText().clear();
+
+                        Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas!", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -322,34 +275,32 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
         db.collection("JadualTugasan").document(idJadual)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Map<String, Object> friendsMap = document.getData();
-                        for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
-                            if (entry.getKey().equals("tugasJadual")) {
-                                Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
-                                int i = 1;
-                                for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
-                                    String in = "" + i;
-                                    if (dataEntry.getKey().equals(in)) {
-                                        list.add(new Tugas(dataEntry.getValue().toString()));
-                                        penyambung.notifyItemInserted(list.size() - 1);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Object> friendsMap = document.getData();
+                            assert friendsMap != null;
+                            for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
+                                if (entry.getKey().equals("tugasJadual")) {
+                                    Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
+                                    int i = 1;
+                                    for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
+                                        String in = "" + i;
+                                        if (dataEntry.getKey().equals(in)) {
+                                            list.add(new Tugas(dataEntry.getValue().toString()));
+                                            penyambung.notifyItemInserted(list.size() - 1);
+                                        }
+                                        i++;
                                     }
-                                    i++;
                                 }
                             }
+                        } else {
+                            Log.d("TAG", "No such document");
                         }
                     } else {
-                        Log.d("TAG", "No such document");
+                        Log.d("TAG", "get failed with ", task.getException());
                     }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
+                });
     }
 }

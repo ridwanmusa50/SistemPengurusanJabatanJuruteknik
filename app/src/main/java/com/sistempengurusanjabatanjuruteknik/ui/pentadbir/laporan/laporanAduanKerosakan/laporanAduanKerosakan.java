@@ -1,5 +1,7 @@
+// Used to display the list of complain
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanAduanKerosakan;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,18 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sistempengurusanjabatanjuruteknik.R;
 import com.sistempengurusanjabatanjuruteknik.ui.Aduan;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.senaraiPenuhAduanPentadbir;
@@ -34,6 +32,7 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
     private penyambungSenaraiAduan penyambungSenaraiAduan;
     private ArrayList<Aduan> list;
 
+    @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_senarai_aduan_juruteknik, container, false);
@@ -47,44 +46,17 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
         penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
         recyclerView.setAdapter(penyambungSenaraiAduan);
 
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                list.clear();
-                db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                if (error != null)
-                                {
-                                    Log.e("Firestore bermasalah", error.getMessage());
-                                    return;
-                                }
-
-                                for (DocumentChange dc : value.getDocumentChanges())
-                                {
-                                    if (dc.getType() == DocumentChange.Type.ADDED)
-                                    {
-                                        list.add(dc.getDocument().toObject(Aduan.class));
-                                    }
-                                    penyambungSenaraiAduan.notifyDataSetChanged();
-                                }
-                            }
-                        });
-                refresh.setRefreshing(false);
-            }
-        });
-
-        db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+        refresh.setOnRefreshListener(() -> {
+            list.clear();
+            db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
+                    .addSnapshotListener((value, error) -> {
                         if (error != null)
                         {
                             Log.e("Firestore bermasalah", error.getMessage());
                             return;
                         }
 
+                        assert value != null;
                         for (DocumentChange dc : value.getDocumentChanges())
                         {
                             if (dc.getType() == DocumentChange.Type.ADDED)
@@ -93,6 +65,26 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
                             }
                             penyambungSenaraiAduan.notifyDataSetChanged();
                         }
+                    });
+            refresh.setRefreshing(false);
+        });
+
+        db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null)
+                    {
+                        Log.e("Firestore bermasalah", error.getMessage());
+                        return;
+                    }
+
+                    assert value != null;
+                    for (DocumentChange dc : value.getDocumentChanges())
+                    {
+                        if (dc.getType() == DocumentChange.Type.ADDED)
+                        {
+                            list.add(dc.getDocument().toObject(Aduan.class));
+                        }
+                        penyambungSenaraiAduan.notifyDataSetChanged();
                     }
                 });
         return v;

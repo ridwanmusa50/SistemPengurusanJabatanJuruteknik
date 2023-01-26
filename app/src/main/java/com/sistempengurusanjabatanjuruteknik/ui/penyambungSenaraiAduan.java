@@ -1,3 +1,4 @@
+// Used to set value for each list data got to senarai_aduan.xml
 package com.sistempengurusanjabatanjuruteknik.ui;
 
 import android.content.Context;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 
 public class penyambungSenaraiAduan extends RecyclerView.Adapter<penyambungSenaraiAduan.MyViewHolder>
 {
-    private Context context;
-    private ArrayList<Aduan> list;
-    private OnAduanListener mOnAduanListener;
+    private final Context context;
+    private final ArrayList<Aduan> list;
+    private final OnAduanListener mOnAduanListener;
 
     public penyambungSenaraiAduan(Context context, ArrayList<Aduan> list, OnAduanListener onAduanListener) {
         this.context = context;

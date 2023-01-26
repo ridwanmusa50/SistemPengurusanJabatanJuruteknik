@@ -1,10 +1,11 @@
+// used to manage the complain registration
 package com.sistempengurusanjabatanjuruteknik.ui.pengadu.membuatAduan;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -17,12 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sistempengurusanjabatanjuruteknik.R;
 
@@ -41,6 +37,7 @@ public class aduan_pengguna extends Fragment {
     private EditText huraianAduan1;
     private ProgressBar progressBar;
     private FirebaseFirestore db; // declare Firestore variable
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,41 +57,34 @@ public class aduan_pengguna extends Fragment {
 
         db.collection("AduanKerosakan")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful())
-                        {
-                            idAduan1.setText("DOC-MAINT-" + (task.getResult().size() + 1) + " RO");
-                        }
-                        if (task.getResult().isEmpty())
-                        {
-                            idAduan1.setText("DOC-MAINT-1 RO");
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                    {
+                        idAduan1.setText("DOC-MAINT-" + (task.getResult().size() + 1) + " RO");
+                    }
+                    if (task.getResult().isEmpty())
+                    {
+                        idAduan1.setText("DOC-MAINT-1 RO");
                     }
                 });
 
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         tarikhAduan1.setText(currentDate);
 
-        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
         masaAduan1.setText(currentTime);
 
-        butangTambahAduan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tambahAduan();
-            }
-        });
+        butangTambahAduan.setOnClickListener(v1 -> tambahAduan());
         return v;
     }
 
+    @SuppressLint("ShowToast")
     private void tambahAduan()
     {
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         tarikhAduan1.setText(currentDate);
 
-        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
         masaAduan1.setText(currentTime);
 
         String idAduan = idAduan1.getText().toString().trim();
@@ -144,45 +134,28 @@ public class aduan_pengguna extends Fragment {
 
                     db.collection("AduanKerosakan").document(idAduan)
                             .set(aduan)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    progressBar.setVisibility(View.GONE);
-                                    toast[0] = Toast.makeText(getContext(), "Sistem berjaya menghantar aduan!", Toast.LENGTH_LONG);
-                                    toast[0].setGravity(Gravity.CENTER, 0, 0);
-                                    toast[0].show();
+                            .addOnSuccessListener(unused -> {
+                                progressBar.setVisibility(View.GONE);
+                                toast[0] = Toast.makeText(getContext(), "Sistem berjaya menghantar aduan!", Toast.LENGTH_LONG);
+                                toast[0].setGravity(Gravity.CENTER, 0, 0);
+                                toast[0].show();
 
-                                    // kod untuk mengeluarkan pemberitahuan kepada pengadu
-                                    String line = "Tugas bagi id, " + idAduan + " telah berjaya dibuat.\nTarikh aduan dibuat pada " + tarikhAduan + " dan jam " + masaAduan + ".";
-                                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all",
-                                            "Peti Masuk",
-                                            line,
-                                            getActivity().getApplicationContext(), getActivity());
-                                    notificationsSender.SendNotifications();
-                                    getActivity().finish();
-                                    startActivity(getActivity().getIntent());
-                                }
+                                // kod untuk mengeluarkan pemberitahuan kepada pengadu
+                                String line = "Tugas bagi id, " + idAduan + " telah berjaya dibuat.\nTarikh aduan dibuat pada " + tarikhAduan + " dan jam " + masaAduan + ".";
+                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender("/topics/all",
+                                        "Peti Masuk",
+                                        line,
+                                        requireActivity().getApplicationContext(), getActivity());
+                                notificationsSender.SendNotifications();
+                                requireActivity().finish();
+                                startActivity(requireActivity().getIntent());
                             })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Gagal untuk daftar data aduan kerosakan: " + e);
-                                    progressBar.setVisibility(View.GONE);
-                                    toast[0] = Toast.makeText(getContext(), "Sistem gagal menghantar aduan! Sila cuba lagi", Toast.LENGTH_LONG);
-                                    toast[0].setGravity(Gravity.CENTER, 0, 0);
-                                    toast[0].show();
-                                }
-                            });
-
-                    Map<String, Object> pengadu = new HashMap<>();
-                    pengadu.put("namaPenuhPengadu", namaPenuhPengadu);
-
-                    db.collection("Pengadu").document(idAduan)
-                            .set(pengadu)
-                            .addOnFailureListener(new OnFailureListener() {
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Gagal untuk daftar data pengadu: " + e);
-                                }
+                            .addOnFailureListener(e -> {
+                                Log.w(TAG, "Gagal untuk daftar data aduan kerosakan: " + e);
+                                progressBar.setVisibility(View.GONE);
+                                toast[0] = Toast.makeText(getContext(), "Sistem gagal menghantar aduan! Sila cuba lagi", Toast.LENGTH_LONG);
+                                toast[0].setGravity(Gravity.CENTER, 0, 0);
+                                toast[0].show();
                             });
                 }
             }

@@ -1,6 +1,8 @@
+// used to display a report for number of complain using pie chart.
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanBilanganAduan;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,14 +39,10 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sistempengurusanjabatanjuruteknik.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -52,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +63,7 @@ public class laporanBilanganAduan extends Fragment
     private SwipeRefreshLayout refreshCarta;
     SharedPreferences sp;
 
+    @SuppressLint("ObsoleteSdkInt")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_laporan_bilangan_aduan, container, false);
@@ -75,50 +75,44 @@ public class laporanBilanganAduan extends Fragment
 
         cartaBilanganGenerate();
 
-        refreshCarta.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                cartaBilanganAduan.clear();
-                cartaBilanganGenerate();
-                refreshCarta.setRefreshing(false);
-            }
+        refreshCarta.setOnRefreshListener(() -> {
+            cartaBilanganAduan.clear();
+            cartaBilanganGenerate();
+            refreshCarta.setRefreshing(false);
         });
 
-        butangCetakCarta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Permission for sdk between 23 and 29
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-                    }
+        butangCetakCarta.setOnClickListener(v1 -> {
+            // Permission for sdk between 23 and 29
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
                 }
+            }
 
-                // Permission storage for sdk 30 or above
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
-                    if (!Environment.isExternalStorageManager()){
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            intent.addCategory("android.intent.category.DEFAULT");
-                            intent.setData(Uri.parse(String.format("package:%s", getContext().getPackageName())));
-                            getActivity().startActivityIfNeeded(intent, 101);
-                        }catch (Exception e)
-                        {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            getActivity().startActivityIfNeeded(intent, 101);
-                        }
+            // Permission storage for sdk 30 or above
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+                if (!Environment.isExternalStorageManager()){
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse(String.format("package:%s", requireContext().getPackageName())));
+                        requireActivity().startActivityIfNeeded(intent, 101);
+                    }catch (Exception e)
+                    {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        requireActivity().startActivityIfNeeded(intent, 101);
                     }
                 }
+            }
+
+            if(checkPermissionGranted()){
+                ciptaPDF();
+            }else{
+                requestPermission();
 
                 if(checkPermissionGranted()){
                     ciptaPDF();
-                }else{
-                    requestPermission();
-
-                    if(checkPermissionGranted()){
-                        ciptaPDF();
-                    }
                 }
             }
         });
@@ -142,12 +136,12 @@ public class laporanBilanganAduan extends Fragment
 
     private boolean checkPermissionGranted(){
         // Permission has already been granted
-        return (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-                && (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        return (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
     }
 
     private void requestPermission(){
-        ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.requestPermissions((Activity) requireContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
     }
 
     private void ciptaPDF()
@@ -161,7 +155,7 @@ public class laporanBilanganAduan extends Fragment
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         paparanPdf.getWindow().setAttributes(lp);
-        sp = getContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
         Button butangMuatTurun = paparanPdf.findViewById(R.id.butangMuatTurun);
         TextView tarikhCetak = paparanPdf.findViewById(R.id.tarikhCetak);
@@ -181,16 +175,14 @@ public class laporanBilanganAduan extends Fragment
         cartaBilanganAduanPdf.setChart(pie1);
 
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
 
         tarikhCetak.setText(currentDate);
         masaCetak.setText(currentTime);
         idPenggunaCetak.setText(sp.getString("idPengguna", ""));
         paparanPdf.show();
 
-        butangMuatTurun.setOnClickListener(v1 -> {
-            generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan));
-        });
+        butangMuatTurun.setOnClickListener(v1 -> generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan)));
 
     }
 
@@ -249,55 +241,46 @@ public class laporanBilanganAduan extends Fragment
 
         db.collection("AduanKerosakan")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful())
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                    {
+                        int size = task.getResult().size();
+                        Matcher jul1, ogo1, sep1, okt1, nov1, dis1;
+
+                        for (int i = 0; i < size; i ++)
                         {
-                            int size = task.getResult().size();
-                            Matcher jul1, ogo1, sep1, okt1, nov1, dis1;
-
-                            for (int i = 0; i < size; i ++)
-                            {
-                                jul1 = jul.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (jul1.find()) {
-                                    aduan[0] = aduan[0] + 1;
-                                    break;
-                                }
-
-                                ogo1 = ogo.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (ogo1.find()) {
-                                    aduan[1] = aduan[1] + 1;
-                                    break;
-                                }
-
-                                sep1 = sep.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (sep1.find()) {
-                                    aduan[2] = aduan[2] + 1;
-                                    break;
-                                }
-
-                                okt1 = okt.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (okt1.find()) {
-                                    aduan[3] = aduan[3] + 1;
-                                    break;
-                                }
-
-                                nov1 = nov.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (nov1.find()) {
-                                    aduan[4] = aduan[4] + 1;
-                                    break;
-                                }
-
-                                dis1 = dis.matcher((CharSequence) task.getResult().getDocuments().get(i).get("tarikhAduan"));
-                                while (dis1.find()) {
-                                    aduan[5] = aduan[5] + 1;
-                                    break;
-                                }
+                            jul1 = jul.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (jul1.find()) {
+                                aduan[0] = aduan[0] + 1;
                             }
 
-                            setupChartView();
+                            ogo1 = ogo.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (ogo1.find()) {
+                                aduan[1] = aduan[1] + 1;
+                            }
+
+                            sep1 = sep.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (sep1.find()) {
+                                aduan[2] = aduan[2] + 1;
+                            }
+
+                            okt1 = okt.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (okt1.find()) {
+                                aduan[3] = aduan[3] + 1;
+                            }
+
+                            nov1 = nov.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (nov1.find()) {
+                                aduan[4] = aduan[4] + 1;
+                            }
+
+                            dis1 = dis.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
+                            while (dis1.find()) {
+                                aduan[5] = aduan[5] + 1;
+                            }
                         }
+
+                        setupChartView();
                     }
                 });
     }

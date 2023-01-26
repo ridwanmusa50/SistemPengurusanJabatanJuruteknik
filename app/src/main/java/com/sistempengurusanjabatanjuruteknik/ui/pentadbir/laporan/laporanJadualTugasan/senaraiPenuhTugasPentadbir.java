@@ -1,10 +1,10 @@
+// Used to generate full report of technician tasks
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanJadualTugasan;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,13 +32,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -54,9 +51,9 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     private RecyclerView recylerview;
     private final ArrayList<TugasPenuh> list = new ArrayList<>();
     private final ArrayList<String> tugas = new ArrayList<>();
-    SharedPreferences sp;
     int count = 0;
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,48 +78,46 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         tunjukkanMaklumat(value);
 
-        butangCetakTugas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(senaraiPenuhTugasPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+        butangCetakTugas.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(senaraiPenuhTugasPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                }
+            }
+
+            // Permission storage for sdk 30 or above
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+                if (!Environment.isExternalStorageManager()){
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                        startActivityIfNeeded(intent, 101);
+                    }catch (Exception e)
+                    {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        startActivityIfNeeded(intent, 101);
                     }
                 }
+            }
 
-                // Permission storage for sdk 30 or above
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
-                    if (!Environment.isExternalStorageManager()){
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            intent.addCategory("android.intent.category.DEFAULT");
-                            intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
-                            startActivityIfNeeded(intent, 101);
-                        }catch (Exception e)
-                        {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            startActivityIfNeeded(intent, 101);
-                        }
-                    }
-                }
+            String idJadual = idJadual1.getText().toString().trim();
+            String tarikhJadual = tarikhJadual1.getText().toString().trim();
 
-                String idJadual = idJadual1.getText().toString().trim();
-                String tarikhJadual = tarikhJadual1.getText().toString().trim();
+            if(checkPermissionGranted()){
+                ciptaPDF(idJadual, tarikhJadual);
+            }else{
+                requestPermission();
 
                 if(checkPermissionGranted()){
                     ciptaPDF(idJadual, tarikhJadual);
-                }else{
-                    requestPermission();
-
-                    if(checkPermissionGranted()){
-                        ciptaPDF(idJadual, tarikhJadual);
-                    }
                 }
-                }
-        });
+            }
+            });
     }
 
+    @SuppressLint("SetTextI18n")
     private void ciptaPDF(String idJadual, String tarikhJadual)
     {
         final Dialog paparanPdf = new Dialog(this);
@@ -151,7 +146,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         TextView tugasJadual5 = paparanPdf.findViewById(R.id.tugasJadual5);
 
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
 
@@ -193,9 +188,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         paparanPdf.show();
 
-        butangMuatTurun.setOnClickListener(v1 -> {
-                generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan));
-        });
+        butangMuatTurun.setOnClickListener(v1 -> generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan)));
     }
 
     private void tunjukkanMaklumat(String value)
@@ -211,44 +204,42 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         db.collection("JadualTugasan").document(idJadual)
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists())
-                        {
-                            tarikhJadual[0] = (String) documentSnapshot.get("tarikhJadual");
-                            tarikhJadual1.setText(tarikhJadual[0]);
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists())
+                    {
+                        tarikhJadual[0] = (String) documentSnapshot.get("tarikhJadual");
+                        tarikhJadual1.setText(tarikhJadual[0]);
 
-                            Map<String, Object> friendsMap = documentSnapshot.getData();
-                            for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
-                                if (entry.getKey().equals("tugasJadual")) {
-                                    Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
-                                    int i = 1;
-                                    for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
-                                        String in = "" + i;
-                                        if (dataEntry.getKey().equals(in)) {
-                                            list.add(new TugasPenuh(dataEntry.getValue().toString()));
-                                            penyambung.notifyItemInserted(list.size() - 1);
-                                        }
-                                        i++;
+                        Map<String, Object> friendsMap = documentSnapshot.getData();
+                        assert friendsMap != null;
+                        for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
+                            if (entry.getKey().equals("tugasJadual")) {
+                                Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
+                                int i = 1;
+                                for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
+                                    String in = "" + i;
+                                    if (dataEntry.getKey().equals(in)) {
+                                        list.add(new TugasPenuh(dataEntry.getValue().toString()));
+                                        penyambung.notifyItemInserted(list.size() - 1);
                                     }
+                                    i++;
                                 }
-                                if (entry.getKey().equals("statusTugas")) {
-                                    Map<String, Object> newFriend1Map = (Map<String, Object>) entry.getValue();
-                                    int i = 1;
-                                    for (Map.Entry<String, Object> dataEntry1 : newFriend1Map.entrySet()) {
-                                        String in = "" + i;
-                                        if (dataEntry1.getKey().equals(in)) {
-                                            tugas.add(dataEntry1.getValue().toString());
-                                        }
-                                        i++;
+                            }
+                            if (entry.getKey().equals("statusTugas")) {
+                                Map<String, Object> newFriend1Map = (Map<String, Object>) entry.getValue();
+                                int i = 1;
+                                for (Map.Entry<String, Object> dataEntry1 : newFriend1Map.entrySet()) {
+                                    String in = "" + i;
+                                    if (dataEntry1.getKey().equals(in)) {
+                                        tugas.add(dataEntry1.getValue().toString());
                                     }
+                                    i++;
                                 }
                             }
                         }
-                        else {
-                            Log.d("TAG", "No such document");
-                        }
+                    }
+                    else {
+                        Log.d("TAG", "No such document");
                     }
                 });
     }

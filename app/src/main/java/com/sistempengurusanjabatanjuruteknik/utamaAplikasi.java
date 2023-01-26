@@ -1,5 +1,6 @@
-package com.sistempengurusanjabatanjuruteknik;
+// page to become background slide for login, user contact information and complaint registration
 
+package com.sistempengurusanjabatanjuruteknik;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

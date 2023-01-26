@@ -1,3 +1,4 @@
+// Used for user profile page
 package com.sistempengurusanjabatanjuruteknik.ui.profilPengguna;
 
 import android.content.Context;
@@ -16,10 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,11 +28,11 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class profilPengguna extends Fragment
 {
@@ -50,7 +49,7 @@ public class profilPengguna extends Fragment
     private Spinner spinner;
     private String jawatanPengguna2;
     SharedPreferences sp;
-    SharedPreferences.Editor editor = sp.edit();
+    SharedPreferences.Editor editor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class profilPengguna extends Fragment
         spinner = v.findViewById(R.id.spinner);
         mAuth = FirebaseAuth.getInstance(); // initialize FirebaseAuth
         db = FirebaseFirestore.getInstance();
-        sp = getContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
         List<String> jawatanPengguna1 = new ArrayList<>();
         jawatanPengguna1.add(0, "Pilih Jawatan Pengguna");
@@ -110,25 +109,22 @@ public class profilPengguna extends Fragment
                         jawatanPenggunaTajuk1.setText(jawatanPengguna);
                         jawatanPengguna2 = jawatanPengguna;
 
-                        if (jawatanPengguna.equals("PENGURUSAN"))
-                        {
-                            i = 1;
-                        }
-                        else if (jawatanPengguna.equals("JURUTERA JURUTEKNIK"))
-                        {
-                            i = 2;
-                        }
-                        else if (jawatanPengguna.equals("PENYELIA JURUTEKNIK"))
-                        {
-                            i = 3;
-                        }
-                        else
-                        {
-                            i = 4;
+                        switch (Objects.requireNonNull(jawatanPengguna)) {
+                            case "PENGURUSAN":
+                                i = 1;
+                                break;
+                            case "JURUTERA JURUTEKNIK":
+                                i = 2;
+                                break;
+                            case "PENYELIA JURUTEKNIK":
+                                i = 3;
+                                break;
+                            default:
+                                i = 4;
+                                break;
                         }
 
                         spinner.setSelection(i);
-                        return;
                     }
                 });
 
@@ -174,7 +170,7 @@ public class profilPengguna extends Fragment
                                     .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                                            boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
                                             boolean isCurrentUser = task.getResult().getSignInMethods().size() == 1;
 
                                             if (isNewUser || isCurrentUser)
@@ -248,7 +244,7 @@ public class profilPengguna extends Fragment
                                                                                         }
 
                                                                                         Toast.makeText(getContext(), "Maklumat profil pengguna berjaya dikemaskini", Toast.LENGTH_LONG).show();
-                                                                                        startActivity(new Intent(getContext(), getActivity().getClass()));
+                                                                                        startActivity(new Intent(getContext(), requireActivity().getClass()));
                                                                                     }
                                                                                 });
                                                                 }
@@ -257,11 +253,9 @@ public class profilPengguna extends Fragment
                                                     }
                                                 }
                                             }
-                                            else if(!isNewUser && !isCurrentUser)
-                                            {
+                                            else {
                                                 emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
                                                 emelPengguna1.requestFocus();
-                                                return;
                                             }
                                         }
                                     });
@@ -296,7 +290,7 @@ public class profilPengguna extends Fragment
 
     public void tukarEmail(String emelPengguna)
     {
-        mAuth.getCurrentUser().updateEmail(emelPengguna);
+        Objects.requireNonNull(mAuth.getCurrentUser()).updateEmail(emelPengguna);
 
         editor = sp.edit();
         editor.putString("emelPengguna", emelPengguna);
@@ -305,7 +299,7 @@ public class profilPengguna extends Fragment
 
     public void tukarPass(String kataLaluan)
     {
-        mAuth.getCurrentUser().updatePassword(kataLaluan).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Objects.requireNonNull(mAuth.getCurrentUser()).updatePassword(kataLaluan).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 editor = sp.edit();

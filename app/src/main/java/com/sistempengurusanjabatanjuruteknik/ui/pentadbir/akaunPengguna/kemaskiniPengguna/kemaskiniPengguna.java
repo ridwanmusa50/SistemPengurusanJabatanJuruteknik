@@ -1,3 +1,4 @@
+// Used to modify the user information
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.akaunPengguna.kemaskiniPengguna;
 
 import android.content.Context;
@@ -17,16 +18,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
 
@@ -35,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class kemaskiniPengguna extends Fragment {
     private EditText idPengguna1;
@@ -43,7 +39,6 @@ public class kemaskiniPengguna extends Fragment {
     private EditText kataLaluan1;
     private EditText nomborTelefon1;
     private Button butangKemaskiniPengguna;
-    private Button butangCariPengguna;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private Spinner spinner;
@@ -61,11 +56,11 @@ public class kemaskiniPengguna extends Fragment {
         kataLaluan1 = v.findViewById(R.id.kataLaluan);
         nomborTelefon1 = v.findViewById(R.id.nomborTelefon);
         butangKemaskiniPengguna = v.findViewById(R.id.butangKemaskiniPengguna);
-        butangCariPengguna = v.findViewById(R.id.butangCariPengguna);
+        Button butangCariPengguna = v.findViewById(R.id.butangCariPengguna);
         progressBar = v.findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        sp = getContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
+        sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
         spinner = v.findViewById(R.id.spinner);
         final String[] email = new String[1];
         final String[] pass = new String[1];
@@ -78,7 +73,7 @@ public class kemaskiniPengguna extends Fragment {
         jawatanPengguna1.add("JURUTEKNIK");
 
         ArrayAdapter<String> dataAdapter;
-        dataAdapter = new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
+        dataAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
         dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 
@@ -86,254 +81,225 @@ public class kemaskiniPengguna extends Fragment {
 
         initialize(v);
 
-        butangCariPengguna.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v1) {
-                String idPengguna = idPengguna1.getText().toString().trim();
-                final String[] namaPenuh = {namaPenuh1.getText().toString().trim()};
-                final String[] emelPengguna = {emelPengguna1.getText().toString().trim()};
-                final String[] kataLaluan = {kataLaluan1.getText().toString().trim()};
-                final String[] nomborTelefon = {nomborTelefon1.getText().toString().trim()};
-                final String[] jawatanPengguna = {jawatanPengguna2.trim()};
+        butangCariPengguna.setOnClickListener(v1 -> {
+            String idPengguna = idPengguna1.getText().toString().trim();
+            final String[] namaPenuh = {namaPenuh1.getText().toString().trim()};
+            final String[] emelPengguna = {emelPengguna1.getText().toString().trim()};
+            final String[] kataLaluan = {kataLaluan1.getText().toString().trim()};
+            final String[] nomborTelefon = {nomborTelefon1.getText().toString().trim()};
+            final String[] jawatanPengguna = {jawatanPengguna2.trim()};
 
-                if (butangKemaskiniPengguna.isEnabled())
-                {
-                    idPengguna1.getText().clear();
-                    initialize(v);
+            if (butangKemaskiniPengguna.isEnabled())
+            {
+                idPengguna1.getText().clear();
+                initialize(v);
+                idPengguna1.requestFocus();
+            }
+            else
+            {
+                if (idPengguna.isEmpty()) {
+                    idPengguna1.setError("Id Pengguna perlu diisi!");
                     idPengguna1.requestFocus();
-                    return;
                 }
                 else
                 {
-                    if (idPengguna.isEmpty()) {
-                        idPengguna1.setError("Id Pengguna perlu diisi!");
-                        idPengguna1.requestFocus();
-                        return;
-                    }
-                    else
-                    {
-                        db.collection("Pengguna").document(idPengguna)
-                                .get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        if (documentSnapshot.exists()) {
-                                            v.findViewById(R.id.idPengguna).setEnabled(false);
-                                            idPengguna1.setBackgroundColor(getResources().getColor(R.color.blokbackground));
-                                            idPengguna1.setTextColor(getResources().getColor(R.color.blokteks));
-                                            int i;
+                    db.collection("Pengguna").document(idPengguna)
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    v.findViewById(R.id.idPengguna).setEnabled(false);
+                                    idPengguna1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blokbackground));
+                                    idPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+                                    int i;
 
-                                            namaPenuh[0] = (String) documentSnapshot.get("namaPenuh");
-                                            namaPenuh1.setText(namaPenuh[0]);
+                                    namaPenuh[0] = (String) documentSnapshot.get("namaPenuh");
+                                    namaPenuh1.setText(namaPenuh[0]);
 
-                                            emelPengguna[0] = (String) documentSnapshot.get("emelPengguna");
-                                            emelPengguna1.setText(emelPengguna[0]);
-                                            email[0] = emelPengguna[0];
+                                    emelPengguna[0] = (String) documentSnapshot.get("emelPengguna");
+                                    emelPengguna1.setText(emelPengguna[0]);
+                                    email[0] = emelPengguna[0];
 
-                                            kataLaluan[0] = (String) documentSnapshot.get("kataLaluan");
-                                            kataLaluan1.setText(kataLaluan[0]);
-                                            pass[0] = kataLaluan[0];
+                                    kataLaluan[0] = (String) documentSnapshot.get("kataLaluan");
+                                    kataLaluan1.setText(kataLaluan[0]);
+                                    pass[0] = kataLaluan[0];
 
-                                            nomborTelefon[0] = (String) documentSnapshot.get("nomborTelefon");
-                                            nomborTelefon1.setText(nomborTelefon[0]);
+                                    nomborTelefon[0] = (String) documentSnapshot.get("nomborTelefon");
+                                    nomborTelefon1.setText(nomborTelefon[0]);
 
-                                            jawatanPengguna[0] = (String) documentSnapshot.get("jawatanPengguna");
-                                            jawatanPengguna2 = jawatanPengguna[0];
+                                    jawatanPengguna[0] = (String) documentSnapshot.get("jawatanPengguna");
+                                    jawatanPengguna2 = jawatanPengguna[0];
 
-                                            if (jawatanPengguna[0].equals("PENGURUSAN")) {
-                                                i = 1;
-                                            } else if (jawatanPengguna[0].equals("JURUTERA JURUTEKNIK")) {
-                                                i = 2;
-                                            } else if (jawatanPengguna[0].equals("PENYELIA JURUTEKNIK")) {
-                                                i = 3;
-                                            } else {
-                                                i = 4;
-                                            }
-
-                                            spinner.setSelection(i);
-
-                                            if (emelPengguna[0].toLowerCase(Locale.ROOT).equals(mAuth.getCurrentUser().getEmail()))
-                                            {
-                                                Toast.makeText(getContext(), "Pengguna hanya boleh kemaskini diri sendiri di profil pengguna!!!", Toast.LENGTH_LONG).show();
-                                                butangKemaskiniPengguna.setEnabled(false);
-                                                v.findViewById(R.id.idPengguna).setEnabled(true);
-                                            }
-                                            else
-                                            {
-                                                butangKemaskiniPengguna.setEnabled(true);
-                                                v.findViewById(R.id.namaPenuh).setEnabled(true);
-                                                v.findViewById(R.id.emelPengguna).setEnabled(true);
-                                                v.findViewById(R.id.kataLaluan).setEnabled(true);
-                                                v.findViewById(R.id.nomborTelefon).setEnabled(true);
-                                                namaPenuh1.setBackground(getResources().getDrawable(R.color.editTextBG));
-                                                namaPenuh1.setTextColor(getResources().getColor(R.color.black));
-                                                emelPengguna1.setBackground(getResources().getDrawable(R.color.editTextBG));
-                                                emelPengguna1.setTextColor(getResources().getColor(R.color.black));
-                                                kataLaluan1.setBackground(getResources().getDrawable(R.color.editTextBG));
-                                                kataLaluan1.setTextColor(getResources().getColor(R.color.black));
-                                                nomborTelefon1.setBackground(getResources().getDrawable(R.color.editTextBG));
-                                                nomborTelefon1.setTextColor(getResources().getColor(R.color.black));
-                                                butangKemaskiniPengguna.setBackgroundColor(getResources().getColor(R.color.tema));
-                                            }
-
-                                            return;
-                                        }
-                                        else
-                                        {
-                                            Toast.makeText(getContext(), "ID Pengguna tiada dalam pangkalan data!!!", Toast.LENGTH_SHORT).show();
-                                            idPengguna1.requestFocus();
-                                            return;
-                                        }
+                                    switch (Objects.requireNonNull(jawatanPengguna[0])) {
+                                        case "PENGURUSAN":
+                                            i = 1;
+                                            break;
+                                        case "JURUTERA JURUTEKNIK":
+                                            i = 2;
+                                            break;
+                                        case "PENYELIA JURUTEKNIK":
+                                            i = 3;
+                                            break;
+                                        default:
+                                            i = 4;
+                                            break;
                                     }
-                                });
-                    }
+
+                                    spinner.setSelection(i);
+
+                                    if (emelPengguna[0].toLowerCase(Locale.ROOT).equals(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()))
+                                    {
+                                        Toast.makeText(getContext(), "Pengguna hanya boleh kemaskini diri sendiri di profil pengguna!!!", Toast.LENGTH_LONG).show();
+                                        butangKemaskiniPengguna.setEnabled(false);
+                                        v.findViewById(R.id.idPengguna).setEnabled(true);
+                                    }
+                                    else
+                                    {
+                                        butangKemaskiniPengguna.setEnabled(true);
+                                        v.findViewById(R.id.namaPenuh).setEnabled(true);
+                                        v.findViewById(R.id.emelPengguna).setEnabled(true);
+                                        v.findViewById(R.id.kataLaluan).setEnabled(true);
+                                        v.findViewById(R.id.nomborTelefon).setEnabled(true);
+                                        namaPenuh1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        namaPenuh1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        emelPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        emelPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        kataLaluan1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        kataLaluan1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        nomborTelefon1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        nomborTelefon1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        butangKemaskiniPengguna.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(getContext(), "ID Pengguna tiada dalam pangkalan data!!!", Toast.LENGTH_SHORT).show();
+                                    idPengguna1.requestFocus();
+                                }
+                            });
                 }
             }
         });
 
-        butangKemaskiniPengguna.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+        butangKemaskiniPengguna.setOnClickListener(v12 -> {
+            String idPengguna = idPengguna1.getText().toString().trim();
+            String namaPenuh = namaPenuh1.getText().toString().trim();
+            String emelPengguna = emelPengguna1.getText().toString().trim();
+            String kataLaluan = kataLaluan1.getText().toString().trim();
+            String nomborTelefon = nomborTelefon1.getText().toString().trim();
+            String jawatanPengguna = jawatanPengguna2.trim();
+
+            Map<String, Object> Pengguna = new HashMap<>();
+            Pengguna.put("idPengguna", idPengguna);
+            Pengguna.put("emelPengguna", emelPengguna);
+            Pengguna.put("namaPenuh", namaPenuh);
+            Pengguna.put("kataLaluan", kataLaluan);
+            Pengguna.put("nomborTelefon", nomborTelefon);
+            Pengguna.put("jawatanPengguna", jawatanPengguna);
+
+            if (namaPenuh.isEmpty())
             {
-                String idPengguna = idPengguna1.getText().toString().trim();
-                String namaPenuh = namaPenuh1.getText().toString().trim();
-                String emelPengguna = emelPengguna1.getText().toString().trim();
-                String kataLaluan = kataLaluan1.getText().toString().trim();
-                String nomborTelefon = nomborTelefon1.getText().toString().trim();
-                String jawatanPengguna = jawatanPengguna2.trim();
-
-                Map<String, Object> Pengguna = new HashMap<>();
-                Pengguna.put("idPengguna", idPengguna);
-                Pengguna.put("emelPengguna", emelPengguna);
-                Pengguna.put("namaPenuh", namaPenuh);
-                Pengguna.put("kataLaluan", kataLaluan);
-                Pengguna.put("nomborTelefon", nomborTelefon);
-                Pengguna.put("jawatanPengguna", jawatanPengguna);
-
-                if (namaPenuh.isEmpty())
+                namaPenuh1.setError("Nama Penuh perlu diisi!");
+                namaPenuh1.requestFocus();
+            }
+            else
+            {
+                if (emelPengguna.isEmpty())
                 {
-                    namaPenuh1.setError("Nama Penuh perlu diisi!");
-                    namaPenuh1.requestFocus();
-                    return;
+                    emelPengguna1.setError("Emel Pengguna perlu diisi!");
+                    emelPengguna1.requestFocus();
                 }
                 else
                 {
-                    if (emelPengguna.isEmpty())
+                    if (!Patterns.EMAIL_ADDRESS.matcher(emelPengguna).matches())
                     {
-                        emelPengguna1.setError("Emel Pengguna perlu diisi!");
+                        emelPengguna1.setError("Sila masukkan Email Pengguna yang sah!");
                         emelPengguna1.requestFocus();
-                        return;
                     }
                     else
                     {
-                        if (!Patterns.EMAIL_ADDRESS.matcher(emelPengguna).matches())
-                        {
-                            emelPengguna1.setError("Sila masukkan Email Pengguna yang sah!");
-                            emelPengguna1.requestFocus();
-                            return;
-                        }
-                        else
-                        {
-                            mAuth.fetchSignInMethodsForEmail(emelPengguna)
-                                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                            boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                        mAuth.fetchSignInMethodsForEmail(emelPengguna)
+                                .addOnCompleteListener(task -> {
+                                    boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
 
-                                            if(!isNewUser && !emelPengguna.equals(email[0]))
+                                    if(!isNewUser && !emelPengguna.equals(email[0]))
+                                    {
+                                        emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
+                                        emelPengguna1.requestFocus();
+                                    }
+                                    else
+                                    {
+                                        if (kataLaluan.isEmpty())
+                                        {
+                                            kataLaluan1.setError("Kata Laluan perlu diisi!");
+                                            kataLaluan1.requestFocus();
+                                        }
+                                        else
+                                        {
+                                            if (kataLaluan.length() < 6)
                                             {
-                                                emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
-                                                emelPengguna1.requestFocus();
-                                                return;
+                                                kataLaluan1.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
+                                                kataLaluan1.requestFocus();
                                             }
                                             else
                                             {
-                                                if (kataLaluan.isEmpty())
+                                                if (kataLaluan.length() > 15)
                                                 {
-                                                    kataLaluan1.setError("Kata Laluan perlu diisi!");
+                                                    kataLaluan1.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
                                                     kataLaluan1.requestFocus();
-                                                    return;
                                                 }
                                                 else
                                                 {
-                                                    if (kataLaluan.length() < 6)
+                                                    if (nomborTelefon.isEmpty())
                                                     {
-                                                        kataLaluan1.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
-                                                        kataLaluan1.requestFocus();
-                                                        return;
+                                                        nomborTelefon1.setError("Nombor Telefon perlu diisi");
+                                                        nomborTelefon1.requestFocus();
                                                     }
                                                     else
                                                     {
-                                                        if (kataLaluan.length() > 15)
+                                                        if (nomborTelefon.length() > 12 || nomborTelefon.length() < 10)
                                                         {
-                                                            kataLaluan1.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
-                                                            kataLaluan1.requestFocus();
-                                                            return;
+                                                            nomborTelefon1.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
+                                                            nomborTelefon1.requestFocus();
                                                         }
                                                         else
                                                         {
-                                                            if (nomborTelefon.isEmpty())
-                                                            {
-                                                                nomborTelefon1.setError("Nombor Telefon perlu diisi");
-                                                                nomborTelefon1.requestFocus();
-                                                                return;
-                                                            }
-                                                            else
-                                                            {
-                                                                if (nomborTelefon.length() > 12 || nomborTelefon.length() < 10)
-                                                                {
-                                                                    nomborTelefon1.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
-                                                                    nomborTelefon1.requestFocus();
-                                                                    return;
-                                                                }
-                                                                else
-                                                                {
-                                                                        progressBar.setVisibility(View.VISIBLE);
+                                                                progressBar.setVisibility(View.VISIBLE);
 
-                                                                        db.collection("Pengguna").document(idPengguna)
-                                                                                .set(Pengguna)
-                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                    @Override
-                                                                                    public void onSuccess(Void unused) {
-                                                                                        if (idPengguna.contains("M"))
-                                                                                        {
-                                                                                            Pengguna.remove("idPengguna");
-                                                                                            Pengguna.put("idJuruteknik", idPengguna);
+                                                                db.collection("Pengguna").document(idPengguna)
+                                                                        .set(Pengguna)
+                                                                        .addOnSuccessListener(unused -> {
+                                                                            if (idPengguna.contains("M"))
+                                                                            {
+                                                                                Pengguna.remove("idPengguna");
+                                                                                Pengguna.put("idJuruteknik", idPengguna);
 
-                                                                                            db.collection("Juruteknik").document(idPengguna)
-                                                                                                    .set(Pengguna);
-                                                                                        }
-                                                                                        else if (idPengguna.contains("P"))
-                                                                                        {
-                                                                                            Pengguna.remove("idPengguna");
-                                                                                            Pengguna.put("idPentadbir", idPengguna);
+                                                                                db.collection("Juruteknik").document(idPengguna)
+                                                                                        .set(Pengguna);
+                                                                            }
+                                                                            else if (idPengguna.contains("P"))
+                                                                            {
+                                                                                Pengguna.remove("idPengguna");
+                                                                                Pengguna.put("idPentadbir", idPengguna);
 
-                                                                                            db.collection("Pentadbir").document(idPengguna)
-                                                                                                    .set(Pengguna);
-                                                                                        }
-                                                                                        mAuth.signOut();
-                                                                                        updateEmailPass(email[0], pass[0], emelPengguna, kataLaluan);
+                                                                                db.collection("Pentadbir").document(idPengguna)
+                                                                                        .set(Pengguna);
+                                                                            }
+                                                                            mAuth.signOut();
+                                                                            updateEmailPass(email[0], pass[0], emelPengguna, kataLaluan);
 
-                                                                                        mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
-                                                                                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                                                                                    @Override
-                                                                                                    public void onSuccess(AuthResult authResult) {
-                                                                                                        Toast.makeText(getContext(), "Maklumat pengguna berjaya dikemaskini", Toast.LENGTH_LONG).show();
-                                                                                                        startActivity(new Intent(getContext(), getActivity().getClass()));
-                                                                                                    }
-                                                                                                });
-                                                                                    }
-                                                                                });
-                                                                }
-                                                            }
+                                                                            mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
+                                                                                    .addOnSuccessListener(authResult -> {
+                                                                                        Toast.makeText(getContext(), "Maklumat pengguna berjaya dikemaskini", Toast.LENGTH_LONG).show();
+                                                                                        startActivity(new Intent(getContext(), requireActivity().getClass()));
+                                                                                    });
+                                                                        });
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    });
-                        }
+                                    }
+                                });
                     }
                 }
             }
@@ -348,14 +314,15 @@ public class kemaskiniPengguna extends Fragment {
         v.findViewById(R.id.relativeLayout2).setEnabled(false);
         v.findViewById(R.id.relativeLayout3).setEnabled(false);
         v.findViewById(R.id.relativeLayout4).setEnabled(false);
-        namaPenuh1.setBackground(getResources().getDrawable(R.color.blokbackground));
-        namaPenuh1.setTextColor(getResources().getColor(R.color.blokteks));
-        emelPengguna1.setBackground(getResources().getDrawable(R.color.blokbackground));
-        emelPengguna1.setTextColor(getResources().getColor(R.color.blokteks));
-        kataLaluan1.setBackground(getResources().getDrawable(R.color.blokbackground));
-        kataLaluan1.setTextColor(getResources().getColor(R.color.blokteks));
-        nomborTelefon1.setBackground(getResources().getDrawable(R.color.blokbackground));
-        nomborTelefon1.setTextColor(getResources().getColor(R.color.blokteks));
+        idPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+        namaPenuh1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        namaPenuh1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        emelPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        emelPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        kataLaluan1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        kataLaluan1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        nomborTelefon1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        nomborTelefon1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
         spinner.setEnabled(false);
         butangKemaskiniPengguna.setEnabled(false);
         butangKemaskiniPengguna.setBackgroundColor(Color.GRAY);
@@ -367,25 +334,17 @@ public class kemaskiniPengguna extends Fragment {
         mAuth.signOut();
 
         mAuth.signInWithEmailAndPassword(email, pass)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        if(!email.equals(emelPengguna))
-                        {
-                            mAuth.getCurrentUser().updateEmail(emelPengguna);
-                        }
-                        if (!pass.equals(kataLaluan))
-                        {
-                            mAuth.getCurrentUser().updatePassword(kataLaluan);
-                        }
+                .addOnSuccessListener(authResult -> {
+                    if(!email.equals(emelPengguna))
+                    {
+                        Objects.requireNonNull(mAuth.getCurrentUser()).updateEmail(emelPengguna);
+                    }
+                    if (!pass.equals(kataLaluan))
+                    {
+                        Objects.requireNonNull(mAuth.getCurrentUser()).updatePassword(kataLaluan);
                     }
                 })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                System.out.println("Gagal kemaskini: " + e);
-                            }
-                        });
+                        .addOnFailureListener(e -> System.out.println("Gagal kemaskini: " + e));
 
         mAuth.signOut();
     }

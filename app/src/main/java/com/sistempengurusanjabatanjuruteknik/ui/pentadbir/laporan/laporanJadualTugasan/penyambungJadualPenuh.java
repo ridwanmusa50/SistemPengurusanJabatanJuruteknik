@@ -1,3 +1,4 @@
+// used to display list of task in senarai_jadual.xml
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanJadualTugasan;
 
 import android.annotation.SuppressLint;
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 
 public class penyambungJadualPenuh extends RecyclerView.Adapter<penyambungJadualPenuh.ViewHolder> {
 
-    private Context context;
-    private ArrayList<TugasPenuh> list;
+    private final Context context;
+    private final ArrayList<TugasPenuh> list;
 
     public penyambungJadualPenuh(Context context, ArrayList<TugasPenuh> list){
         this.context = context;
@@ -28,9 +29,8 @@ public class penyambungJadualPenuh extends RecyclerView.Adapter<penyambungJadual
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.senarai_jadual, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
 
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class penyambungJadualPenuh extends RecyclerView.Adapter<penyambungJadual
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView tugasJadual;
 
         public ViewHolder(View itemView){

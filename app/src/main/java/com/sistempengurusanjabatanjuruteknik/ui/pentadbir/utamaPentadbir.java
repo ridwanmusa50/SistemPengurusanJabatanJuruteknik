@@ -1,3 +1,4 @@
+// Used for main page of the management that contain with navigation bar at left side
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir;
 
 import android.os.Bundle;
@@ -17,13 +18,12 @@ import com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaPentadbirB
 public class utamaPentadbir extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityUtamaPentadbirBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityUtamaPentadbirBinding.inflate(getLayoutInflater());
+        com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaPentadbirBinding binding = ActivityUtamaPentadbirBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarUtamaPentadbir.toolbar);

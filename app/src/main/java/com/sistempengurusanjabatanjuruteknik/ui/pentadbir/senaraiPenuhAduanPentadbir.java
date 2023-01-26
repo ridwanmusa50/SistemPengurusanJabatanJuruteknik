@@ -1,6 +1,8 @@
+// used to display all information about complaint
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
 
@@ -64,6 +64,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     private FirebaseFirestore db;
     SharedPreferences sp;
     int count = 0;
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,131 +97,117 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
         tunjukkanMaklumat(value);
 
-        butangTambahPengesah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String idAduan = idAduan1.getText().toString().trim();
-                String tarikhAduan = tarikhAduan1.getText().toString().trim();
-                String masaAduan = masaAduan1.getText().toString().trim();
-                String namaPenuhPengadu = namaPenuhPengadu1.getText().toString().trim();
-                String idMesin = idMesin1.getText().toString().trim();
-                String huraianAduan = huraianAduan1.getText().toString().trim();
-                String idJuruteknik = idJuruteknik1.getText().toString().trim();
-                String tarikhPenerima = tarikhPenerima1.getText().toString().trim();
-                String masaPenerima = masaPenerima1.getText().toString().trim();
-                String huraianPenerima = huraianPenerima1.getText().toString().trim();
-                String tarikhPengesah = tarikhPengesah1.getText().toString().trim();
-                String masaPengesah = masaPengesah1.getText().toString().trim();
-                String idPentadbir = idPentadbir1.getText().toString().trim();
+        butangTambahPengesah.setOnClickListener(v -> {
+            String idAduan = idAduan1.getText().toString().trim();
+            String tarikhAduan = tarikhAduan1.getText().toString().trim();
+            String masaAduan = masaAduan1.getText().toString().trim();
+            String namaPenuhPengadu = namaPenuhPengadu1.getText().toString().trim();
+            String idMesin = idMesin1.getText().toString().trim();
+            String huraianAduan = huraianAduan1.getText().toString().trim();
+            String idJuruteknik = idJuruteknik1.getText().toString().trim();
+            String tarikhPenerima = tarikhPenerima1.getText().toString().trim();
+            String masaPenerima = masaPenerima1.getText().toString().trim();
+            String huraianPenerima = huraianPenerima1.getText().toString().trim();
+            String tarikhPengesah = tarikhPengesah1.getText().toString().trim();
+            String masaPengesah = masaPengesah1.getText().toString().trim();
+            String idPentadbir = idPentadbir1.getText().toString().trim();
 
-                String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                tarikhPengesah1.setText(currentDate);
+            String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+            tarikhPengesah1.setText(currentDate);
 
-                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-                masaPengesah1.setText(currentTime);
+            String currentTime = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
+            masaPengesah1.setText(currentTime);
 
-                Map<String, Object> pengesah = new HashMap<>();
-                pengesah.put("idAduan", idAduan);
-                pengesah.put("tarikhAduan", tarikhAduan);
-                pengesah.put("masaAduan", masaAduan);
-                pengesah.put("namaPenuhPengadu", namaPenuhPengadu);
-                pengesah.put("idMesin", idMesin);
-                pengesah.put("huraianAduan", huraianAduan);
-                pengesah.put("idJuruteknik", idJuruteknik);
-                pengesah.put("tarikhPenerima", tarikhPenerima);
-                pengesah.put("masaPenerima", masaPenerima);
-                pengesah.put("huraianPenerima", huraianPenerima);
-                pengesah.put("tarikhPengesah", tarikhPengesah);
-                pengesah.put("masaPengesah", masaPengesah);
-                pengesah.put("idPentadbir", idPentadbir);
+            Map<String, Object> pengesah = new HashMap<>();
+            pengesah.put("idAduan", idAduan);
+            pengesah.put("tarikhAduan", tarikhAduan);
+            pengesah.put("masaAduan", masaAduan);
+            pengesah.put("namaPenuhPengadu", namaPenuhPengadu);
+            pengesah.put("idMesin", idMesin);
+            pengesah.put("huraianAduan", huraianAduan);
+            pengesah.put("idJuruteknik", idJuruteknik);
+            pengesah.put("tarikhPenerima", tarikhPenerima);
+            pengesah.put("masaPenerima", masaPenerima);
+            pengesah.put("huraianPenerima", huraianPenerima);
+            pengesah.put("tarikhPengesah", tarikhPengesah);
+            pengesah.put("masaPengesah", masaPengesah);
+            pengesah.put("idPentadbir", idPentadbir);
 
-                if (idJuruteknik.isEmpty())
-                {
-                    Toast.makeText(senaraiPenuhAduanPentadbir.this, "Juruteknik masih belum menyelesaikan aduan!", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    progressBar.setVisibility(View.VISIBLE);
-                    db.collection("AduanKerosakan").document(idAduan)
-                                    .get()
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                    db.collection("AduanKerosakan").document(idAduan)
-                                                                .set(pengesah)
-                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void unused) {
-                                                                        progressBar.setVisibility(View.GONE);
-                                                                        Toast.makeText(senaraiPenuhAduanPentadbir.this, "Sistem berjaya menambah pengesahan maklumat!", Toast.LENGTH_LONG).show();
+            if (idJuruteknik.isEmpty())
+            {
+                Toast.makeText(senaraiPenuhAduanPentadbir.this, "Juruteknik masih belum menyelesaikan aduan!", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                progressBar.setVisibility(View.VISIBLE);
+                db.collection("AduanKerosakan").document(idAduan)
+                                .get()
+                                        .addOnSuccessListener(documentSnapshot -> db.collection("AduanKerosakan").document(idAduan)
+                                                    .set(pengesah)
+                                                    .addOnSuccessListener(unused -> {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        Toast.makeText(senaraiPenuhAduanPentadbir.this, "Sistem berjaya menambah pengesahan maklumat!", Toast.LENGTH_LONG).show();
 
-                                                                        startActivity(new Intent(senaraiPenuhAduanPentadbir.this, utamaPentadbir.class));
-                                                                    }
-                                                                });
-                                                }
-                                            });
-                }
+                                                        startActivity(new Intent(senaraiPenuhAduanPentadbir.this, utamaPentadbir.class));
+                                                    }));
             }
         });
 
-        butangCetakAduan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Permission for sdk between 23 and 29
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(senaraiPenuhAduanPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+        butangCetakAduan.setOnClickListener(v -> {
+            // Permission for sdk between 23 and 29
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(senaraiPenuhAduanPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                }
+            }
+
+            // Permission storage for sdk 30 or above
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+                if (!Environment.isExternalStorageManager()){
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                        startActivityIfNeeded(intent, 101);
+                    }catch (Exception e)
+                    {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        startActivityIfNeeded(intent, 101);
                     }
                 }
+            }
 
-                // Permission storage for sdk 30 or above
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
-                    if (!Environment.isExternalStorageManager()){
-                        try {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            intent.addCategory("android.intent.category.DEFAULT");
-                            intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
-                            startActivityIfNeeded(intent, 101);
-                        }catch (Exception e)
-                        {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                            startActivityIfNeeded(intent, 101);
-                        }
-                    }
-                }
+            String idAduan2 = idAduan1.getText().toString().trim();
+            String tarikhAduan2 = tarikhAduan1.getText().toString().trim();
+            String masaAduan2 = masaAduan1.getText().toString().trim();
+            String namaPenuhPengadu2 = namaPenuhPengadu1.getText().toString().trim();
+            String idMesin2 = idMesin1.getText().toString().trim();
+            String huraianAduan2 = huraianAduan1.getText().toString().trim();
+            String idJuruteknik2 = idJuruteknik1.getText().toString().trim();
+            String tarikhPenerima2 = tarikhPenerima1.getText().toString().trim();
+            String masaPenerima2 = masaPenerima1.getText().toString().trim();
+            String huraianPenerima2 = huraianPenerima1.getText().toString().trim();
+            String tarikhPengesah2 = tarikhPengesah1.getText().toString().trim();
+            String masaPengesah2 = masaPengesah1.getText().toString().trim();
+            String idPentadbir2 = idPentadbir1.getText().toString().trim();
 
-                String idAduan2 = idAduan1.getText().toString().trim();
-                String tarikhAduan2 = tarikhAduan1.getText().toString().trim();
-                String masaAduan2 = masaAduan1.getText().toString().trim();
-                String namaPenuhPengadu2 = namaPenuhPengadu1.getText().toString().trim();
-                String idMesin2 = idMesin1.getText().toString().trim();
-                String huraianAduan2 = huraianAduan1.getText().toString().trim();
-                String idJuruteknik2 = idJuruteknik1.getText().toString().trim();
-                String tarikhPenerima2 = tarikhPenerima1.getText().toString().trim();
-                String masaPenerima2 = masaPenerima1.getText().toString().trim();
-                String huraianPenerima2 = huraianPenerima1.getText().toString().trim();
-                String tarikhPengesah2 = tarikhPengesah1.getText().toString().trim();
-                String masaPengesah2 = masaPengesah1.getText().toString().trim();
-                String idPentadbir2 = idPentadbir1.getText().toString().trim();
+            if(checkPermissionGranted()){
+                ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
+                        tarikhPenerima2, masaPenerima2, idJuruteknik2, huraianPenerima2,
+                        tarikhPengesah2, masaPengesah2, idPentadbir2);
+            }else{
+                requestPermission();
 
                 if(checkPermissionGranted()){
                     ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
                             tarikhPenerima2, masaPenerima2, idJuruteknik2, huraianPenerima2,
                             tarikhPengesah2, masaPengesah2, idPentadbir2);
-                }else{
-                    requestPermission();
-
-                    if(checkPermissionGranted()){
-                        ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
-                                tarikhPenerima2, masaPenerima2, idJuruteknik2, huraianPenerima2,
-                                tarikhPengesah2, masaPengesah2, idPentadbir2);
-                    }
                 }
+            }
 
 
-                }
-        });
+            });
     }
 
     private void ciptaPDF(String idAduan, String idMesin, String namaPenuhPengadu, String tarikhAduan, String masaAduan, String huraianAduan,
@@ -260,7 +247,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         TextView idPentadbirCetak = paparanPdf.findViewById(R.id.idPentadbir);
 
         String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
+        String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
 
         db = FirebaseFirestore.getInstance();
 
@@ -307,70 +294,67 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
         db.collection("AduanKerosakan").document(idAduan)
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists())
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists())
+                    {
+                        idMesin[0] = (String) documentSnapshot.get("idMesin");
+                        idMesin1.setText(idMesin[0]);
+
+                        namapenuhPengadu[0] = (String) documentSnapshot.get("namaPenuhPengadu");
+                        namaPenuhPengadu1.setText(namapenuhPengadu[0]);
+
+                        tarikhAduan[0] = (String) documentSnapshot.get("tarikhAduan");
+                        tarikhAduan1.setText(tarikhAduan[0]);
+
+                        masaAduan[0] = (String) documentSnapshot.get("masaAduan");
+                        masaAduan1.setText(masaAduan[0]);
+
+                        huraianAduan[0] = (String) documentSnapshot.get("huraianAduan");
+                        huraianAduan1.setText(huraianAduan[0]);
+
+                        if (documentSnapshot.contains("idJuruteknik"))
                         {
-                            idMesin[0] = (String) documentSnapshot.get("idMesin");
-                            idMesin1.setText(idMesin[0]);
+                            tarikhPenerima[0] = (String) documentSnapshot.get("tarikhPenerima");
+                            tarikhPenerima1.setText(tarikhPenerima[0]);
 
-                            namapenuhPengadu[0] = (String) documentSnapshot.get("namaPenuhPengadu");
-                            namaPenuhPengadu1.setText(namapenuhPengadu[0]);
+                            masaPenerima[0] = (String) documentSnapshot.get("masaPenerima");
+                            masaPenerima1.setText(masaPenerima[0]);
 
-                            tarikhAduan[0] = (String) documentSnapshot.get("tarikhAduan");
-                            tarikhAduan1.setText(tarikhAduan[0]);
+                            idJuruteknik[0] = (String) documentSnapshot.get("idJuruteknik");
+                            idJuruteknik1.setText(idJuruteknik[0]);
 
-                            masaAduan[0] = (String) documentSnapshot.get("masaAduan");
-                            masaAduan1.setText(masaAduan[0]);
+                            huraianPenerima[0] = (String) documentSnapshot.get("huraianPenerima");
+                            huraianPenerima1.setText(huraianPenerima[0]);
 
-                            huraianAduan[0] = (String) documentSnapshot.get("huraianAduan");
-                            huraianAduan1.setText(huraianAduan[0]);
+                            String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                            tarikhPengesah1.setText(currentDate);
 
-                            if (documentSnapshot.contains("idJuruteknik"))
-                            {
-                                tarikhPenerima[0] = (String) documentSnapshot.get("tarikhPenerima");
-                                tarikhPenerima1.setText(tarikhPenerima[0]);
+                            String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
+                            masaPengesah1.setText(currentTime);
+                        }
 
-                                masaPenerima[0] = (String) documentSnapshot.get("masaPenerima");
-                                masaPenerima1.setText(masaPenerima[0]);
+                        if (documentSnapshot.contains("idPentadbir"))
+                        {
+                            tarikhPengesah[0] = (String) documentSnapshot.get("tarikhPengesah");
+                            tarikhPengesah1.setText(tarikhPengesah[0]);
 
-                                idJuruteknik[0] = (String) documentSnapshot.get("idJuruteknik");
-                                idJuruteknik1.setText(idJuruteknik[0]);
+                            masaPengesah[0] = (String) documentSnapshot.get("masaPengesah");
+                            masaPengesah1.setText(masaPengesah[0]);
 
-                                huraianPenerima[0] = (String) documentSnapshot.get("huraianPenerima");
-                                huraianPenerima1.setText(huraianPenerima[0]);
+                            idPentadbir[0] = (String) documentSnapshot.get("idPentadbir");
+                            idPentadbir1.setText(idPentadbir[0]);
 
-                                String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                                tarikhPengesah1.setText(currentDate);
+                            butangTambahPengesah.setEnabled(false);
+                            butangTambahPengesah.setBackgroundColor(Color.GRAY);
+                            butangCetakAduan.setEnabled(true);
+                        }
 
-                                String currentTime = new SimpleDateFormat("HH:mm a", Locale.getDefault()).format(new Date());
-                                masaPengesah1.setText(currentTime);
-                            }
-
-                            if (documentSnapshot.contains("idPentadbir"))
-                            {
-                                tarikhPengesah[0] = (String) documentSnapshot.get("tarikhPengesah");
-                                tarikhPengesah1.setText(tarikhPengesah[0]);
-
-                                masaPengesah[0] = (String) documentSnapshot.get("masaPengesah");
-                                masaPengesah1.setText(masaPengesah[0]);
-
-                                idPentadbir[0] = (String) documentSnapshot.get("idPentadbir");
-                                idPentadbir1.setText(idPentadbir[0]);
-
-                                butangTambahPengesah.setEnabled(false);
-                                butangTambahPengesah.setBackgroundColor(Color.GRAY);
-                                butangCetakAduan.setEnabled(true);
-                            }
-
-                            if (!documentSnapshot.contains("idJuruteknik"))
-                            {
-                                butangTambahPengesah.setEnabled(false);
-                                butangCetakAduan.setEnabled(false);
-                                butangTambahPengesah.setBackgroundColor(Color.GRAY);
-                                butangCetakAduan.setBackgroundColor(Color.GRAY);
-                            }
+                        if (!documentSnapshot.contains("idJuruteknik"))
+                        {
+                            butangTambahPengesah.setEnabled(false);
+                            butangCetakAduan.setEnabled(false);
+                            butangTambahPengesah.setBackgroundColor(Color.GRAY);
+                            butangCetakAduan.setBackgroundColor(Color.GRAY);
                         }
                     }
                 });

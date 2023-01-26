@@ -17,13 +17,12 @@ import com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaJuruteknik
 public class utamaJuruteknik extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityUtamaJuruteknikBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
+        com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaJuruteknikBinding binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarUtamaJuruteknik.toolbar1);

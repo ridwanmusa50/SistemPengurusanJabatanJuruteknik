@@ -1,3 +1,4 @@
+// Used to display the list data to senarai_pemgguna.xml
 package com.sistempengurusanjabatanjuruteknik.ui.pengadu.maklumatKomunikasi;
 
 import android.content.Context;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 
 public class Penyambung extends RecyclerView.Adapter<Penyambung.MyViewHolder>
 {
-    private Context context;
-    private ArrayList<Pengguna> list;
+    private final Context context;
+    private final ArrayList<Pengguna> list;
 
     public Penyambung(Context context, ArrayList<Pengguna> list) {
         this.context = context;
@@ -48,7 +49,9 @@ public class Penyambung extends RecyclerView.Adapter<Penyambung.MyViewHolder>
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView namaPenuh, jawatanPengguna, nomborTelefon;
+        private final TextView namaPenuh;
+        private final TextView jawatanPengguna;
+        private final TextView nomborTelefon;
 
         public MyViewHolder(@NonNull View itemView)
         {

@@ -1,3 +1,5 @@
+// Used to display the schedule id and the date.
+
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanJadualTugasan;
 
 import android.content.Context;
@@ -15,9 +17,9 @@ import java.util.ArrayList;
 
 public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.ViewHolder> {
 
-    private Context context;
-    private ArrayList<Tugas> list;
-    private OnTugasListener mTugasListener;
+    private final Context context;
+    private final ArrayList<Tugas> list;
+    private final OnTugasListener mTugasListener;
 
     public penyambungJadual(Context context, ArrayList<Tugas> list, OnTugasListener onTugasListener){
         this.context = context;
@@ -29,9 +31,8 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.senarai_jadual_juruteknik_laporan, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v, mTugasListener);
 
-        return viewHolder;
+        return new ViewHolder(v, mTugasListener);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView idJadual, tarikhJadual;
         OnTugasListener onTugasListener;

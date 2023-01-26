@@ -1,3 +1,4 @@
+// Used to setup the notification style
 package com.sistempengurusanjabatanjuruteknik.ui.pengadu.membuatAduan;
 
 import android.annotation.SuppressLint;
@@ -11,6 +12,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import java.util.Objects;
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -41,7 +44,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         // Vibration
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {100, 300, 300, 300};
-        v.vibrate(pattern, -1);
+        v.vibrate(pattern, VibrationEffect.DEFAULT_AMPLITUDE);
 
         // Get the icon resource
         @SuppressLint("DiscouragedApi") int resourceImage = getResources().getIdentifier(Objects.requireNonNull(remoteMessage.getNotification()).getIcon(), "drawable", getPackageName());
