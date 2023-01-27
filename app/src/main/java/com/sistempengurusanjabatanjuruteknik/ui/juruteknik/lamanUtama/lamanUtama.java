@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 public class lamanUtama extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
@@ -76,7 +75,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         tunjukMaklumat();
 
         String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        @SuppressLint("SimpleDateFormat") String tarikhSemalam = new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis() - 24*60*60*1000);
+        Object[] tarikhTertunda = {"00/00/00"};
 
         db.collection("JadualTugasan")
                 .whereEqualTo("tarikhJadual", tarikh)
@@ -94,7 +93,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                         db.collection("JadualTugasan").document(idJadual)
                                 .get()
                                 .addOnSuccessListener(documentSnapshot -> {
-                                    if (!Objects.requireNonNull(documentSnapshot.get("tugasJadual")).toString().contains(tarikhSemalam))
+                                    if (!documentSnapshot.get("tugasJadual").toString().contains("["))
                                     {
                                         Map<String, Object> map1 = new HashMap<>();
                                         Map<String, Object> map = new HashMap<>();
@@ -103,126 +102,129 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                         final int[] l = {1};
 
                                         db.collection("JadualTugasan")
-                                                .whereEqualTo("tarikhJadual", tarikhSemalam)
                                                 .get()
                                                 .addOnSuccessListener(queryDocumentSnapshots1 -> {
                                                     List<DocumentSnapshot> documentSnapshots1 = queryDocumentSnapshots1.getDocuments();
 
                                                     for (DocumentSnapshot snapshot: documentSnapshots1)
                                                     {
-                                                        db.collection("JadualTugasan").document(snapshot.getId())
-                                                                .get()
-                                                                .addOnCompleteListener(task -> {
-                                                                    if (task.isSuccessful()) {
-                                                                        DocumentSnapshot document = task.getResult();
-                                                                        if (document.exists()) {
-                                                                            Map<String, Object> friendsMap = document.getData();
-                                                                            assert friendsMap != null;
-                                                                            for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
-                                                                                if (entry.getKey().equals("statusTugas")) {
-                                                                                    Map<String, Object> newFriendMap = (Map<String, Object>) entry.getValue();
-                                                                                    int i = 1;
-                                                                                    for (Map.Entry<String, Object> dataEntry : newFriendMap.entrySet()) {
-                                                                                        String in = "" + i;
-                                                                                        if (dataEntry.getKey().equals(in)) {
-                                                                                            if (dataEntry.getValue().equals("TIDAK SELESAI")) {
-                                                                                                for (Map.Entry<String, Object> entryBaru : friendsMap.entrySet()) {
-                                                                                                    if (entryBaru.getKey().equals("tugasJadual")) {
-                                                                                                        Map<String, Object> newFriendmap2 = (Map<String, Object>) entryBaru.getValue();
-                                                                                                        for (Map.Entry<String, Object> dataEntry1 : newFriendmap2.entrySet()) {
-                                                                                                            String ti = "" + k[0];
-
-                                                                                                            if (dataEntry1.getKey().equals(in)) {
-                                                                                                                map1.put(ti, dataEntry1.getValue() + " [" + tarikhSemalam + "]");
-                                                                                                                map.put(ti, "TIDAK SELESAI");
-                                                                                                                k[0]++;
+                                                        if (!snapshot.getId().equals(idJadual))
+                                                        {
+                                                            db.collection("JadualTugasan").document(snapshot.getId())
+                                                                    .get()
+                                                                    .addOnCompleteListener(task -> {
+                                                                        if (task.isSuccessful()) {
+                                                                            DocumentSnapshot document = task.getResult();
+                                                                            if (document.exists()) {
+                                                                                Map<String, Object> friendsMap = document.getData();
+                                                                                assert friendsMap != null;
+                                                                                for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
+                                                                                    if (entry.getKey().equals("statusTugas")) {
+                                                                                        Map<String, Object> newFriendMap = (Map<String, Object>) entry.getValue();
+                                                                                        int i = 1;
+                                                                                        for (Map.Entry<String, Object> dataEntry : newFriendMap.entrySet()) {
+                                                                                            String in = "" + i;
+                                                                                            if (dataEntry.getKey().equals(in)) {
+                                                                                                if (dataEntry.getValue().equals("TIDAK SELESAI")) {
+                                                                                                    k[0]++;
+                                                                                                    tarikhTertunda[0] = friendsMap.get("tarikhJadual");
+                                                                                                    for (Map.Entry<String, Object> entryBaru : friendsMap.entrySet()) {
+                                                                                                        if (entryBaru.getKey().equals("tugasJadual")) {
+                                                                                                            Map<String, Object> newFriendmap2 = (Map<String, Object>) entryBaru.getValue();
+                                                                                                            for (Map.Entry<String, Object> dataEntry1 : newFriendmap2.entrySet()) {
+                                                                                                                String ti = "" + k[0];
+                                                                                                                if (dataEntry1.getKey().equals(in)) {
+                                                                                                                    map1.put(ti, dataEntry1.getValue() + " [" + tarikhTertunda[0] + "]");
+                                                                                                                    map.put(ti, "TIDAK SELESAI");
+                                                                                                                    k[0]++;
+                                                                                                                }
                                                                                                             }
                                                                                                         }
                                                                                                     }
                                                                                                 }
                                                                                             }
+                                                                                            i++;
                                                                                         }
-                                                                                        i++;
                                                                                     }
                                                                                 }
+                                                                                k[0] = map.size();
+                                                                                l[0] = k[0];
                                                                             }
-                                                                            l[0] = k[0];
-
-                                                                            db.collection("JadualTugasan")
-                                                                                    .whereEqualTo("tarikhJadual", tarikh)
+                                                                            else
+                                                                            {
+                                                                                Log.d("TAG", "No such document");
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            Log.d("TAG", "get failed with ", task.getException());
+                                                                        }
+                                                                    });
+                                                        }
+                                                        else
+                                                        {
+                                                            db.collection("JadualTugasan")
+                                                                    .whereEqualTo("tarikhJadual", tarikh)
+                                                                    .get()
+                                                                    .addOnSuccessListener(queryDocumentSnapshots11 -> {
+                                                                        if (!idJadual.equals("")) {
+                                                                            db.collection("JadualTugasan").document(idJadual)
                                                                                     .get()
-                                                                                    .addOnSuccessListener(queryDocumentSnapshots11 -> {
+                                                                                    .addOnCompleteListener(task1 -> {
+                                                                                        if (task1.isSuccessful()) {
+                                                                                            DocumentSnapshot document1 = task1.getResult();
+                                                                                            if (document1.exists()) {
+                                                                                                Map<String, Object> friendsMap1 = document1.getData();
+                                                                                                assert friendsMap1 != null;
+                                                                                                for (Map.Entry<String, Object> entry3 : friendsMap1.entrySet()) {
+                                                                                                    String ti;
+                                                                                                    if (entry3.getKey().equals("statusTugas"))
+                                                                                                    {
+                                                                                                        Map<String, Object> newFriend0Map = (Map<String, Object>) entry3.getValue();
+                                                                                                        for (Map.Entry<String, Object> dataEntry3 : newFriend0Map.entrySet()) {
+                                                                                                            k[0]++;
+                                                                                                            ti = "" + k[0];
 
-                                                                                        if (!idJadual.equals("")) {
-                                                                                            db.collection("JadualTugasan").document(idJadual)
-                                                                                                    .get()
-                                                                                                    .addOnCompleteListener(task1 -> {
-                                                                                                        if (task1.isSuccessful()) {
-                                                                                                            DocumentSnapshot document1 = task1.getResult();
-                                                                                                            if (document1.exists()) {
-                                                                                                                Map<String, Object> friendsMap1 = document1.getData();
-                                                                                                                assert friendsMap1 != null;
-                                                                                                                for (Map.Entry<String, Object> entry : friendsMap1.entrySet()) {
-                                                                                                                    if (entry.getKey().equals("statusTugas"))
-                                                                                                                    {
-                                                                                                                        Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
-                                                                                                                        int i = 1;
-                                                                                                                        for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
-                                                                                                                            String in = "" + i;
-                                                                                                                            String ti = "" + k[0];
-
-                                                                                                                            if (dataEntry.getKey().equals(in)) {
-                                                                                                                                map.put(ti, dataEntry.getValue());
-                                                                                                                                k[0]++;
-                                                                                                                            }
-                                                                                                                            i++;
-                                                                                                                        }
-                                                                                                                    }
-
-                                                                                                                    if (entry.getKey().equals("tugasJadual")) {
-                                                                                                                        Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
-                                                                                                                        int i = 1;
-                                                                                                                        for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
-                                                                                                                            String in = "" + i;
-                                                                                                                            String li = "" + l[0];
-                                                                                                                            if (dataEntry.getKey().equals(in)) {
-                                                                                                                                map1.put(li, dataEntry.getValue());
-                                                                                                                                l[0]++;
-                                                                                                                            }
-                                                                                                                            i++;
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                bigmap.put("statusTugas", map);
-                                                                                                                bigmap.put("tugasJadual", map1);
-
-                                                                                                                db.collection("JadualTugasan").document(idJadual)
-                                                                                                                        .update(bigmap)
-                                                                                                                        .addOnSuccessListener(unused -> {
-                                                                                                                            Log.d("TAG", "Berjaya tambah");
-                                                                                                                            startActivity(new Intent(getContext(), requireActivity().getClass()));
-                                                                                                                        });
-                                                                                                            } else {
-                                                                                                                Log.d("TAG", "No such document");
-                                                                                                            }
-                                                                                                        } else {
-                                                                                                            Log.d("TAG", "get failed with ", task1.getException());
+                                                                                                            map.put(ti, dataEntry3.getValue());
                                                                                                         }
-                                                                                                    });
+                                                                                                    }
+
+                                                                                                    if (entry3.getKey().equals("tugasJadual")) {
+                                                                                                        Map<String, Object> newFriend0Map = (Map<String, Object>) entry3.getValue();
+                                                                                                        for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
+                                                                                                            l[0]++;
+                                                                                                            ti = "" + l[0];
+
+                                                                                                            map1.put(ti, dataEntry.getValue());
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                                bigmap.put("statusTugas", map);
+                                                                                                bigmap.put("tugasJadual", map1);
+                                                                                                db.collection("JadualTugasan").document(idJadual)
+                                                                                                        .update(bigmap)
+                                                                                                        .addOnSuccessListener(unused -> {
+                                                                                                            Log.d("TAG", "Berjaya tambah");
+                                                                                                            startActivity(new Intent(getContext(), requireActivity().getClass()));
+                                                                                                        });
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                Log.d("TAG", "No such document");
+                                                                                            }
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            Log.d("TAG", "No such document");
+                                                                                            Log.d("TAG", "get failed with ", task1.getException());
                                                                                         }
                                                                                     });
-                                                                        } else {
+                                                                        }
+                                                                        else
+                                                                        {
                                                                             Log.d("TAG", "No such document");
                                                                         }
-                                                                    } else {
-                                                                        Log.d("TAG", "get failed with ", task.getException());
-                                                                    }
-                                                                });
+                                                                    });
+                                                        }
                                                     }
                                                 });
                                     }
@@ -232,7 +234,6 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                 .whereEqualTo("tarikhJadual", tarikh)
                                 .get()
                                 .addOnSuccessListener(queryDocumentSnapshots12 -> {
-
                                     if (!idJadual.equals("")) {
                                         db.collection("JadualTugasan").document(idJadual)
                                                 .get()

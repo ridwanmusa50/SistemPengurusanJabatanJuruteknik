@@ -183,10 +183,19 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String tarikh;
+        month = month + 1;
 
-        if (dayOfMonth < 10)
+        if (dayOfMonth < 10 && month < 10)
+        {
+            tarikh = "0" + dayOfMonth + "/0" + month + "/" + year;
+        }
+        else if (month >= 10 && dayOfMonth < 10)
         {
             tarikh = "0" + dayOfMonth + "/" + month + "/" + year;
+        }
+        else if (month < 10)
+        {
+            tarikh = "" + dayOfMonth + "/0" + month + "/" + year;
         }
         else
         {
@@ -194,6 +203,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
         }
 
         db = FirebaseFirestore.getInstance();
+        String finalTarikh = tarikh;
         db.collection("JadualTugasan")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -204,7 +214,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                         recylerview.setAdapter(penyambung);
 
                         for (DocumentSnapshot snapshot : snapshotList) {
-                            if (Objects.equals(snapshot.getString("tarikhJadual"), tarikh)) {
+                            if (Objects.equals(snapshot.getString("tarikhJadual"), finalTarikh)) {
                                 tarikhJadual1.getText().clear();
                                 list.clear();
                                 penyambung.notifyDataSetChanged();
@@ -212,13 +222,13 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                                 Toast.makeText(getContext(), "Tarikh sudah mempunyai tugasan! Sila pilih tarikh yang lain.", Toast.LENGTH_LONG).show();
                                 return;
                             } else {
-                                tarikhJadual1.setText(tarikh);
+                                tarikhJadual1.setText(finalTarikh);
                             }
                         }
                     }
                     else
                     {
-                        tarikhJadual1.setText(tarikh);
+                        tarikhJadual1.setText(finalTarikh);
                     }
                 });
 
