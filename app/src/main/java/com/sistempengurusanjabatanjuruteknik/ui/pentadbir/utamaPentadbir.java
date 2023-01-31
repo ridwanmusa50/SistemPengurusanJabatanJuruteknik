@@ -34,7 +34,7 @@ public class utamaPentadbir extends AppCompatActivity {
                 R.id.nav_profilPengguna, R.id.nav_lamanUtama,
                 R.id.nav_daftarTugasan, R.id.nav_kemaskiniBuangTugasan,
                 R.id.nav_daftarPengguna, R.id.nav_kemaskiniPengguna, R.id.nav_buangPengguna,
-                R.id.nav_laporanAduanKerosakan, R.id.nav_laporanJadualTugasan, R.id.nav_laporanBilanganAduan,
+                R.id.nav_laporanAduanKerosakan, R.id.nav_laporanJadualTugasan,
                 R.id.nav_logKeluar)
                 .setOpenableLayout(drawer)
                 .build();

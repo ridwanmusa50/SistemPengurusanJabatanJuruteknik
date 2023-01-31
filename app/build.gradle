@@ -55,6 +55,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.2.0') // firebase connection platform
     implementation 'com.airbnb.android:lottie:5.2.0' // animasi ikon
     implementation 'com.codesgood:justifiedtextview:2.0.1' //justify text
-    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2' // carta
     implementation("androidx.multidex:multidex:2.0.1")
 }

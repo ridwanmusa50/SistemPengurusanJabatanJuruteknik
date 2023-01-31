@@ -13,12 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.DataEntry;
-import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.anychart.charts.Pie;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -28,20 +22,13 @@ import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.senaraiPenuhAduanPenta
 import com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class lamanUtama extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
-    private SwipeRefreshLayout refresh, refreshCarta;
+    private SwipeRefreshLayout refresh;
     private FirebaseFirestore db;
     private penyambungSenaraiAduan penyambungSenaraiAduan;
     private ArrayList<Aduan> list;
-    private AnyChartView cartaBilanganAduan;
-    private final String[] bulan = {"Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"};
-    private final int[] aduan = {0, 0, 0, 0, 0, 0};
 
     @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,19 +40,9 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refresh = v.findViewById(R.id.refresh);
-        refreshCarta = v.findViewById(R.id.refreshCarta);
         list = new ArrayList<>();
         penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
         recyclerView.setAdapter(penyambungSenaraiAduan);
-        cartaBilanganAduan = v.findViewById(R.id.cartaBilanganAduanPertama);
-
-        cartaGenerate();
-
-        refreshCarta.setOnRefreshListener(() -> {
-            cartaBilanganAduan.clear();
-            cartaGenerate();
-            refreshCarta.setRefreshing(false);
-        });
 
         refresh.setOnRefreshListener(() -> {
             list.clear();
@@ -126,75 +103,5 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         Intent intent = new Intent(getContext(), senaraiPenuhAduanPentadbir.class);
         intent.putExtra("lokasi", list.get(position).getIdAduan());
         startActivity(intent);
-    }
-
-    private void  setupChartView()
-    {
-        Pie pie = AnyChart.pie();
-        List<DataEntry> dataEntries = new ArrayList<>();
-
-        for (int i = 0; i < bulan.length; i++)
-        {
-            dataEntries.add(new ValueDataEntry(bulan[i], aduan[i]));
-        }
-        pie.data(dataEntries);
-        pie.title("Bilangan Aduan Mesin Bagi Jul - Dis");
-        cartaBilanganAduan.setChart(pie);
-    }
-
-    private void cartaGenerate()
-    {
-        db = FirebaseFirestore.getInstance();
-        Pattern jul = Pattern.compile("Jul");
-        Pattern ogo = Pattern.compile("Aug");
-        Pattern sep = Pattern.compile("Sep");
-        Pattern okt = Pattern.compile("Oct");
-        Pattern nov = Pattern.compile("Nov");
-        Pattern dis = Pattern.compile("Dec");
-
-        db.collection("AduanKerosakan")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful())
-                    {
-                        int size = task.getResult().size();
-                        Matcher jul1, ogo1, sep1, okt1, nov1, dis1;
-
-                        for (int i = 0; i < size; i ++)
-                        {
-                            jul1 = jul.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (jul1.find()) {
-                                aduan[0] = aduan[0] + 1;
-                            }
-
-                            ogo1 = ogo.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (ogo1.find()) {
-                                aduan[1] = aduan[1] + 1;
-                            }
-
-                            sep1 = sep.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (sep1.find()) {
-                                aduan[2] = aduan[2] + 1;
-                            }
-
-                            okt1 = okt.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (okt1.find()) {
-                                aduan[3] = aduan[3] + 1;
-                            }
-
-                            nov1 = nov.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (nov1.find()) {
-                                aduan[4] = aduan[4] + 1;
-                            }
-
-                            dis1 = dis.matcher((CharSequence) Objects.requireNonNull(task.getResult().getDocuments().get(i).get("tarikhAduan")));
-                            while (dis1.find()) {
-                                aduan[5] = aduan[5] + 1;
-                            }
-                        }
-
-                        setupChartView();
-                    }
-                });
     }
 }

@@ -58,11 +58,6 @@
         android:label="Laporan Jadual Tugasan"
         tools:layout="@layout/fragment_laporan_jadual_tugasan" />
     <fragment
-        android:id="@+id/nav_laporanBilanganAduan"
-        android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.laporan.laporanBilanganAduan.laporanBilanganAduan"
-        android:label="Laporan Bilangan Aduan"
-        tools:layout="@layout/fragment_laporan_bilangan_aduan" />
-    <fragment
         android:id="@+id/nav_logKeluar"
         android:name="com.sistempengurusanjabatanjuruteknik.ui.pentadbir.logKeluar.logKeluar"
         android:label="@string/menu_logKeluar"

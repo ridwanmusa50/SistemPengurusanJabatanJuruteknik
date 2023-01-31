@@ -52,39 +52,5 @@
                 </ScrollView>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CARTA ADUAN KEROSAKAN MESIN"
-            android:fontFamily="@font/archivo_black"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="#DFDBDB">
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refreshCarta"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <com.anychart.AnyChartView
-                    android:id="@+id/cartaBilanganAduanPertama"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="310dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
