@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +21,7 @@ import com.google.firebase.firestore.Query;
 import com.sistempengurusanjabatanjuruteknik.R;
 import com.sistempengurusanjabatanjuruteknik.ui.Aduan;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.Tugas;
+import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.penyambungJadual;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.senaraiPenuhAduan;
 import com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan;
 
@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class lamanUtama extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
@@ -41,6 +42,9 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
     private ArrayList<Aduan> list;
     private final ArrayList<Tugas> tugas = new ArrayList<>();
     private String idJadual = "";
+
+    String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+    @SuppressLint("SimpleDateFormat") String tarikhSemalam = new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis() - 24*60*60*1000);
 
     @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -74,9 +78,6 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
 
         tunjukMaklumat();
 
-        String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        Object[] tarikhTertunda = {"00/00/00"};
-
         db.collection("JadualTugasan")
                 .whereEqualTo("tarikhJadual", tarikh)
                 .get()
@@ -93,7 +94,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                         db.collection("JadualTugasan").document(idJadual)
                                 .get()
                                 .addOnSuccessListener(documentSnapshot -> {
-                                    if (!documentSnapshot.get("tugasJadual").toString().contains("["))
+                                    if (!Objects.requireNonNull(documentSnapshot.get("tugasJadual")).toString().contains(tarikhSemalam))
                                     {
                                         Map<String, Object> map1 = new HashMap<>();
                                         Map<String, Object> map = new HashMap<>();
@@ -102,15 +103,14 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                         final int[] l = {1};
 
                                         db.collection("JadualTugasan")
+                                                .whereEqualTo("tarikhJadual", tarikhSemalam)
                                                 .get()
                                                 .addOnSuccessListener(queryDocumentSnapshots1 -> {
                                                     List<DocumentSnapshot> documentSnapshots1 = queryDocumentSnapshots1.getDocuments();
 
                                                     for (DocumentSnapshot snapshot: documentSnapshots1)
                                                     {
-                                                        if (!snapshot.getId().equals(idJadual))
-                                                        {
-                                                            db.collection("JadualTugasan").document(snapshot.getId())
+                                                        db.collection("JadualTugasan").document(snapshot.getId())
                                                                     .get()
                                                                     .addOnCompleteListener(task -> {
                                                                         if (task.isSuccessful()) {
@@ -126,15 +126,13 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                                             String in = "" + i;
                                                                                             if (dataEntry.getKey().equals(in)) {
                                                                                                 if (dataEntry.getValue().equals("TIDAK SELESAI")) {
-                                                                                                    k[0]++;
-                                                                                                    tarikhTertunda[0] = friendsMap.get("tarikhJadual");
                                                                                                     for (Map.Entry<String, Object> entryBaru : friendsMap.entrySet()) {
                                                                                                         if (entryBaru.getKey().equals("tugasJadual")) {
                                                                                                             Map<String, Object> newFriendmap2 = (Map<String, Object>) entryBaru.getValue();
                                                                                                             for (Map.Entry<String, Object> dataEntry1 : newFriendmap2.entrySet()) {
                                                                                                                 String ti = "" + k[0];
                                                                                                                 if (dataEntry1.getKey().equals(in)) {
-                                                                                                                    map1.put(ti, dataEntry1.getValue() + " [" + tarikhTertunda[0] + "]");
+                                                                                                                    map1.put(ti, dataEntry1.getValue() + " [" + tarikhSemalam + "]");
                                                                                                                     map.put(ti, "TIDAK SELESAI");
                                                                                                                     k[0]++;
                                                                                                                 }
@@ -160,9 +158,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                             Log.d("TAG", "get failed with ", task.getException());
                                                                         }
                                                                     });
-                                                        }
-                                                        else
-                                                        {
+
                                                             db.collection("JadualTugasan")
                                                                     .whereEqualTo("tarikhJadual", tarikh)
                                                                     .get()
@@ -205,8 +201,8 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                                                         .update(bigmap)
                                                                                                         .addOnSuccessListener(unused -> {
                                                                                                             Log.d("TAG", "Berjaya tambah");
-                                                                                                            startActivity(new Intent(getContext(), requireActivity().getClass()));
                                                                                                         });
+                                                                                                startActivity(new Intent(getContext(), requireActivity().getClass()));
                                                                                             }
                                                                                             else
                                                                                             {
@@ -224,7 +220,6 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                             Log.d("TAG", "No such document");
                                                                         }
                                                                     });
-                                                        }
                                                     }
                                                 });
                                     }

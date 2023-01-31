@@ -1,4 +1,4 @@
-package com.sistempengurusanjabatanjuruteknik.ui.juruteknik.jadualTugasan;
+package com.sistempengurusanjabatanjuruteknik.ui.juruteknik;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,21 +13,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
-import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.Tugas;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.ViewHolder> {
 
-    Context context;
-    ArrayList<Tugas> list;
-    FirebaseFirestore db;
-    String idJadual;
+    private final Context context;
+    private final ArrayList<Tugas> list;
+    private FirebaseFirestore db;
+    public String idJadual;
+    @SuppressLint("SimpleDateFormat") String tarikhSemalam = new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis() - 24*60*60*1000);
+
 
     public penyambungJadual(Context context, ArrayList<Tugas> list, String idJadual){
         this.context = context;
@@ -104,7 +108,8 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
                                                             .setTitle("Kemaskini Status Tugas")
                                                             .setMessage("Anda pasti dengan keputusan ini?")
                                                             .setIcon(R.drawable.ikon_info)
-                                                            .setPositiveButton("SELESAI", (dialog, which) -> db.collection("JadualTugasan").document(idJadual)
+                                                            .setPositiveButton("SELESAI", (dialog, which) ->
+                                                                    db.collection("JadualTugasan").document(idJadual)
                                                                     .get()
                                                                     .addOnCompleteListener(task1 -> {
                                                                         if (task1.isSuccessful()) {
@@ -144,7 +149,63 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
                                                                         } else {
                                                                             Log.d("TAG", "get failed with ", task1.getException());
                                                                         }
-                                                                    }))
+
+                                                                        db.collection("JadualTugasan")
+                                                                                .whereEqualTo("tarikhJadual", tarikhSemalam)
+                                                                                .get()
+                                                                                .addOnSuccessListener(queryDocumentSnapshots1 -> {
+                                                                                    List<DocumentSnapshot> documentSnapshots1 = queryDocumentSnapshots1.getDocuments();
+
+                                                                                    for (DocumentSnapshot snapshot: documentSnapshots1)
+                                                                                    {
+                                                                                        db.collection("JadualTugasan").document(snapshot.getId())
+                                                                                                .get()
+                                                                                                .addOnCompleteListener(task2 -> {
+                                                                                                    if (task2.isSuccessful()) {
+                                                                                                        DocumentSnapshot document1 = task2.getResult();
+                                                                                                        if (document1.exists()) {
+                                                                                                            Map<String, Object> friendsMap = document1.getData();
+                                                                                                            assert friendsMap != null;
+                                                                                                            for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
+                                                                                                                if (entry.getKey().equals("statusTugas")) {
+                                                                                                                    Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
+                                                                                                                    int i1 = position + 1;
+
+                                                                                                                    if (i1 <= newFriend0Map.size()) {
+                                                                                                                        for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
+                                                                                                                            String in1 = "" + i1;
+
+                                                                                                                            Map<String, Object> map1 = new HashMap<>();
+
+                                                                                                                            for (Map.Entry<String, Object> data : newFriend0Map.entrySet()) {
+                                                                                                                                map1.put(data.getKey(), data.getValue());
+                                                                                                                            }
+
+                                                                                                                            if (dataEntry.getKey().equals(in1)) {
+                                                                                                                                map1.put(dataEntry.getKey(), "SELESAI");
+
+                                                                                                                                Map<String, Object> map = new HashMap<>();
+                                                                                                                                map.put("statusTugas", map1);
+
+                                                                                                                                db.collection("JadualTugasan").document(snapshot.getId())
+                                                                                                                                        .update(map);
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            Log.d("TAG", "No such document");
+                                                                                                        }
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        Log.d("TAG", "get failed with ", task2.getException());
+                                                                                                    }
+                                                                                                });
+                                                                                    }});
+                                                                    })
+                                                            )
                                                             .setNegativeButton("KEMBALI", (dialog, which) -> {
                                                             });
                                                     builder.show();
@@ -169,9 +230,9 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tugasJadual;
-        ImageView ikon;
-        LinearLayout row;
+        private final TextView tugasJadual;
+        private final ImageView ikon;
+        private final LinearLayout row;
 
         public ViewHolder(View itemView){
             super(itemView);
