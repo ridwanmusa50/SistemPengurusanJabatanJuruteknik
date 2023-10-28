@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.airbnb.lottie.LottieAnimationView;
+import com.sistempengurusanjabatanjuruteknik.databinding.MulaAplikasiBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.utamaJuruteknik;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.utamaPentadbir;
 import java.util.regex.Matcher;
@@ -23,21 +21,18 @@ public class mulaAplikasi extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mula_aplikasi);
+        
+        MulaAplikasiBinding binding = MulaAplikasiBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        ImageView logoSyarikat = findViewById(R.id.logoSyarikat);
-        ImageView splash = findViewById(R.id.img);
-        LottieAnimationView lottieAnimationView = findViewById(R.id.lottie);
-        TextView labelNamaSyarikat = findViewById(R.id.labelNamaSistem);
-        TextView labelNamaSistemPendek = findViewById(R.id.labelNamaSistemPendek);
         sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
         // gerakkan semua objek ke luar skrin selepas 5 saat
-        splash.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
-        logoSyarikat.animate().translationY(3000).setDuration(1000).setStartDelay(4000);
-        lottieAnimationView.animate().translationY(3000).setDuration(1000).setStartDelay(4000);
-        labelNamaSyarikat.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
-        labelNamaSistemPendek.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
+        binding.img.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
+        binding.logoSyarikat.animate().translationY(3000).setDuration(1000).setStartDelay(4000);
+        binding.lottie.animate().translationY(3000).setDuration(1000).setStartDelay(4000);
+        binding.labelNamaSistem.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
+        binding.labelNamaSistemPendek.animate().translationY(-3000).setDuration(1000).setStartDelay(4000);
 
         Handler handler = new Handler();
         // pengendali jenis melambatkan proses

@@ -12,19 +12,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentLaporanJadualTugasanBinding;
 
 import java.util.ArrayList;
 
 public class laporanJadualTugasan extends Fragment implements penyambungJadual.OnTugasListener
 {
-    private SwipeRefreshLayout refresh;
     private FirebaseFirestore db;
     private final ArrayList<Tugas> list = new ArrayList<>();
     private penyambungJadual penyambung;
@@ -32,18 +29,17 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
     @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_laporan_jadual_tugasan, container, false);
+        FragmentLaporanJadualTugasanBinding binding = FragmentLaporanJadualTugasanBinding.inflate(inflater, container, false);
 
-        RecyclerView recyclerView = v.findViewById(R.id.senaraiTugas);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        refresh = v.findViewById(R.id.refresh);
+        binding.senaraiTugas.setHasFixedSize(true);
+        binding.senaraiTugas.setLayoutManager(new LinearLayoutManager(getContext()));
+        
         db = FirebaseFirestore.getInstance();
 
         penyambung = new penyambungJadual(getContext(), list, this);
-        recyclerView.setAdapter(penyambung);
+        binding.senaraiTugas.setAdapter(penyambung);
 
-        refresh.setOnRefreshListener(() -> {
+        binding.refresh.setOnRefreshListener(() -> {
             list.clear();
             db.collection("JadualTugasan").orderBy("idJadual", Query.Direction.DESCENDING)
                     .addSnapshotListener((value, error) -> {
@@ -63,7 +59,7 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
                             penyambung.notifyDataSetChanged();
                         }
                     });
-            refresh.setRefreshing(false);
+            binding.refresh.setRefreshing(false);
         });
 
         db.collection("JadualTugasan").orderBy("idJadual", Query.Direction.DESCENDING)
@@ -85,7 +81,7 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
                     }
                 });
 
-        return v;
+        return binding.getRoot();
     }
 
     // tugas ditekan

@@ -23,8 +23,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +32,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentLaporanAduanKerosakanBinding;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,22 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
-    private EditText idAduan1;
-    private EditText idMesin1;
-    private EditText namaPenuhPengadu1;
-    private EditText tarikhAduan1;
-    private EditText masaAduan1;
-    private EditText huraianAduan1;
-    private EditText masaPenerima1;
-    private EditText tarikhPenerima1;
-    private EditText idJuruteknik1;
-    private EditText huraianPenerima1;
-    private EditText masaPengesah1;
-    private EditText tarikhPengesah1;
-    private EditText idPentadbir1;
-    private ProgressBar progressBar;
-    private Button butangCetakAduan;
-    private Button butangTambahPengesah;
+    private FragmentLaporanAduanKerosakanBinding binding;
     private FirebaseFirestore db;
     SharedPreferences sp;
     int count = 0;
@@ -68,7 +52,8 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_laporan_aduan_kerosakan);
+        binding = FragmentLaporanAduanKerosakanBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         String value = null;
         // terima idAduan daripada senarai aduan
@@ -76,47 +61,31 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         if (extras != null) {
             value = extras.getString("lokasi");
         }
-
-        idAduan1 = findViewById(R.id.idAduan);
-        idMesin1 = findViewById(R.id.idMesin);
-        namaPenuhPengadu1 = findViewById(R.id.namaPenuhPengadu);
-        tarikhAduan1 = findViewById(R.id.tarikhAduan);
-        masaAduan1 = findViewById(R.id.masaAduan);
-        huraianAduan1 = findViewById(R.id.hurainAduan);
-        masaPenerima1 = findViewById(R.id.masaPenerima);
-        tarikhPenerima1 = findViewById(R.id.tarikhPenerima);
-        idJuruteknik1 = findViewById(R.id.idJuruteknik);
-        huraianPenerima1 = findViewById(R.id.huraianPenerima);
-        masaPengesah1 = findViewById(R.id.masaPengesah);
-        tarikhPengesah1 = findViewById(R.id.tarikhPengesah);
-        idPentadbir1 = findViewById(R.id.idPentadbir);
-        progressBar = findViewById(R.id.progressBar);
-        butangCetakAduan = findViewById(R.id.butangCetakAduan);
-        butangTambahPengesah = findViewById(R.id.butangTambahPengesah);
+        
         db = FirebaseFirestore.getInstance();
 
         tunjukkanMaklumat(value);
 
-        butangTambahPengesah.setOnClickListener(v -> {
-            String idAduan = idAduan1.getText().toString().trim();
-            String tarikhAduan = tarikhAduan1.getText().toString().trim();
-            String masaAduan = masaAduan1.getText().toString().trim();
-            String namaPenuhPengadu = namaPenuhPengadu1.getText().toString().trim();
-            String idMesin = idMesin1.getText().toString().trim();
-            String huraianAduan = huraianAduan1.getText().toString().trim();
-            String idJuruteknik = idJuruteknik1.getText().toString().trim();
-            String tarikhPenerima = tarikhPenerima1.getText().toString().trim();
-            String masaPenerima = masaPenerima1.getText().toString().trim();
-            String huraianPenerima = huraianPenerima1.getText().toString().trim();
-            String tarikhPengesah = tarikhPengesah1.getText().toString().trim();
-            String masaPengesah = masaPengesah1.getText().toString().trim();
-            String idPentadbir = idPentadbir1.getText().toString().trim();
+        binding.butangTambahPengesah.setOnClickListener(v -> {
+            String idAduan = binding.idAduan.getText().toString().trim();
+            String tarikhAduan = binding.tarikhAduan.getText().toString().trim();
+            String masaAduan = binding.masaAduan.getText().toString().trim();
+            String namaPenuhPengadu = binding.namaPenuhPengadu.getText().toString().trim();
+            String idMesin = binding.idMesin.getText().toString().trim();
+            String huraianAduan = binding.hurainAduan.getText().toString().trim();
+            String idJuruteknik = binding.idJuruteknik.getText().toString().trim();
+            String tarikhPenerima = binding.tarikhPenerima.getText().toString().trim();
+            String masaPenerima = binding.masaPenerima.getText().toString().trim();
+            String huraianPenerima = binding.huraianPenerima.getText().toString().trim();
+            String tarikhPengesah = binding.tarikhPengesah.getText().toString().trim();
+            String masaPengesah = binding.masaPengesah.getText().toString().trim();
+            String idPentadbir = binding.idPentadbir.getText().toString().trim();
 
             String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-            tarikhPengesah1.setText(currentDate);
+            binding.tarikhPengesah.setText(currentDate);
 
             String currentTime = new SimpleDateFormat("hh:mm:ss", Locale.getDefault()).format(new Date());
-            masaPengesah1.setText(currentTime);
+            binding.masaPengesah.setText(currentTime);
 
             Map<String, Object> pengesah = new HashMap<>();
             pengesah.put("idAduan", idAduan);
@@ -139,13 +108,13 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
             }
             else
             {
-                progressBar.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.VISIBLE);
                 db.collection("AduanKerosakan").document(idAduan)
                                 .get()
                                         .addOnSuccessListener(documentSnapshot -> db.collection("AduanKerosakan").document(idAduan)
                                                     .set(pengesah)
                                                     .addOnSuccessListener(unused -> {
-                                                        progressBar.setVisibility(View.GONE);
+                                                        binding.progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(senaraiPenuhAduanPentadbir.this, "Sistem berjaya menambah pengesahan maklumat!", Toast.LENGTH_LONG).show();
 
                                                         startActivity(new Intent(senaraiPenuhAduanPentadbir.this, utamaPentadbir.class));
@@ -153,7 +122,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
             }
         });
 
-        butangCetakAduan.setOnClickListener(v -> {
+        binding.butangCetakAduan.setOnClickListener(v -> {
             // Permission for sdk between 23 and 29
             if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
@@ -178,19 +147,19 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                 }
             }
 
-            String idAduan2 = idAduan1.getText().toString().trim();
-            String tarikhAduan2 = tarikhAduan1.getText().toString().trim();
-            String masaAduan2 = masaAduan1.getText().toString().trim();
-            String namaPenuhPengadu2 = namaPenuhPengadu1.getText().toString().trim();
-            String idMesin2 = idMesin1.getText().toString().trim();
-            String huraianAduan2 = huraianAduan1.getText().toString().trim();
-            String idJuruteknik2 = idJuruteknik1.getText().toString().trim();
-            String tarikhPenerima2 = tarikhPenerima1.getText().toString().trim();
-            String masaPenerima2 = masaPenerima1.getText().toString().trim();
-            String huraianPenerima2 = huraianPenerima1.getText().toString().trim();
-            String tarikhPengesah2 = tarikhPengesah1.getText().toString().trim();
-            String masaPengesah2 = masaPengesah1.getText().toString().trim();
-            String idPentadbir2 = idPentadbir1.getText().toString().trim();
+            String idAduan2 = binding.idAduan.getText().toString().trim();
+            String tarikhAduan2 = binding.tarikhAduan.getText().toString().trim();
+            String masaAduan2 = binding.masaAduan.getText().toString().trim();
+            String namaPenuhPengadu2 = binding.namaPenuhPengadu.getText().toString().trim();
+            String idMesin2 = binding.idMesin.getText().toString().trim();
+            String huraianAduan2 = binding.hurainAduan.getText().toString().trim();
+            String idJuruteknik2 = binding.idJuruteknik.getText().toString().trim();
+            String tarikhPenerima2 = binding.tarikhPenerima.getText().toString().trim();
+            String masaPenerima2 = binding.masaPenerima.getText().toString().trim();
+            String huraianPenerima2 = binding.huraianPenerima.getText().toString().trim();
+            String tarikhPengesah2 = binding.tarikhPengesah.getText().toString().trim();
+            String masaPengesah2 = binding.masaPengesah.getText().toString().trim();
+            String idPentadbir2 = binding.idPentadbir.getText().toString().trim();
 
             if(checkPermissionGranted()){
                 ciptaPDF(idAduan2, idMesin2, namaPenuhPengadu2, tarikhAduan2, masaAduan2, huraianAduan2,
@@ -274,23 +243,23 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
     private void tunjukkanMaklumat(String value)
     {
-        idAduan1.setText(value);
-        String idAduan = idAduan1.getText().toString().trim();
-        final String[] idMesin = {idMesin1.getText().toString().trim()};
-        final String[] namapenuhPengadu = {namaPenuhPengadu1.getText().toString().trim()};
-        final String[] tarikhAduan = {tarikhAduan1.getText().toString().trim()};
-        final String[] masaAduan = {masaAduan1.getText().toString().trim()};
-        final String[] huraianAduan = {huraianAduan1.getText().toString().trim()};
-        final String[] idJuruteknik = {idJuruteknik1.getText().toString().trim()};
-        final String[] tarikhPenerima = {tarikhPenerima1.getText().toString().trim()};
-        final String[] masaPenerima = {masaPenerima1.getText().toString().trim()};
-        final String[] huraianPenerima = {huraianPenerima1.getText().toString().trim()};
-        final String[] tarikhPengesah = {tarikhPengesah1.getText().toString().trim()};
-        final String[] masaPengesah = {masaPengesah1.getText().toString().trim()};
-        final String[] idPentadbir = {idPentadbir1.getText().toString().trim()};
+        binding.idAduan.setText(value);
+        String idAduan = binding.idAduan.getText().toString().trim();
+        final String[] idMesin = {binding.idMesin.getText().toString().trim()};
+        final String[] namapenuhPengadu = {binding.namaPenuhPengadu.getText().toString().trim()};
+        final String[] tarikhAduan = {binding.tarikhAduan.getText().toString().trim()};
+        final String[] masaAduan = {binding.masaAduan.getText().toString().trim()};
+        final String[] huraianAduan = {binding.hurainAduan.getText().toString().trim()};
+        final String[] idJuruteknik = {binding.idJuruteknik.getText().toString().trim()};
+        final String[] tarikhPenerima = {binding.tarikhPenerima.getText().toString().trim()};
+        final String[] masaPenerima = {binding.masaPenerima.getText().toString().trim()};
+        final String[] huraianPenerima = {binding.huraianPenerima.getText().toString().trim()};
+        final String[] tarikhPengesah = {binding.tarikhPengesah.getText().toString().trim()};
+        final String[] masaPengesah = {binding.masaPengesah.getText().toString().trim()};
+        final String[] idPentadbir = {binding.idPentadbir.getText().toString().trim()};
         sp = getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
 
-        butangCetakAduan.setEnabled(false);
+        binding.butangCetakAduan.setEnabled(false);
 
         db.collection("AduanKerosakan").document(idAduan)
                 .get()
@@ -298,68 +267,68 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
                     if (documentSnapshot.exists())
                     {
                         idMesin[0] = (String) documentSnapshot.get("idMesin");
-                        idMesin1.setText(idMesin[0]);
+                        binding.idMesin.setText(idMesin[0]);
 
                         namapenuhPengadu[0] = (String) documentSnapshot.get("namaPenuhPengadu");
-                        namaPenuhPengadu1.setText(namapenuhPengadu[0]);
+                        binding.namaPenuhPengadu.setText(namapenuhPengadu[0]);
 
                         tarikhAduan[0] = (String) documentSnapshot.get("tarikhAduan");
-                        tarikhAduan1.setText(tarikhAduan[0]);
+                        binding.tarikhAduan.setText(tarikhAduan[0]);
 
                         masaAduan[0] = (String) documentSnapshot.get("masaAduan");
-                        masaAduan1.setText(masaAduan[0]);
+                        binding.masaAduan.setText(masaAduan[0]);
 
                         huraianAduan[0] = (String) documentSnapshot.get("huraianAduan");
-                        huraianAduan1.setText(huraianAduan[0]);
+                        binding.hurainAduan.setText(huraianAduan[0]);
 
                         if (documentSnapshot.contains("idJuruteknik"))
                         {
                             tarikhPenerima[0] = (String) documentSnapshot.get("tarikhPenerima");
-                            tarikhPenerima1.setText(tarikhPenerima[0]);
+                            binding.tarikhPenerima.setText(tarikhPenerima[0]);
 
                             masaPenerima[0] = (String) documentSnapshot.get("masaPenerima");
-                            masaPenerima1.setText(masaPenerima[0]);
+                            binding.masaPenerima.setText(masaPenerima[0]);
 
                             idJuruteknik[0] = (String) documentSnapshot.get("idJuruteknik");
-                            idJuruteknik1.setText(idJuruteknik[0]);
+                            binding.idJuruteknik.setText(idJuruteknik[0]);
 
                             huraianPenerima[0] = (String) documentSnapshot.get("huraianPenerima");
-                            huraianPenerima1.setText(huraianPenerima[0]);
+                            binding.huraianPenerima.setText(huraianPenerima[0]);
 
                             String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                            tarikhPengesah1.setText(currentDate);
+                            binding.tarikhPengesah.setText(currentDate);
 
                             String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
-                            masaPengesah1.setText(currentTime);
+                            binding.masaPengesah.setText(currentTime);
                         }
 
                         if (documentSnapshot.contains("idPentadbir"))
                         {
                             tarikhPengesah[0] = (String) documentSnapshot.get("tarikhPengesah");
-                            tarikhPengesah1.setText(tarikhPengesah[0]);
+                            binding.tarikhPengesah.setText(tarikhPengesah[0]);
 
                             masaPengesah[0] = (String) documentSnapshot.get("masaPengesah");
-                            masaPengesah1.setText(masaPengesah[0]);
+                            binding.masaPengesah.setText(masaPengesah[0]);
 
                             idPentadbir[0] = (String) documentSnapshot.get("idPentadbir");
-                            idPentadbir1.setText(idPentadbir[0]);
+                            binding.idPentadbir.setText(idPentadbir[0]);
 
-                            butangTambahPengesah.setEnabled(false);
-                            butangTambahPengesah.setBackgroundColor(Color.GRAY);
-                            butangCetakAduan.setEnabled(true);
+                            binding.butangTambahPengesah.setEnabled(false);
+                            binding.butangTambahPengesah.setBackgroundColor(Color.GRAY);
+                            binding.butangCetakAduan.setEnabled(true);
                         }
 
                         if (!documentSnapshot.contains("idJuruteknik"))
                         {
-                            butangTambahPengesah.setEnabled(false);
-                            butangCetakAduan.setEnabled(false);
-                            butangTambahPengesah.setBackgroundColor(Color.GRAY);
-                            butangCetakAduan.setBackgroundColor(Color.GRAY);
+                            binding.butangTambahPengesah.setEnabled(false);
+                            binding.butangCetakAduan.setEnabled(false);
+                            binding.butangTambahPengesah.setBackgroundColor(Color.GRAY);
+                            binding.butangCetakAduan.setBackgroundColor(Color.GRAY);
                         }
                     }
                 });
 
-        idPentadbir1.setText(sp.getString("idPengguna", ""));
+        binding.idPentadbir.setText(sp.getString("idPengguna", ""));
     }
 
     private boolean checkPermissionGranted(){
@@ -381,7 +350,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         Canvas canvas = myPage.getCanvas();
         canvas.drawBitmap(bitmap, 0, 0, null);
         document.finishPage(myPage);
-        String idAduan = idAduan1.getText().toString().trim();
+        String idAduan = binding.idAduan.getText().toString().trim();
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idAduan + ".pdf");
 
         while (file.exists()){

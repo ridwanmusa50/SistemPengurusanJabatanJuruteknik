@@ -1,5 +1,6 @@
 package com.sistempengurusanjabatanjuruteknik.ui.juruteknik;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,7 +23,7 @@ public class utamaJuruteknik extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaJuruteknikBinding binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
+        ActivityUtamaJuruteknikBinding binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarUtamaJuruteknik.toolbar1);
@@ -49,8 +50,8 @@ public class utamaJuruteknik extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
-
     }
 }

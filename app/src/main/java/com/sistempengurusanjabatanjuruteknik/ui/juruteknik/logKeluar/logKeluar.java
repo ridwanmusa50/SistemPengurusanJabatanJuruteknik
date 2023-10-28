@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.LogKeluarBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.utamaJuruteknik;
 import com.sistempengurusanjabatanjuruteknik.utamaAplikasi;
 
@@ -24,7 +25,8 @@ public class logKeluar extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.log_keluar, container, false);
+
+        LogKeluarBinding binding = LogKeluarBinding.inflate(inflater, container, false);
 
         mAuth = FirebaseAuth.getInstance();
         sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
@@ -51,6 +53,6 @@ public class logKeluar extends Fragment
                 .create();
         dialog.show();
 
-        return v;
+        return binding.getRoot();
     }
 }

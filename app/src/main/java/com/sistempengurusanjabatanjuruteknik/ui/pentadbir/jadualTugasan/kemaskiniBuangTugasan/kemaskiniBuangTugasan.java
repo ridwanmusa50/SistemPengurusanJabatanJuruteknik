@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,11 +21,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentKemaskiniBuangTugasanPentadbirBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.Tugas;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.penyambungJadual;
 
@@ -39,39 +38,25 @@ import java.util.Objects;
 
 public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.OnDateSetListener
 {
-    private EditText tarikhJadual1;
-    private EditText idJadual1;
-    private Button butangKemaskiniTugas1;
-    private Button butangBuangTugas1;
-    private Button butangTambahSenaraiTugas1;
-    private RecyclerView recylerview;
+    private FragmentKemaskiniBuangTugasanPentadbirBinding binding;
     private FirebaseFirestore db; // declare Firebase Firestore variable
-    private ProgressBar progressBar;
     private final ArrayList<Tugas> list = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_kemaskini_buang_tugasan_pentadbir, container, false);
+        binding = FragmentKemaskiniBuangTugasanPentadbirBinding.inflate(inflater, container, false);
 
-        tarikhJadual1 = v.findViewById(R.id.tarikhJadual);
-        idJadual1 = v.findViewById(R.id.idJadual);
-        Button butangCariTarikh1 = v.findViewById(R.id.butangCariTarikh);
-        butangKemaskiniTugas1 = v.findViewById(R.id.butangKemaskiniTugas);
-        butangBuangTugas1 = v.findViewById(R.id.butangBuangTugas);
-        butangTambahSenaraiTugas1 = v.findViewById(R.id.butangTambahSenaraiTugas);
-        recylerview = v.findViewById(R.id.recyclerView);
         db = FirebaseFirestore.getInstance();
-        progressBar = v.findViewById(R.id.progressBar);
 
-        recylerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-        recylerview.setAdapter(penyambung);
+        binding.recyclerView.setAdapter(penyambung);
 
         initialize();
 
-        butangCariTarikh1.setOnClickListener(v1 -> tunjukJadual());
+        binding.butangCariTarikh.setOnClickListener(v1 -> tunjukJadual());
 
-        butangTambahSenaraiTugas1.setOnClickListener(v12 -> {
+        binding.butangTambahSenaraiTugas.setOnClickListener(v12 -> {
             Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.tambah_kemaskini_jadual);
 
@@ -91,26 +76,26 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
                     list.add(new Tugas(tugasJadual));
                     penyambung.notifyItemInserted(list.size() - 1);
 
-                    recylerview.scrollToPosition(list.size() - 1);
+                    binding.recyclerView.scrollToPosition(list.size() - 1);
                     dialog.dismiss();
                 }
             });
             dialog.show();
         });
 
-        butangBuangTugas1.setOnClickListener(v13 -> {
-            String idJadual = idJadual1.getText().toString().trim();
+        binding.butangBuangTugas.setOnClickListener(v13 -> {
+            String idJadual = binding.idJadual.getText().toString().trim();
 
             AlertDialog dialog = new AlertDialog.Builder(requireContext())
                     .setTitle("Adakah anda pasti?")
                     .setMessage("Tindakan membuang jadual ini akan membuatkan jadual dikeluarkan dari sistem sepenuhnya")
                     .setPositiveButton("Buang", (dialog1, which) -> {
-                        progressBar.setVisibility(View.VISIBLE);
+                        binding.progressBar.setVisibility(View.VISIBLE);
 
                         db.collection("JadualTugasan").document(idJadual)
                                 .delete()
                                         .addOnSuccessListener(unused -> {
-                                            progressBar.setVisibility(View.GONE);
+                                            binding.progressBar.setVisibility(View.GONE);
                                             Toast.makeText(getContext(), "Sistem berjaya membuang jadual!", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(getContext(), requireActivity().getClass()));
                                         });
@@ -120,9 +105,9 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
             dialog.show();
         });
 
-        butangKemaskiniTugas1.setOnClickListener(v14 -> {
-            String tarikhJadual = tarikhJadual1.getText().toString().trim();
-            String idJadual = idJadual1.getText().toString().trim();
+        binding.butangKemaskiniTugas.setOnClickListener(v14 -> {
+            String tarikhJadual = binding.tarikhJadual.getText().toString().trim();
+            String idJadual = binding.idJadual.getText().toString().trim();
 
             Map<String, Object> tugasan = new HashMap<>();
             tugasan.put("idJadual", idJadual);
@@ -151,25 +136,25 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
                     Toast.makeText(getContext(), "Senarai tugas perlu dimasukkan!", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    progressBar.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.VISIBLE);
 
                     db.collection("JadualTugasan").document(idJadual)
                             .update(tugasan).addOnSuccessListener(unused -> {
-                                progressBar.setVisibility(View.GONE);
+                                binding.progressBar.setVisibility(View.GONE);
 
                                 Toast.makeText(getContext(), "Sistem berjaya mengemaskini jadual!", Toast.LENGTH_LONG).show();
 
                                 startActivity(new Intent(getContext(), requireActivity().getClass()));
                             })
                             .addOnFailureListener(e -> {
-                                progressBar.setVisibility(View.GONE);
+                                binding.progressBar.setVisibility(View.GONE);
                                 Toast.makeText(getContext(), "Sistem gagal mengemaskini jadual! Sila cuba lagi", Toast.LENGTH_LONG).show();
                             });
                 }
             }
         });
 
-        return v;
+        return binding.getRoot();
     }
 
     private void tunjukJadual()
@@ -185,30 +170,30 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String[] bulan= {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        String haribulan = "";
-
-        for (int i = 0; i < bulan.length; i++)
-        {
-            if (month == i)
-            {
-                haribulan = bulan[i];
-                break;
-            }
-        }
+//        String[] bulan = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+//        String haribulan = "";
+//
+//        for (int i = 0; i < bulan.length; i++)
+//        {
+//            if (month == i)
+//            {
+//                haribulan = bulan[i];
+//                break;
+//            }
+//        }
 
         String tarikh;
 
         if (dayOfMonth < 10)
         {
-            tarikh = "0" + dayOfMonth + "/" + haribulan + "/" + year;
+            tarikh = "0" + dayOfMonth + "/" + (month + 1) + "/" + year;
         }
         else
         {
-            tarikh = "" + dayOfMonth + "/" + haribulan + "/" + year;
+            tarikh = "" + dayOfMonth + "/" + (month + 1) + "/" + year;
         }
 
-        tarikhJadual1.getText().clear();
+        binding.tarikhJadual.getText().clear();
         list.clear();
 
         db = FirebaseFirestore.getInstance();
@@ -220,35 +205,35 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
                         for (DocumentSnapshot snapshot : snapshotList) {
                             if (Objects.equals(snapshot.getString("tarikhJadual"), tarikh)) {
-                                tarikhJadual1.setText(tarikh);
+                                binding.tarikhJadual.setText(tarikh);
                                 String idJadual = snapshot.getString("idJadual");
 
-                                idJadual1.setText(idJadual);
-                                butangTambahSenaraiTugas1.setEnabled(true);
-                                butangBuangTugas1.setEnabled(true);
-                                butangKemaskiniTugas1.setEnabled(true);
-                                butangTambahSenaraiTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
-                                butangKemaskiniTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
-                                butangBuangTugas1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                binding.idJadual.setText(idJadual);
+                                binding.butangTambahSenaraiTugas.setEnabled(true);
+                                binding.butangBuangTugas.setEnabled(true);
+                                binding.butangKemaskiniTugas.setEnabled(true);
+                                binding.butangTambahSenaraiTugas.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                binding.butangKemaskiniTugas.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                binding.butangBuangTugas.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
 
                                 paparkanTugas();
                                 break;
                             }
                         }
 
-                        if (tarikhJadual1.getText().toString().isEmpty())
+                        if (binding.tarikhJadual.getText().toString().isEmpty())
                         {
                             penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-                            idJadual1.getText().clear();
+                            binding.idJadual.getText().clear();
                             initialize();
-                            recylerview.setAdapter(penyambung);
+                            binding.recyclerView.setAdapter(penyambung);
 
                             Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas! Sila pilih tarikh yang lain.", Toast.LENGTH_LONG).show();
                         }
                     }
                     else
                     {
-                        idJadual1.getText().clear();
+                        binding.idJadual.getText().clear();
 
                         Toast.makeText(getContext(), "Tarikh tidak mempunyai sebarang tugas!", Toast.LENGTH_LONG).show();
                     }
@@ -257,21 +242,21 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
     private void initialize()
     {
-        butangKemaskiniTugas1.setEnabled(false);
-        butangBuangTugas1.setEnabled(false);
-        butangBuangTugas1.setBackgroundColor(Color.GRAY);
-        butangKemaskiniTugas1.setBackgroundColor(Color.GRAY);
-        butangTambahSenaraiTugas1.setEnabled(false);
-        butangTambahSenaraiTugas1.setBackgroundColor(Color.GRAY);
+        binding.butangKemaskiniTugas.setEnabled(false);
+        binding.butangBuangTugas.setEnabled(false);
+        binding.butangBuangTugas.setBackgroundColor(Color.GRAY);
+        binding.butangKemaskiniTugas.setBackgroundColor(Color.GRAY);
+        binding.butangTambahSenaraiTugas.setEnabled(false);
+        binding.butangTambahSenaraiTugas.setBackgroundColor(Color.GRAY);
     }
 
     private void paparkanTugas()
     {
-        String idJadual = idJadual1.getText().toString().trim();
+        String idJadual = binding.idJadual.getText().toString().trim();
         db = FirebaseFirestore.getInstance();
-        recylerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-        recylerview.setAdapter(penyambung);
+        binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").document(idJadual)
                 .get()

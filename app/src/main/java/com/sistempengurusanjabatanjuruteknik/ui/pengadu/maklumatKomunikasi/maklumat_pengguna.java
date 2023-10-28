@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,13 +16,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentMaklumatPenggunaBinding;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class maklumat_pengguna extends Fragment {
-    private SwipeRefreshLayout refresh;
     private Penyambung penyambung;
     private ArrayList<Pengguna> list;
     private FirebaseAuth mAuth;
@@ -34,30 +31,30 @@ public class maklumat_pengguna extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_maklumat_pengguna, container, false);
+        FragmentMaklumatPenggunaBinding binding = FragmentMaklumatPenggunaBinding.inflate(inflater, container, false);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        refresh = v.findViewById(R.id.refresh);
-        RecyclerView recyclerView = v.findViewById(R.id.userlist);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        binding.userlist.setHasFixedSize(true);
+        binding.userlist.setLayoutManager(new LinearLayoutManager(getContext()));
 
         list = new ArrayList<>();
         penyambung = new Penyambung(getContext(), list);
-        recyclerView.setAdapter(penyambung);
+        binding.userlist.setAdapter(penyambung);
         list.clear();
         penyambung.notifyDataSetChanged();
 
         paparPengguna();
 
-        refresh.setOnRefreshListener(() -> {
+        binding.refresh.setOnRefreshListener(() -> {
             list.clear();
             penyambung.notifyDataSetChanged();
             paparPengguna();
-            refresh.setRefreshing(false);
+            binding.refresh.setRefreshing(false);
         });
-        return v;
+
+        return binding.getRoot();
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -11,10 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentKemaskiniPenggunaBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,35 +30,21 @@ import java.util.Map;
 import java.util.Objects;
 
 public class kemaskiniPengguna extends Fragment {
-    private EditText idPengguna1;
-    private EditText namaPenuh1;
-    private EditText emelPengguna1;
-    private EditText kataLaluan1;
-    private EditText nomborTelefon1;
-    private Button butangKemaskiniPengguna;
-    private ProgressBar progressBar;
+
+    private FragmentKemaskiniPenggunaBinding binding;
     private FirebaseAuth mAuth;
-    private Spinner spinner;
     private String jawatanPengguna2 = "";
     private FirebaseFirestore db;
     SharedPreferences sp;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_kemaskini_pengguna, container, false);
+        binding = FragmentKemaskiniPenggunaBinding.inflate(inflater, container, false);
 
-        idPengguna1 = v.findViewById(R.id.idPengguna);
-        namaPenuh1 = v.findViewById(R.id.namaPenuh);
-        emelPengguna1 = v.findViewById(R.id.emelPengguna);
-        kataLaluan1 = v.findViewById(R.id.kataLaluan);
-        nomborTelefon1 = v.findViewById(R.id.nomborTelefon);
-        butangKemaskiniPengguna = v.findViewById(R.id.butangKemaskiniPengguna);
-        Button butangCariPengguna = v.findViewById(R.id.butangCariPengguna);
-        progressBar = v.findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
-        spinner = v.findViewById(R.id.spinner);
+        
         final String[] email = new String[1];
         final String[] pass = new String[1];
 
@@ -75,31 +58,31 @@ public class kemaskiniPengguna extends Fragment {
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
         dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        binding.spinner.setAdapter(dataAdapter);
 
         mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""));
 
-        initialize(v);
+        initialize();
 
-        butangCariPengguna.setOnClickListener(v1 -> {
-            String idPengguna = idPengguna1.getText().toString().trim();
-            final String[] namaPenuh = {namaPenuh1.getText().toString().trim()};
-            final String[] emelPengguna = {emelPengguna1.getText().toString().trim()};
-            final String[] kataLaluan = {kataLaluan1.getText().toString().trim()};
-            final String[] nomborTelefon = {nomborTelefon1.getText().toString().trim()};
+        binding.butangCariPengguna.setOnClickListener(v1 -> {
+            String idPengguna = binding.idPengguna.getText().toString().trim();
+            final String[] namaPenuh = {binding.namaPenuh.getText().toString().trim()};
+            final String[] emelPengguna = {binding.emelPengguna.getText().toString().trim()};
+            final String[] kataLaluan = {binding.kataLaluan.getText().toString().trim()};
+            final String[] nomborTelefon = {binding.nomborTelefon.getText().toString().trim()};
             final String[] jawatanPengguna = {jawatanPengguna2.trim()};
 
-            if (butangKemaskiniPengguna.isEnabled())
+            if (binding.butangKemaskiniPengguna.isEnabled())
             {
-                idPengguna1.getText().clear();
-                initialize(v);
-                idPengguna1.requestFocus();
+                binding.idPengguna.getText().clear();
+                initialize();
+                binding.idPengguna.requestFocus();
             }
             else
             {
                 if (idPengguna.isEmpty()) {
-                    idPengguna1.setError("Id Pengguna perlu diisi!");
-                    idPengguna1.requestFocus();
+                    binding.idPengguna.setError("Id Pengguna perlu diisi!");
+                    binding.idPengguna.requestFocus();
                 }
                 else
                 {
@@ -107,24 +90,24 @@ public class kemaskiniPengguna extends Fragment {
                             .get()
                             .addOnSuccessListener(documentSnapshot -> {
                                 if (documentSnapshot.exists()) {
-                                    v.findViewById(R.id.idPengguna).setEnabled(false);
-                                    idPengguna1.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blokbackground));
-                                    idPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+                                    binding.idPengguna.setEnabled(false);
+                                    binding.idPengguna.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blokbackground));
+                                    binding.idPengguna.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
                                     int i;
 
                                     namaPenuh[0] = (String) documentSnapshot.get("namaPenuh");
-                                    namaPenuh1.setText(namaPenuh[0]);
+                                    binding.namaPenuh.setText(namaPenuh[0]);
 
                                     emelPengguna[0] = (String) documentSnapshot.get("emelPengguna");
-                                    emelPengguna1.setText(emelPengguna[0]);
+                                    binding.emelPengguna.setText(emelPengguna[0]);
                                     email[0] = emelPengguna[0];
 
                                     kataLaluan[0] = (String) documentSnapshot.get("kataLaluan");
-                                    kataLaluan1.setText(kataLaluan[0]);
+                                    binding.kataLaluan.setText(kataLaluan[0]);
                                     pass[0] = kataLaluan[0];
 
                                     nomborTelefon[0] = (String) documentSnapshot.get("nomborTelefon");
-                                    nomborTelefon1.setText(nomborTelefon[0]);
+                                    binding.nomborTelefon.setText(nomborTelefon[0]);
 
                                     jawatanPengguna[0] = (String) documentSnapshot.get("jawatanPengguna");
                                     jawatanPengguna2 = jawatanPengguna[0];
@@ -144,48 +127,48 @@ public class kemaskiniPengguna extends Fragment {
                                             break;
                                     }
 
-                                    spinner.setSelection(i);
+                                    binding.spinner.setSelection(i);
 
                                     if (emelPengguna[0].toLowerCase(Locale.ROOT).equals(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()))
                                     {
                                         Toast.makeText(getContext(), "Pengguna hanya boleh kemaskini diri sendiri di profil pengguna!!!", Toast.LENGTH_LONG).show();
-                                        butangKemaskiniPengguna.setEnabled(false);
-                                        v.findViewById(R.id.idPengguna).setEnabled(true);
+                                        binding.butangKemaskiniPengguna.setEnabled(false);
+                                        binding.idPengguna.setEnabled(true);
                                     }
                                     else
                                     {
-                                        butangKemaskiniPengguna.setEnabled(true);
-                                        v.findViewById(R.id.namaPenuh).setEnabled(true);
-                                        v.findViewById(R.id.emelPengguna).setEnabled(true);
-                                        v.findViewById(R.id.kataLaluan).setEnabled(true);
-                                        v.findViewById(R.id.nomborTelefon).setEnabled(true);
-                                        namaPenuh1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
-                                        namaPenuh1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                                        emelPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
-                                        emelPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                                        kataLaluan1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
-                                        kataLaluan1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                                        nomborTelefon1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
-                                        nomborTelefon1.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-                                        butangKemaskiniPengguna.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
+                                        binding.butangKemaskiniPengguna.setEnabled(true);
+                                        binding.namaPenuh.setEnabled(true);
+                                        binding.emelPengguna.setEnabled(true);
+                                        binding.kataLaluan.setEnabled(true);
+                                        binding.nomborTelefon.setEnabled(true);
+                                        binding.namaPenuh.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        binding.namaPenuh.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        binding.emelPengguna.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        binding.emelPengguna.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        binding.kataLaluan.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        binding.kataLaluan.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        binding.nomborTelefon.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+                                        binding.nomborTelefon.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                                        binding.butangKemaskiniPengguna.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.tema));
                                     }
                                 }
                                 else
                                 {
                                     Toast.makeText(getContext(), "ID Pengguna tiada dalam pangkalan data!!!", Toast.LENGTH_SHORT).show();
-                                    idPengguna1.requestFocus();
+                                    binding.idPengguna.requestFocus();
                                 }
                             });
                 }
             }
         });
 
-        butangKemaskiniPengguna.setOnClickListener(v12 -> {
-            String idPengguna = idPengguna1.getText().toString().trim();
-            String namaPenuh = namaPenuh1.getText().toString().trim();
-            String emelPengguna = emelPengguna1.getText().toString().trim();
-            String kataLaluan = kataLaluan1.getText().toString().trim();
-            String nomborTelefon = nomborTelefon1.getText().toString().trim();
+        binding.butangKemaskiniPengguna.setOnClickListener(v12 -> {
+            String idPengguna = binding.idPengguna.getText().toString().trim();
+            String namaPenuh = binding.namaPenuh.getText().toString().trim();
+            String emelPengguna = binding.emelPengguna.getText().toString().trim();
+            String kataLaluan = binding.kataLaluan.getText().toString().trim();
+            String nomborTelefon = binding.nomborTelefon.getText().toString().trim();
             String jawatanPengguna = jawatanPengguna2.trim();
 
             Map<String, Object> Pengguna = new HashMap<>();
@@ -198,22 +181,22 @@ public class kemaskiniPengguna extends Fragment {
 
             if (namaPenuh.isEmpty())
             {
-                namaPenuh1.setError("Nama Penuh perlu diisi!");
-                namaPenuh1.requestFocus();
+                binding.namaPenuh.setError("Nama Penuh perlu diisi!");
+                binding.namaPenuh.requestFocus();
             }
             else
             {
                 if (emelPengguna.isEmpty())
                 {
-                    emelPengguna1.setError("Emel Pengguna perlu diisi!");
-                    emelPengguna1.requestFocus();
+                    binding.emelPengguna.setError("Emel Pengguna perlu diisi!");
+                    binding.emelPengguna.requestFocus();
                 }
                 else
                 {
                     if (!Patterns.EMAIL_ADDRESS.matcher(emelPengguna).matches())
                     {
-                        emelPengguna1.setError("Sila masukkan Email Pengguna yang sah!");
-                        emelPengguna1.requestFocus();
+                        binding.emelPengguna.setError("Sila masukkan Email Pengguna yang sah!");
+                        binding.emelPengguna.requestFocus();
                     }
                     else
                     {
@@ -223,47 +206,47 @@ public class kemaskiniPengguna extends Fragment {
 
                                     if(!isNewUser && !emelPengguna.equals(email[0]))
                                     {
-                                        emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
-                                        emelPengguna1.requestFocus();
+                                        binding.emelPengguna.setError("Emel Pengguna telah terdaftar dalam sistem!");
+                                        binding.emelPengguna.requestFocus();
                                     }
                                     else
                                     {
                                         if (kataLaluan.isEmpty())
                                         {
-                                            kataLaluan1.setError("Kata Laluan perlu diisi!");
-                                            kataLaluan1.requestFocus();
+                                            binding.kataLaluan.setError("Kata Laluan perlu diisi!");
+                                            binding.kataLaluan.requestFocus();
                                         }
                                         else
                                         {
                                             if (kataLaluan.length() < 6)
                                             {
-                                                kataLaluan1.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
-                                                kataLaluan1.requestFocus();
+                                                binding.kataLaluan.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
+                                                binding.kataLaluan.requestFocus();
                                             }
                                             else
                                             {
                                                 if (kataLaluan.length() > 15)
                                                 {
-                                                    kataLaluan1.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
-                                                    kataLaluan1.requestFocus();
+                                                    binding.kataLaluan.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
+                                                    binding.kataLaluan.requestFocus();
                                                 }
                                                 else
                                                 {
                                                     if (nomborTelefon.isEmpty())
                                                     {
-                                                        nomborTelefon1.setError("Nombor Telefon perlu diisi");
-                                                        nomborTelefon1.requestFocus();
+                                                        binding.nomborTelefon.setError("Nombor Telefon perlu diisi");
+                                                        binding.nomborTelefon.requestFocus();
                                                     }
                                                     else
                                                     {
                                                         if (nomborTelefon.length() > 12 || nomborTelefon.length() < 10)
                                                         {
-                                                            nomborTelefon1.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
-                                                            nomborTelefon1.requestFocus();
+                                                            binding.nomborTelefon.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
+                                                            binding.nomborTelefon.requestFocus();
                                                         }
                                                         else
                                                         {
-                                                                progressBar.setVisibility(View.VISIBLE);
+                                                                binding.progressBar.setVisibility(View.VISIBLE);
 
                                                                 db.collection("Pengguna").document(idPengguna)
                                                                         .set(Pengguna)
@@ -305,27 +288,27 @@ public class kemaskiniPengguna extends Fragment {
             }
         });
 
-        return v;
+        return binding.getRoot();
     }
 
-    private void initialize(View v) {
-        v.findViewById(R.id.idPengguna).setEnabled(true);
-        v.findViewById(R.id.relativeLayout1).setEnabled(false);
-        v.findViewById(R.id.relativeLayout2).setEnabled(false);
-        v.findViewById(R.id.relativeLayout3).setEnabled(false);
-        v.findViewById(R.id.relativeLayout4).setEnabled(false);
-        idPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
-        namaPenuh1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
-        namaPenuh1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
-        emelPengguna1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
-        emelPengguna1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
-        kataLaluan1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
-        kataLaluan1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
-        nomborTelefon1.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
-        nomborTelefon1.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
-        spinner.setEnabled(false);
-        butangKemaskiniPengguna.setEnabled(false);
-        butangKemaskiniPengguna.setBackgroundColor(Color.GRAY);
+    private void initialize() {
+        binding.idPengguna.setEnabled(true);
+        binding.relativeLayout1.setEnabled(false);
+        binding.relativeLayout2.setEnabled(false);
+        binding.relativeLayout3.setEnabled(false);
+        binding.relativeLayout4.setEnabled(false);
+        binding.idPengguna.setBackground(ContextCompat.getDrawable(requireContext(), R.color.editTextBG));
+        binding.namaPenuh.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        binding.namaPenuh.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        binding.emelPengguna.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        binding.emelPengguna.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        binding.kataLaluan.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        binding.kataLaluan.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        binding.nomborTelefon.setBackground(ContextCompat.getDrawable(requireContext(), R.color.blokbackground));
+        binding.nomborTelefon.setTextColor(ContextCompat.getColor(requireContext(), R.color.blokteks));
+        binding.spinner.setEnabled(false);
+        binding.butangKemaskiniPengguna.setEnabled(false);
+        binding.butangKemaskiniPengguna.setBackgroundColor(Color.GRAY);
     }
 
     private void updateEmailPass(String email, String pass, String emelPengguna, String kataLaluan)

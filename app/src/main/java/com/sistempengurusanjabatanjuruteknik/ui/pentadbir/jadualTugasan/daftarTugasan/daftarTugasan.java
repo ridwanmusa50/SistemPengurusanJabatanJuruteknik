@@ -13,17 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentDaftarTugasanPentadbirBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.Tugas;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.jadualTugasan.penyambungJadual;
 
@@ -36,31 +35,21 @@ import java.util.Objects;
 
 public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSetListener
 {
-    private EditText tarikhJadual1;
-    private EditText idJadual1;
-    private RecyclerView recylerview;
+    private FragmentDaftarTugasanPentadbirBinding binding;
     private FirebaseFirestore db; // declare Firebase Firestore variable
-    private ProgressBar progressBar;
     private int max;
     private final ArrayList<Tugas> list = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_daftar_tugasan_pentadbir, container, false);
+        binding = FragmentDaftarTugasanPentadbirBinding.inflate(inflater, container, false);
 
-        tarikhJadual1 = v.findViewById(R.id.tarikhJadual);
-        idJadual1 = v.findViewById(R.id.idJadual);
-        Button butangCariTarikh1 = v.findViewById(R.id.butangCariTarikh);
-        Button butangTambahTugas1 = v.findViewById(R.id.butangTambahTugas);
-        Button butangTambahSenaraiTugas1 = v.findViewById(R.id.butangTambahSenaraiTugas);
-        recylerview = v.findViewById(R.id.recyclerView);
         db = FirebaseFirestore.getInstance();
-        progressBar = v.findViewById(R.id.progressBar);
 
-        recylerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-        recylerview.setAdapter(penyambung);
+        binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").get()
                         .addOnCompleteListener(task -> {
@@ -73,23 +62,23 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                                 max = max + 1;
 
                                 if (max < 10) {
-                                    idJadual1.setText("J00" + max);
+                                    binding.idJadual.setText("J00" + max);
                                 } else if (max < 100) {
-                                    idJadual1.setText("J0" + max);
+                                    binding.idJadual.setText("J0" + max);
                                 } else {
-                                    idJadual1.setText("J" + max);
+                                    binding.idJadual.setText("J" + max);
                                 }
                             }
                             else
                             {
                                 max = 1;
-                                idJadual1.setText("J00" + max);
+                                binding.idJadual.setText("J00" + max);
                             }
                         });
 
-        butangCariTarikh1.setOnClickListener(v1 -> tunjukJadual());
+        binding.butangCariTarikh.setOnClickListener(v1 -> tunjukJadual());
 
-        butangTambahSenaraiTugas1.setOnClickListener(v12 -> {
+        binding.butangTambahSenaraiTugas.setOnClickListener(v12 -> {
             Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.tambah_kemaskini_jadual);
 
@@ -109,16 +98,16 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                     list.add(new Tugas(tugasJadual));
                     penyambung.notifyItemInserted(list.size() - 1);
 
-                    recylerview.scrollToPosition(list.size() - 1);
+                    binding.recyclerView.scrollToPosition(list.size() - 1);
                     dialog.dismiss();
                 }
             });
             dialog.show();
         });
 
-        butangTambahTugas1.setOnClickListener(v13 -> {
-            String tarikhJadual = tarikhJadual1.getText().toString().trim();
-            String idJadual = idJadual1.getText().toString().trim();
+        binding.butangTambahTugas.setOnClickListener(v13 -> {
+            String tarikhJadual = binding.tarikhJadual.getText().toString().trim();
+            String idJadual = binding.idJadual.getText().toString().trim();
 
             Map<String, Object> tugasan = new HashMap<>();
             tugasan.put("idJadual", idJadual);
@@ -148,24 +137,24 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                     Toast.makeText(getContext(), "Senarai tugas perlu dimasukkan!", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    progressBar.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.VISIBLE);
 
                     db.collection("JadualTugasan").document(idJadual)
                             .set(tugasan).addOnSuccessListener(unused -> {
-                                progressBar.setVisibility(View.GONE);
+                                binding.progressBar.setVisibility(View.GONE);
 
                                 Toast.makeText(getContext(), "Sistem berjaya menambah jadual!", Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(getContext(), requireActivity().getClass()));
                             })
                             .addOnFailureListener(e -> {
-                                progressBar.setVisibility(View.GONE);
+                                binding.progressBar.setVisibility(View.GONE);
                                 Toast.makeText(getContext(), "Sistem gagal menambah jadual! Sila cuba lagi", Toast.LENGTH_LONG).show();
                             });
                 }
             }
         });
 
-        return v;
+        return binding.getRoot();
     }
 
     private void tunjukJadual()
@@ -209,26 +198,26 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        recylerview.setLayoutManager(new LinearLayoutManager(getContext()));
+                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         penyambungJadual penyambung = new penyambungJadual(getContext(), list);
-                        recylerview.setAdapter(penyambung);
+                        binding.recyclerView.setAdapter(penyambung);
 
                         for (DocumentSnapshot snapshot : snapshotList) {
                             if (Objects.equals(snapshot.getString("tarikhJadual"), finalTarikh)) {
-                                tarikhJadual1.getText().clear();
+                                binding.tarikhJadual.getText().clear();
                                 list.clear();
                                 penyambung.notifyDataSetChanged();
 
                                 Toast.makeText(getContext(), "Tarikh sudah mempunyai tugasan! Sila pilih tarikh yang lain.", Toast.LENGTH_LONG).show();
                                 return;
                             } else {
-                                tarikhJadual1.setText(finalTarikh);
+                                binding.tarikhJadual.setText(finalTarikh);
                             }
                         }
                     }
                     else
                     {
-                        tarikhJadual1.setText(finalTarikh);
+                        binding.tarikhJadual.setText(finalTarikh);
                     }
                 });
 

@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentJadualTugasanJuruteknikBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.penyambungJadual;
 import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.Tugas;
 
@@ -33,14 +32,14 @@ public class jadualTugasan extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_jadual_tugasan_juruteknik, container, false);
 
-        RecyclerView recylerview = v.findViewById(R.id.senaraiTugas);
+        FragmentJadualTugasanJuruteknikBinding binding = FragmentJadualTugasanJuruteknikBinding.inflate(inflater, container, false);
+        
         db = FirebaseFirestore.getInstance();
 
-        recylerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.senaraiTugas.setLayoutManager(new LinearLayoutManager(getContext()));
         penyambungJadual penyambung = new penyambungJadual(getContext(), list, idJadual);
-        recylerview.setAdapter(penyambung);
+        binding.senaraiTugas.setAdapter(penyambung);
 
         String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
@@ -92,6 +91,6 @@ public class jadualTugasan extends Fragment
                         Log.d("TAG", "No such document");
                     }
                 });
-        return v;
+        return binding.getRoot();
     }
 }

@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +29,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentLaporanSenaraiTugasKerosakanBinding;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,10 +44,10 @@ import java.util.Locale;
 import java.util.Map;
 
 public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
-    private EditText idJadual1;
-    private EditText tarikhJadual1;
+    
+    private FragmentLaporanSenaraiTugasKerosakanBinding binding;
+    
     private FirebaseFirestore db;
-    private RecyclerView recylerview;
     private final ArrayList<TugasPenuh> list = new ArrayList<>();
     private final ArrayList<String> tugas = new ArrayList<>();
     int count = 0;
@@ -57,7 +56,9 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_laporan_senarai_tugas_kerosakan);
+
+        binding = FragmentLaporanSenaraiTugasKerosakanBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         String value = null;
         // terima idJadual daripada senarai jadual
@@ -66,19 +67,15 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
             value = extras.getString("lokasi");
         }
 
-        recylerview = findViewById(R.id.recyclerView);
-        recylerview.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         penyambungJadualPenuh penyambung = new penyambungJadualPenuh(this, list);
-        recylerview.setAdapter(penyambung);
+        binding.recyclerView.setAdapter(penyambung);
 
-        idJadual1 = findViewById(R.id.idJadual);
-        tarikhJadual1 = findViewById(R.id.tarikhJadual);
-        Button butangCetakTugas = findViewById(R.id.butangCetakTugas);
         db = FirebaseFirestore.getInstance();
 
         tunjukkanMaklumat(value);
 
-        butangCetakTugas.setOnClickListener(v -> {
+        binding.butangCetakTugas.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(senaraiPenuhTugasPentadbir.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
@@ -102,8 +99,8 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
                 }
             }
 
-            String idJadual = idJadual1.getText().toString().trim();
-            String tarikhJadual = tarikhJadual1.getText().toString().trim();
+            String idJadual = binding.idJadual.getText().toString().trim();
+            String tarikhJadual = binding.tarikhJadual.getText().toString().trim();
 
             if(checkPermissionGranted()){
                 ciptaPDF(idJadual, tarikhJadual);
@@ -194,13 +191,13 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     private void tunjukkanMaklumat(String value)
     {
         list.clear();
-        idJadual1.setText(value);
-        String idJadual = idJadual1.getText().toString().trim();
-        final String[] tarikhJadual = {tarikhJadual1.getText().toString().trim()};
+        binding.idJadual.setText(value);
+        String idJadual = binding.idJadual.getText().toString().trim();
+        final String[] tarikhJadual = {binding.tarikhJadual.getText().toString().trim()};
         db = FirebaseFirestore.getInstance();
-        recylerview.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         penyambungJadualPenuh penyambung = new penyambungJadualPenuh(this, list);
-        recylerview.setAdapter(penyambung);
+        binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").document(idJadual)
                 .get()
@@ -208,7 +205,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
                     if (documentSnapshot.exists())
                     {
                         tarikhJadual[0] = (String) documentSnapshot.get("tarikhJadual");
-                        tarikhJadual1.setText(tarikhJadual[0]);
+                        binding.tarikhJadual.setText(tarikhJadual[0]);
 
                         Map<String, Object> friendsMap = documentSnapshot.getData();
                         assert friendsMap != null;
@@ -263,7 +260,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         Canvas canvas = myPage.getCanvas();
         canvas.drawBitmap(bitmap, 0, 0, null);
         document.finishPage(myPage);
-        String idJadual = idJadual1.getText().toString().trim();
+        String idJadual = binding.idJadual.getText().toString().trim();
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idJadual + ".pdf");
 
         while (file.exists()){

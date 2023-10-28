@@ -12,13 +12,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentSenaraiAduanJuruteknikBinding;
 import com.sistempengurusanjabatanjuruteknik.ui.Aduan;
 import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.senaraiPenuhAduanPentadbir;
 import com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 
 public class laporanAduanKerosakan extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
-    private SwipeRefreshLayout refresh;
     private FirebaseFirestore db;
     private penyambungSenaraiAduan penyambungSenaraiAduan;
     private ArrayList<Aduan> list;
@@ -35,18 +32,17 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
     @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_senarai_aduan_juruteknik, container, false);
+        FragmentSenaraiAduanJuruteknikBinding binding = FragmentSenaraiAduanJuruteknikBinding.inflate(inflater, container, false);
 
-        RecyclerView recyclerView = v.findViewById(R.id.senaraiAduan);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        refresh = v.findViewById(R.id.refresh);
+        binding.senaraiAduan.setHasFixedSize(true);
+        binding.senaraiAduan.setLayoutManager(new LinearLayoutManager(getContext()));
+        
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<>();
         penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
-        recyclerView.setAdapter(penyambungSenaraiAduan);
+        binding.senaraiAduan.setAdapter(penyambungSenaraiAduan);
 
-        refresh.setOnRefreshListener(() -> {
+        binding.refresh.setOnRefreshListener(() -> {
             list.clear();
             db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
                     .addSnapshotListener((value, error) -> {
@@ -66,7 +62,7 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
                             penyambungSenaraiAduan.notifyDataSetChanged();
                         }
                     });
-            refresh.setRefreshing(false);
+            binding.refresh.setRefreshing(false);
         });
 
         db.collection("AduanKerosakan").orderBy("idAduan", Query.Direction.DESCENDING)
@@ -87,7 +83,7 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
                         penyambungSenaraiAduan.notifyDataSetChanged();
                     }
                 });
-        return v;
+        return binding.getRoot();
     }
 
     // aduan ditekan

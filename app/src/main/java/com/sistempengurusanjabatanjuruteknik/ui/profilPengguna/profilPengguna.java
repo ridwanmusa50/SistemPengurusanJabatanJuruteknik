@@ -11,11 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,6 +23,8 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.FragmentProfilPenggunaBinding;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,33 +35,14 @@ public class profilPengguna extends Fragment
 {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private TextView namaPenuhTajuk1;
-    private TextView jawatanPenggunaTajuk1;
-    private EditText idPengguna1;
-    private EditText namaPenuh1;
-    private EditText emelPengguna1;
-    private EditText kataLaluan1;
-    private EditText nomborTelefon1;
-    private ProgressBar progressBar;
-    private Spinner spinner;
     private String jawatanPengguna2;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_profil_pengguna, container, false);
+        FragmentProfilPenggunaBinding binding = FragmentProfilPenggunaBinding.inflate(inflater, container, false);
 
-        namaPenuhTajuk1 = v.findViewById(R.id.namaPenuhTajuk);
-        jawatanPenggunaTajuk1 = v.findViewById(R.id.jawatanPenggunaTajuk);
-        idPengguna1 = v.findViewById(R.id.idPengguna);
-        namaPenuh1 = v.findViewById(R.id.namaPenuh);
-        emelPengguna1 = v.findViewById(R.id.emelPengguna);
-        kataLaluan1 = v.findViewById(R.id.kataLaluan);
-        nomborTelefon1 = v.findViewById(R.id.nomborTelefon);
-        Button butangKemaskiniProfil = v.findViewById(R.id.butangKemaskiniProfil);
-        progressBar = v.findViewById(R.id.progressBar);
-        spinner = v.findViewById(R.id.spinner);
         mAuth = FirebaseAuth.getInstance(); // initialize FirebaseAuth
         db = FirebaseFirestore.getInstance();
         sp = requireContext().getSharedPreferences("AkaunDigunakan", Context.MODE_PRIVATE);
@@ -79,11 +57,11 @@ public class profilPengguna extends Fragment
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
         dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        spinner.setEnabled(false);
+        binding.spinner.setAdapter(dataAdapter);
+        binding.spinner.setEnabled(false);
 
         String idDigunakan = sp.getString("idPengguna", "");
-        idPengguna1.setText(idDigunakan);
+        binding.idPengguna.setText(idDigunakan);
 
         db.collection("Pengguna").document(idDigunakan)
                 .get()
@@ -93,20 +71,20 @@ public class profilPengguna extends Fragment
                         int i;
 
                         String namaPenuh = documentSnapshot1.getString("namaPenuh");
-                        namaPenuh1.setText(namaPenuh);
-                        namaPenuhTajuk1.setText(namaPenuh);
+                        binding.namaPenuh.setText(namaPenuh);
+                        binding.namaPenuhTajuk.setText(namaPenuh);
 
                         String emelPengguna = documentSnapshot1.getString("emelPengguna");
-                        emelPengguna1.setText(emelPengguna);
+                        binding.emelPengguna.setText(emelPengguna);
 
                         String kataLaluan = documentSnapshot1.getString("kataLaluan");
-                        kataLaluan1.setText(kataLaluan);
+                        binding.kataLaluan.setText(kataLaluan);
 
                         String nomborTelefon = documentSnapshot1.getString("nomborTelefon");
-                        nomborTelefon1.setText(nomborTelefon);
+                        binding.nomborTelefon.setText(nomborTelefon);
 
                         String jawatanPengguna = documentSnapshot1.getString("jawatanPengguna");
-                        jawatanPenggunaTajuk1.setText(jawatanPengguna);
+                        binding.jawatanPenggunaTajuk.setText(jawatanPengguna);
                         jawatanPengguna2 = jawatanPengguna;
 
                         switch (Objects.requireNonNull(jawatanPengguna)) {
@@ -124,149 +102,146 @@ public class profilPengguna extends Fragment
                                 break;
                         }
 
-                        spinner.setSelection(i);
+                        binding.spinner.setSelection(i);
                     }
                 });
 
-        butangKemaskiniProfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String idPengguna = idPengguna1.getText().toString().trim();
-                String namaPenuh = namaPenuh1.getText().toString().trim();
-                String emelPengguna = emelPengguna1.getText().toString().trim();
-                String kataLaluan = kataLaluan1.getText().toString().trim();
-                String nomborTelefon = nomborTelefon1.getText().toString().trim();
+        binding.butangKemaskiniProfil.setOnClickListener(v -> {
+            String idPengguna = binding.idPengguna.getText().toString().trim();
+            String namaPenuh = binding.namaPenuh.getText().toString().trim();
+            String emelPengguna = binding.emelPengguna.getText().toString().trim();
+            String kataLaluan = binding.kataLaluan.getText().toString().trim();
+            String nomborTelefon = binding.nomborTelefon.getText().toString().trim();
 
-                Map<String, Object> Pengguna = new HashMap<>();
-                Pengguna.put("idPengguna", idPengguna);
-                Pengguna.put("emelPengguna", emelPengguna);
-                Pengguna.put("namaPenuh", namaPenuh);
-                Pengguna.put("kataLaluan", kataLaluan);
-                Pengguna.put("nomborTelefon", nomborTelefon);
-                Pengguna.put("jawatanPengguna", jawatanPengguna2);
+            Map<String, Object> Pengguna = new HashMap<>();
+            Pengguna.put("idPengguna", idPengguna);
+            Pengguna.put("emelPengguna", emelPengguna);
+            Pengguna.put("namaPenuh", namaPenuh);
+            Pengguna.put("kataLaluan", kataLaluan);
+            Pengguna.put("nomborTelefon", nomborTelefon);
+            Pengguna.put("jawatanPengguna", jawatanPengguna2);
 
-                if (namaPenuh.isEmpty())
+            if (namaPenuh.isEmpty())
+            {
+                binding.namaPenuh.setError("Nama Penuh perlu diisi!");
+                binding.namaPenuh.requestFocus();
+            }
+            else
+            {
+                if (emelPengguna.isEmpty())
                 {
-                    namaPenuh1.setError("Nama Penuh perlu diisi!");
-                    namaPenuh1.requestFocus();
+                    binding.emelPengguna.setError("Emel Pengguna perlu diisi!");
+                    binding.emelPengguna.requestFocus();
                 }
                 else
                 {
-                    if (emelPengguna.isEmpty())
+                    if (!Patterns.EMAIL_ADDRESS.matcher(emelPengguna).matches())
                     {
-                        emelPengguna1.setError("Emel Pengguna perlu diisi!");
-                        emelPengguna1.requestFocus();
+                        binding.emelPengguna.setError("Sila masukkan Email Pengguna yang sah!");
+                        binding.emelPengguna.requestFocus();
                     }
                     else
                     {
-                        if (!Patterns.EMAIL_ADDRESS.matcher(emelPengguna).matches())
-                        {
-                            emelPengguna1.setError("Sila masukkan Email Pengguna yang sah!");
-                            emelPengguna1.requestFocus();
-                        }
-                        else
-                        {
-                            mAuth.fetchSignInMethodsForEmail(emelPengguna)
-                                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                            boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
-                                            boolean isCurrentUser = task.getResult().getSignInMethods().size() == 1;
+                        mAuth.fetchSignInMethodsForEmail(emelPengguna)
+                                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                        boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
+                                        boolean isCurrentUser = task.getResult().getSignInMethods().size() == 1;
 
-                                            if (isNewUser || isCurrentUser)
+                                        if (isNewUser || isCurrentUser)
+                                        {
+                                            if (kataLaluan.isEmpty())
                                             {
-                                                if (kataLaluan.isEmpty())
+                                                binding.kataLaluan.setError("Kata Laluan perlu diisi!");
+                                                binding.kataLaluan.requestFocus();
+                                            }
+                                            else
+                                            {
+                                                if (kataLaluan.length() < 6)
                                                 {
-                                                    kataLaluan1.setError("Kata Laluan perlu diisi!");
-                                                    kataLaluan1.requestFocus();
+                                                    binding.kataLaluan.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
+                                                    binding.kataLaluan.requestFocus();
                                                 }
                                                 else
                                                 {
-                                                    if (kataLaluan.length() < 6)
+                                                    if (kataLaluan.length() > 15)
                                                     {
-                                                        kataLaluan1.setError("Minimum Panjang Kata Laluan mestilah 6 patah perkataan!");
-                                                        kataLaluan1.requestFocus();
+                                                        binding.kataLaluan.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
+                                                        binding.kataLaluan.requestFocus();
                                                     }
                                                     else
                                                     {
-                                                        if (kataLaluan.length() > 15)
+                                                        if (nomborTelefon.isEmpty())
                                                         {
-                                                            kataLaluan1.setError("Maksimum Panjang Kata Laluan mestilah 15 patah perkataan!");
-                                                            kataLaluan1.requestFocus();
+                                                            binding.nomborTelefon.setError("Nombor Telefon perlu diisi");
+                                                            binding.nomborTelefon.requestFocus();
                                                         }
                                                         else
                                                         {
-                                                            if (nomborTelefon.isEmpty())
+                                                            if (nomborTelefon.length() > 12 || nomborTelefon.length() < 10)
                                                             {
-                                                                nomborTelefon1.setError("Nombor Telefon perlu diisi");
-                                                                nomborTelefon1.requestFocus();
+                                                                binding.nomborTelefon.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
+                                                                binding.nomborTelefon.requestFocus();
                                                             }
                                                             else
                                                             {
-                                                                if (nomborTelefon.length() > 12 || nomborTelefon.length() < 10)
-                                                                {
-                                                                    nomborTelefon1.setError("Panjang Nombor Telefon mestilah antara 10 hingga 12 nombor!");
-                                                                    nomborTelefon1.requestFocus();
-                                                                }
-                                                                else
-                                                                {
-                                                                    progressBar.setVisibility(View.VISIBLE);
+                                                                binding.progressBar.setVisibility(View.VISIBLE);
 
-                                                                    db.collection("Pengguna").document(idPengguna)
-                                                                                .update(Pengguna)
-                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                    @Override
-                                                                                    public void onSuccess(Void unused) {
-                                                                                        if (idPengguna.contains("M"))
-                                                                                        {
-                                                                                            Pengguna.remove("idPengguna");
-                                                                                            Pengguna.put("idJuruteknik", idPengguna);
+                                                                db.collection("Pengguna").document(idPengguna)
+                                                                            .update(Pengguna)
+                                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                @Override
+                                                                                public void onSuccess(Void unused) {
+                                                                                    if (idPengguna.contains("M"))
+                                                                                    {
+                                                                                        Pengguna.remove("idPengguna");
+                                                                                        Pengguna.put("idJuruteknik", idPengguna);
 
-                                                                                            db.collection("Juruteknik").document(idPengguna)
-                                                                                                    .update(Pengguna);
-                                                                                        }
-                                                                                        else if (idPengguna.contains("P"))
-                                                                                        {
-                                                                                            Pengguna.remove("idPengguna");
-                                                                                            Pengguna.put("idPentadbir", idPengguna);
-
-                                                                                            db.collection("Pentadbir").document(idPengguna)
-                                                                                                    .update(Pengguna);
-                                                                                        }
-
-                                                                                        if (!sp.getString("emelPengguna", "").equals(emelPengguna))
-                                                                                        {
-                                                                                            tukarEmail(emelPengguna);
-                                                                                        }
-                                                                                        if (!sp.getString("kataLaluan", "").equals(kataLaluan))
-                                                                                        {
-                                                                                            tukarPass(kataLaluan);
-                                                                                        }
-
-                                                                                        Toast.makeText(getContext(), "Maklumat profil pengguna berjaya dikemaskini", Toast.LENGTH_LONG).show();
-                                                                                        startActivity(new Intent(getContext(), requireActivity().getClass()));
+                                                                                        db.collection("Juruteknik").document(idPengguna)
+                                                                                                .update(Pengguna);
                                                                                     }
-                                                                                });
-                                                                }
+                                                                                    else if (idPengguna.contains("P"))
+                                                                                    {
+                                                                                        Pengguna.remove("idPengguna");
+                                                                                        Pengguna.put("idPentadbir", idPengguna);
+
+                                                                                        db.collection("Pentadbir").document(idPengguna)
+                                                                                                .update(Pengguna);
+                                                                                    }
+
+                                                                                    if (!sp.getString("emelPengguna", "").equals(emelPengguna))
+                                                                                    {
+                                                                                        tukarEmail(emelPengguna);
+                                                                                    }
+                                                                                    if (!sp.getString("kataLaluan", "").equals(kataLaluan))
+                                                                                    {
+                                                                                        tukarPass(kataLaluan);
+                                                                                    }
+
+                                                                                    Toast.makeText(getContext(), "Maklumat profil pengguna berjaya dikemaskini", Toast.LENGTH_LONG).show();
+                                                                                    startActivity(new Intent(getContext(), requireActivity().getClass()));
+                                                                                }
+                                                                            });
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
-                                            else {
-                                                emelPengguna1.setError("Emel Pengguna telah terdaftar dalam sistem!");
-                                                emelPengguna1.requestFocus();
-                                            }
                                         }
-                                    });
-                        }
+                                        else {
+                                            binding.emelPengguna.setError("Emel Pengguna telah terdaftar dalam sistem!");
+                                            binding.emelPengguna.requestFocus();
+                                        }
+                                    }
+                                });
                     }
                 }
             }
         });
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Pilih Jawatan Pengguna"))
@@ -285,7 +260,7 @@ public class profilPengguna extends Fragment
                 jawatanPengguna2 = "Pilih Jawatan Pengguna";
             }
         });
-        return v;
+        return binding.getRoot();
     }
 
     public void tukarEmail(String emelPengguna)
