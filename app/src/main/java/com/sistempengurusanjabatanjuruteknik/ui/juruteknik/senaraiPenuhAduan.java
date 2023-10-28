@@ -31,6 +31,7 @@ public class senaraiPenuhAduan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ActivitySenaraiPenuhAduanBinding binding = ActivitySenaraiPenuhAduanBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         String value = null;
         // terima idAduan daripada senarai aduan
