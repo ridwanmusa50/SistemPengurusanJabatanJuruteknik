@@ -52,7 +52,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         binding.senaraiAduan.setHasFixedSize(true);
         binding.senaraiAduan.setLayoutManager(new LinearLayoutManager(getContext()));
         list = new ArrayList<>();
-        penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
+        penyambungSenaraiAduan = new penyambungSenaraiAduan(list, this);
         binding.senaraiAduan.setAdapter(penyambungSenaraiAduan);
 
         binding.senaraiTugas.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -1,27 +1,23 @@
 // Used to set value for each list data got to senarai_aduan.xml
 package com.sistempengurusanjabatanjuruteknik.ui;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.SenaraiAduanBinding;
 
 import java.util.ArrayList;
 
 public class penyambungSenaraiAduan extends RecyclerView.Adapter<penyambungSenaraiAduan.MyViewHolder>
 {
-    private final Context context;
     private final ArrayList<Aduan> list;
     private final OnAduanListener mOnAduanListener;
 
-    public penyambungSenaraiAduan(Context context, ArrayList<Aduan> list, OnAduanListener onAduanListener) {
-        this.context = context;
+    public penyambungSenaraiAduan(ArrayList<Aduan> list, OnAduanListener onAduanListener) {
         this.list = list;
         this.mOnAduanListener = onAduanListener;
     }
@@ -30,19 +26,15 @@ public class penyambungSenaraiAduan extends RecyclerView.Adapter<penyambungSenar
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View v = LayoutInflater.from(context).inflate(R.layout.senarai_aduan, parent, false);
-        return new MyViewHolder(v, mOnAduanListener);
+        SenaraiAduanBinding binding = SenaraiAduanBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new MyViewHolder(binding, mOnAduanListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
         Aduan aduan = list.get(position);
-        holder.idAduan.setText(aduan.getIdAduan());
-        holder.idMesin.setText(aduan.getIdMesin());
-        holder.huraianAduan.setText(aduan.getHuraianAduan());
-        holder.tarikhAduan.setText(aduan.getTarikhAduan());
-        holder.masaAduan.setText(aduan.getMasaAduan());
+        holder.bind(aduan);
     }
 
     @Override
@@ -53,18 +45,13 @@ public class penyambungSenaraiAduan extends RecyclerView.Adapter<penyambungSenar
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView idAduan, idMesin, huraianAduan, tarikhAduan, masaAduan;
+        private final SenaraiAduanBinding binding;
         OnAduanListener onAduanListener;
 
-        public MyViewHolder(@NonNull View itemView, OnAduanListener onAduanListener)
+        public MyViewHolder(SenaraiAduanBinding binding, OnAduanListener onAduanListener)
         {
-            super(itemView);
-
-            idAduan = itemView.findViewById(R.id.idAduan);
-            idMesin = itemView.findViewById(R.id.idMesin);
-            huraianAduan = itemView.findViewById(R.id.hurainAduan);
-            tarikhAduan = itemView.findViewById(R.id.tarikhAduan);
-            masaAduan = itemView.findViewById(R.id.masaAduan);
+            super(binding.getRoot());
+            this.binding = binding;
             this.onAduanListener = onAduanListener;
 
             itemView.setOnClickListener(this);
@@ -73,6 +60,14 @@ public class penyambungSenaraiAduan extends RecyclerView.Adapter<penyambungSenar
         @Override
         public void onClick(View v) {
             onAduanListener.onAduanClick(getAdapterPosition());
+        }
+
+        public void bind(Aduan data) {
+            binding.idAduan.setText(data.getIdAduan());
+            binding.idMesin.setText(data.getIdMesin());
+            binding.hurainAduan.setText(data.getHuraianAduan());
+            binding.tarikhAduan.setText(data.getTarikhAduan());
+            binding.masaAduan.setText(data.getMasaAduan());
         }
     }
 

@@ -38,7 +38,7 @@ public class senaraiAduan extends Fragment implements com.sistempengurusanjabata
         binding.senaraiAduan.setLayoutManager(new LinearLayoutManager(getContext()));
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<>();
-        penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
+        penyambungSenaraiAduan = new penyambungSenaraiAduan(list, this);
         binding.senaraiAduan.setAdapter(penyambungSenaraiAduan);
 
         binding.refresh.setOnRefreshListener(() -> {

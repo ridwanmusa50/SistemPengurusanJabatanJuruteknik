@@ -39,7 +39,7 @@ public class laporanAduanKerosakan extends Fragment implements com.sistempenguru
         
         db = FirebaseFirestore.getInstance();
         list = new ArrayList<>();
-        penyambungSenaraiAduan = new penyambungSenaraiAduan(getContext(), list, this);
+        penyambungSenaraiAduan = new penyambungSenaraiAduan(list, this);
         binding.senaraiAduan.setAdapter(penyambungSenaraiAduan);
 
         binding.refresh.setOnRefreshListener(() -> {
