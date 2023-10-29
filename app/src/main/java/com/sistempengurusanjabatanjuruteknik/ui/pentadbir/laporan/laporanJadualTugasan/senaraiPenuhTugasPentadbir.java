@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
     
@@ -122,7 +123,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         paparanPdf.setContentView(R.layout.paparan_pdf_tugas);
         paparanPdf.setCancelable(true);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(paparanPdf.getWindow().getAttributes());
+        lp.copyFrom(Objects.requireNonNull(paparanPdf.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = 1800;
         lp.dimAmount = 10;
@@ -188,6 +189,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         butangMuatTurun.setOnClickListener(v1 -> generatePdfFromView(paparanPdf.findViewById(R.id.paparanCetakan)));
     }
 
+    /** @noinspection unchecked*/
     private void tunjukkanMaklumat(String value)
     {
         list.clear();
@@ -265,12 +267,20 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
 
         while (file.exists()){
             count++;
-            file.renameTo(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idJadual+ "(" + count + ")" + ".pdf"));
+            String newFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" + idJadual+ "(" + count + ")" + ".pdf";
+            File newFile = new File(newFilePath);
+            if (file.renameTo(newFile)) {
+                file = newFile;
+            }
         }
 
         try{
-            document.writeTo(Files.newOutputStream(file.toPath()));
-            Toast.makeText(senaraiPenuhTugasPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
+            if (file.createNewFile()) {
+                document.writeTo(Files.newOutputStream(file.toPath()));
+                Toast.makeText(senaraiPenuhTugasPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(senaraiPenuhTugasPentadbir.this, "Tidak Berjaya Mencipta Fail! Sila cuba sebentar lagi.", Toast.LENGTH_LONG).show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(senaraiPenuhTugasPentadbir.this, "Tidak Dimuat Turun! Sila cuba sebentar lagi.", Toast.LENGTH_LONG).show();
