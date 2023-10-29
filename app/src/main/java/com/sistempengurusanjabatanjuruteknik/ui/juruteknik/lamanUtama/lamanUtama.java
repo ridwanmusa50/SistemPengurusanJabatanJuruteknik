@@ -43,6 +43,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
     String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
     @SuppressLint("SimpleDateFormat") String tarikhSemalam = new SimpleDateFormat("dd/MM/yyyy").format(System.currentTimeMillis() - 24*60*60*1000);
 
+    /** @noinspection unchecked*/
     @SuppressLint("NotifyDataSetChanged")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -194,9 +195,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                                                                                                 bigmap.put("tugasJadual", map1);
                                                                                                 db.collection("JadualTugasan").document(idJadual)
                                                                                                         .update(bigmap)
-                                                                                                        .addOnSuccessListener(unused -> {
-                                                                                                            Log.d("TAG", "Berjaya tambah");
-                                                                                                        });
+                                                                                                        .addOnSuccessListener(unused -> Log.d("TAG", "Berjaya tambah"));
                                                                                                 startActivity(new Intent(getContext(), requireActivity().getClass()));
                                                                                             }
                                                                                             else
@@ -280,7 +279,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                 .addSnapshotListener((value, error) -> {
                     if (error != null)
                     {
-                        Log.e("Firestore bermasalah", error.getMessage());
+                        Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                         return;
                     }
 
