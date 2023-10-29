@@ -21,6 +21,7 @@ import com.sistempengurusanjabatanjuruteknik.ui.juruteknik.senaraiPenuhAduan;
 import com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class senaraiAduan extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
@@ -47,7 +48,7 @@ public class senaraiAduan extends Fragment implements com.sistempengurusanjabata
                     .addSnapshotListener((value, error) -> {
                         if (error != null)
                         {
-                            Log.e("Firestore bermasalah", error.getMessage());
+                            Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
 
@@ -68,7 +69,7 @@ public class senaraiAduan extends Fragment implements com.sistempengurusanjabata
                 .addSnapshotListener((value, error) -> {
                     if (error != null)
                     {
-                        Log.e("Firestore bermasalah", error.getMessage());
+                        Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                         return;
                     }
 
