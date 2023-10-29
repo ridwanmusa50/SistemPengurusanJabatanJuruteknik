@@ -36,7 +36,7 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
         
         db = FirebaseFirestore.getInstance();
 
-        penyambung = new penyambungJadual(getContext(), list, this);
+        penyambung = new penyambungJadual(list, this);
         binding.senaraiTugas.setAdapter(penyambung);
 
         binding.refresh.setOnRefreshListener(() -> {
