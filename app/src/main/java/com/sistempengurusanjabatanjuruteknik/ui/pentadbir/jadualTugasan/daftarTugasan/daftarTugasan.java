@@ -79,7 +79,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
         binding.butangCariTarikh.setOnClickListener(v1 -> tunjukJadual());
 
         binding.butangTambahSenaraiTugas.setOnClickListener(v12 -> {
-            Dialog dialog = new Dialog(getContext());
+            Dialog dialog = new Dialog(requireContext());
             dialog.setContentView(R.layout.tambah_kemaskini_jadual);
 
             EditText tugasJadual1 = dialog.findViewById(R.id.tugasJadual);
@@ -159,7 +159,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
 
     private void tunjukJadual()
     {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
