@@ -44,7 +44,21 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         // Vibration
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = {100, 300, 300, 300};
-        v.vibrate(pattern, VibrationEffect.DEFAULT_AMPLITUDE);
+
+        // Check API level for compatibility
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // New vibrate method using VibrationEffect class
+            VibrationEffect vibrationEffect = VibrationEffect.createWaveform(pattern, -1);
+
+            // Vibrate the device
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                vibrator.vibrate(vibrationEffect);
+            }
+        } else {
+            //noinspection deprecation
+            v.vibrate(pattern, VibrationEffect.DEFAULT_AMPLITUDE);
+        }
 
         // Get the icon resource
         @SuppressLint("DiscouragedApi") int resourceImage = getResources().getIdentifier(Objects.requireNonNull(remoteMessage.getNotification()).getIcon(), "drawable", getPackageName());
@@ -60,7 +74,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         // Create the intent for the notification
         Intent resultIntent = new Intent(this, mulaAplikasi.class);
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag")
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // Set the notification content
         builder.setContentTitle(remoteMessage.getNotification().getTitle())
