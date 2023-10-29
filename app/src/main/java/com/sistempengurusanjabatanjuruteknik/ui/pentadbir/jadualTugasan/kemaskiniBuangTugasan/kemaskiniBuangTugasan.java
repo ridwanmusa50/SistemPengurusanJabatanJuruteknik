@@ -57,7 +57,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
         binding.butangCariTarikh.setOnClickListener(v1 -> tunjukJadual());
 
         binding.butangTambahSenaraiTugas.setOnClickListener(v12 -> {
-            Dialog dialog = new Dialog(getContext());
+            Dialog dialog = new Dialog(requireContext());
             dialog.setContentView(R.layout.tambah_kemaskini_jadual);
 
             EditText tugasJadual1 = dialog.findViewById(R.id.tugasJadual);
@@ -159,7 +159,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
     private void tunjukJadual()
     {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -170,17 +170,6 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//        String[] bulan = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-//        String haribulan = "";
-//
-//        for (int i = 0; i < bulan.length; i++)
-//        {
-//            if (month == i)
-//            {
-//                haribulan = bulan[i];
-//                break;
-//            }
-//        }
 
         String tarikh;
 
@@ -268,6 +257,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
                             assert friendsMap != null;
                             for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
                                 if (entry.getKey().equals("tugasJadual")) {
+                                    //noinspection unchecked
                                     Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
                                     int i = 1;
                                     for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
