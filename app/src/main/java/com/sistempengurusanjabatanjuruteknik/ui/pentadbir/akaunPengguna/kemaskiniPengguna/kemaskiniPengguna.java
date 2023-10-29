@@ -56,7 +56,7 @@ public class kemaskiniPengguna extends Fragment {
         jawatanPengguna1.add("JURUTEKNIK");
 
         ArrayAdapter<String> dataAdapter;
-        dataAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
+        dataAdapter = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
         dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         binding.spinner.setAdapter(dataAdapter);
 
