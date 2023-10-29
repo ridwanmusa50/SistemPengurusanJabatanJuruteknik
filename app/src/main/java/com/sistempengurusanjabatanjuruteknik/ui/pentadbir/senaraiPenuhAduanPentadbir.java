@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
     private FragmentLaporanAduanKerosakanBinding binding;
@@ -188,7 +189,7 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
         paparanPdf.setContentView(R.layout.paparan_pdf_aduan);
         paparanPdf.setCancelable(true);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(paparanPdf.getWindow().getAttributes());
+        lp.copyFrom(Objects.requireNonNull(paparanPdf.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = 1800;
         lp.dimAmount = 10;
@@ -355,12 +356,20 @@ public class senaraiPenuhAduanPentadbir extends AppCompatActivity {
 
         while (file.exists()){
             count++;
-            file.renameTo(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), idAduan + "(" + count + ")" + ".pdf"));
+            String newFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" + idAduan + "(" + count + ")" + ".pdf";
+            File newFile = new File(newFilePath);
+            if (file.renameTo(newFile)) {
+                file = newFile;
+            }
         }
 
         try{
-            document.writeTo(Files.newOutputStream(file.toPath()));
-            Toast.makeText(senaraiPenuhAduanPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
+            if (file.createNewFile()) {
+                document.writeTo(Files.newOutputStream(file.toPath()));
+                Toast.makeText(senaraiPenuhAduanPentadbir.this, "Berjaya Dimuat Turun! Sila semak fail download telefon anda.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(senaraiPenuhAduanPentadbir.this, "Tidak Berjaya Mencipta Fail! Sila cuba sebentar lagi.", Toast.LENGTH_LONG).show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(senaraiPenuhAduanPentadbir.this, "Tidak Dimuat Turun! Sila cuba sebentar lagi.", Toast.LENGTH_LONG).show();
