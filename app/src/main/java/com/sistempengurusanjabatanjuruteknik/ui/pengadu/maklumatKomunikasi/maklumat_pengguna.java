@@ -4,6 +4,7 @@ package com.sistempengurusanjabatanjuruteknik.ui.pengadu.maklumatKomunikasi;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -28,7 +29,7 @@ public class maklumat_pengguna extends Fragment {
     private FirebaseFirestore db;
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FragmentMaklumatPenggunaBinding binding = FragmentMaklumatPenggunaBinding.inflate(inflater, container, false);
@@ -64,7 +65,7 @@ public class maklumat_pengguna extends Fragment {
                 .addSnapshotListener((value, error) -> {
                     if (error != null)
                     {
-                        Log.e("Firestore bermasalah", error.getMessage());
+                        Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                     }
                     assert value != null;
                     for (DocumentChange dc : value.getDocumentChanges())
@@ -74,7 +75,7 @@ public class maklumat_pengguna extends Fragment {
                         mAuth.fetchSignInMethodsForEmail(emel)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+                                        boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
 
                                         if (!isNewUser) {
                                             if (dc.getType() == DocumentChange.Type.ADDED) {
