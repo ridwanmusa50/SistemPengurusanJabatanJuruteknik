@@ -66,15 +66,18 @@ public class jadualTugasan extends Fragment
                                             assert friendsMap != null;
                                             for (Map.Entry<String, Object> entry : friendsMap.entrySet()) {
                                                 if (entry.getKey().equals("tugasJadual")) {
-                                                    Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
-                                                    int i = 1;
-                                                    for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
-                                                        String in = "" + i;
-                                                        if (dataEntry.getKey().equals(in)) {
-                                                            list.add(new Tugas(dataEntry.getValue().toString()));
-                                                            penyambung.notifyItemInserted(list.size() - 1);
+                                                    if (entry.getValue() instanceof Map) {
+                                                        //noinspection unchecked
+                                                        Map<String, Object> newFriend0Map = (Map<String, Object>) entry.getValue();
+                                                        int i = 1;
+                                                        for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
+                                                            String in = "" + i;
+                                                            if (dataEntry.getKey().equals(in)) {
+                                                                list.add(new Tugas(dataEntry.getValue().toString()));
+                                                                penyambung.notifyItemInserted(list.size() - 1);
+                                                            }
+                                                            i++;
                                                         }
-                                                        i++;
                                                     }
                                                 }
                                             }
