@@ -68,7 +68,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         }
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        penyambungJadualPenuh penyambung = new penyambungJadualPenuh(this, list);
+        penyambungJadualPenuh penyambung = new penyambungJadualPenuh(list);
         binding.recyclerView.setAdapter(penyambung);
 
         db = FirebaseFirestore.getInstance();
@@ -196,7 +196,7 @@ public class senaraiPenuhTugasPentadbir extends AppCompatActivity {
         final String[] tarikhJadual = {binding.tarikhJadual.getText().toString().trim()};
         db = FirebaseFirestore.getInstance();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        penyambungJadualPenuh penyambung = new penyambungJadualPenuh(this, list);
+        penyambungJadualPenuh penyambung = new penyambungJadualPenuh(list);
         binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").document(idJadual)
