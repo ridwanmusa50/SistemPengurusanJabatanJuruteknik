@@ -18,7 +18,7 @@ public class utamaAplikasi extends AppCompatActivity {
         UtamaAplikasiBinding binding = UtamaAplikasiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ViewPageAdapter adapter = new ViewPageAdapter(getSupportFragmentManager());
+        ViewPageAdapter adapter = new ViewPageAdapter(this);
 
         adapter.addFragment(new log_masuk());
         adapter.addFragment(new maklumat_pengguna());
