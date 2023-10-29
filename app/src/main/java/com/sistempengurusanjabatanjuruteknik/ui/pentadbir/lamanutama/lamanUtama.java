@@ -21,6 +21,7 @@ import com.sistempengurusanjabatanjuruteknik.ui.pentadbir.senaraiPenuhAduanPenta
 import com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class lamanUtama extends Fragment implements com.sistempengurusanjabatanjuruteknik.ui.penyambungSenaraiAduan.OnAduanListener
 {
@@ -47,7 +48,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                     .addSnapshotListener((value, error) -> {
                         if (error != null)
                         {
-                            Log.e("Firestore bermasalah", error.getMessage());
+                            Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
 
@@ -72,7 +73,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
                 .addSnapshotListener((value, error) -> {
                     if (error != null)
                     {
-                        Log.e("Firestore bermasalah", error.getMessage());
+                        Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                         return;
                     }
 
