@@ -48,7 +48,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
         db = FirebaseFirestore.getInstance();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        penyambungJadual penyambung = new penyambungJadual(getContext(), list);
+        penyambungJadual penyambung = new penyambungJadual(list);
         binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").get()
@@ -199,7 +199,7 @@ public class daftarTugasan extends Fragment implements DatePickerDialog.OnDateSe
                     if (!queryDocumentSnapshots.isEmpty()) {
                         List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        penyambungJadual penyambung = new penyambungJadual(getContext(), list);
+                        penyambungJadual penyambung = new penyambungJadual(list);
                         binding.recyclerView.setAdapter(penyambung);
 
                         for (DocumentSnapshot snapshot : snapshotList) {

@@ -49,7 +49,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
         db = FirebaseFirestore.getInstance();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        penyambungJadual penyambung = new penyambungJadual(getContext(), list);
+        penyambungJadual penyambung = new penyambungJadual(list);
         binding.recyclerView.setAdapter(penyambung);
 
         initialize();
@@ -223,7 +223,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
 
                         if (binding.tarikhJadual.getText().toString().isEmpty())
                         {
-                            penyambungJadual penyambung = new penyambungJadual(getContext(), list);
+                            penyambungJadual penyambung = new penyambungJadual(list);
                             binding.idJadual.getText().clear();
                             initialize();
                             binding.recyclerView.setAdapter(penyambung);
@@ -255,7 +255,7 @@ public class kemaskiniBuangTugasan extends Fragment implements DatePickerDialog.
         String idJadual = binding.idJadual.getText().toString().trim();
         db = FirebaseFirestore.getInstance();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        penyambungJadual penyambung = new penyambungJadual(getContext(), list);
+        penyambungJadual penyambung = new penyambungJadual(list);
         binding.recyclerView.setAdapter(penyambung);
 
         db.collection("JadualTugasan").document(idJadual)
