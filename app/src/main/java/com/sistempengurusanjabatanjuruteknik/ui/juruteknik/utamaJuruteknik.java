@@ -28,7 +28,6 @@ public class utamaJuruteknik extends AppCompatActivity {
             public void handleOnBackPressed() {}
         });
 
-
         ActivityUtamaJuruteknikBinding binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
