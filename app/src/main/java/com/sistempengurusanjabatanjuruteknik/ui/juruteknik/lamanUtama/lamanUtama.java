@@ -56,7 +56,7 @@ public class lamanUtama extends Fragment implements com.sistempengurusanjabatanj
         binding.senaraiAduan.setAdapter(penyambungSenaraiAduan);
 
         binding.senaraiTugas.setLayoutManager(new LinearLayoutManager(getContext()));
-        penyambungJadual penyambung = new penyambungJadual(getContext(), tugas, idJadual);
+        penyambungJadual penyambung = new penyambungJadual(tugas, idJadual);
         binding.senaraiTugas.setAdapter(penyambung);
 
         db = FirebaseFirestore.getInstance();

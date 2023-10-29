@@ -38,7 +38,7 @@ public class jadualTugasan extends Fragment
         db = FirebaseFirestore.getInstance();
 
         binding.senaraiTugas.setLayoutManager(new LinearLayoutManager(getContext()));
-        penyambungJadual penyambung = new penyambungJadual(getContext(), list, idJadual);
+        penyambungJadual penyambung = new penyambungJadual(list, idJadual);
         binding.senaraiTugas.setAdapter(penyambung);
 
         String tarikh = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
