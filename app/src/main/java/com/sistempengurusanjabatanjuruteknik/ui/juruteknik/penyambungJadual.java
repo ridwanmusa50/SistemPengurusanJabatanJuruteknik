@@ -64,6 +64,7 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
             this.idJadual = idJadual;
         }
 
+        /** @noinspection unchecked*/
         public void bind(Tugas data, int position) {
             binding.tugasJadual.setText(data.tugasJadual);
             db = FirebaseFirestore.getInstance();
@@ -140,11 +141,7 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
                                                                                                     for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
                                                                                                         String in1 = "" + i1;
 
-                                                                                                        Map<String, Object> map1 = new HashMap<>();
-
-                                                                                                        for (Map.Entry<String, Object> data1 : newFriend0Map.entrySet()) {
-                                                                                                            map1.put(data1.getKey(), data1.getValue());
-                                                                                                        }
+                                                                                                        Map<String, Object> map1 = new HashMap<>(newFriend0Map);
 
                                                                                                         if (dataEntry.getKey().equals(in1)) {
                                                                                                             map1.put(dataEntry.getKey(), "SELESAI");
@@ -191,11 +188,7 @@ public class penyambungJadual extends RecyclerView.Adapter<penyambungJadual.View
                                                                                                                                     for (Map.Entry<String, Object> dataEntry : newFriend0Map.entrySet()) {
                                                                                                                                         String in1 = "" + i1;
 
-                                                                                                                                        Map<String, Object> map1 = new HashMap<>();
-
-                                                                                                                                        for (Map.Entry<String, Object> data1 : newFriend0Map.entrySet()) {
-                                                                                                                                            map1.put(data1.getKey(), data1.getValue());
-                                                                                                                                        }
+                                                                                                                                        Map<String, Object> map1 = new HashMap<>(newFriend0Map);
 
                                                                                                                                         if (dataEntry.getKey().equals(in1)) {
                                                                                                                                             map1.put(dataEntry.getKey(), "SELESAI");
