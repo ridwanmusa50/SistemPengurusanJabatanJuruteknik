@@ -2,6 +2,7 @@
 
 package com.sistempengurusanjabatanjuruteknik;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -27,6 +28,13 @@ public class setSemulaKataLaluan extends AppCompatActivity {
         SetSemulaKataLaluanBinding binding = SetSemulaKataLaluanBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                startActivity(new Intent(setSemulaKataLaluan.this, utamaAplikasi.class));
+            }
+        });
+
         // bar at the top for return previous page
         ActionBar actionBar;
         actionBar = getSupportActionBar();
@@ -40,15 +48,13 @@ public class setSemulaKataLaluan extends AppCompatActivity {
         binding.butangSetSemula.setOnClickListener(v -> {
             String emailPengguna1 = Objects.requireNonNull(binding.emailPengguna.getText()).toString().trim();
 
-            if (emailPengguna1.isEmpty())
-            {
+            if (emailPengguna1.isEmpty()) {
                 binding.emailPengguna.setError("Email Pengguna perlu diisi!");
                 binding.emailPengguna.requestFocus();
                 return;
             }
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(emailPengguna1).matches())
-            {
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailPengguna1).matches()) {
                 binding.emailPengguna.setError("Sila masukkan Email Pengguna yang sah!");
                 binding.emailPengguna.requestFocus();
                 return;
@@ -65,10 +71,4 @@ public class setSemulaKataLaluan extends AppCompatActivity {
             });
         });
     }
-
-    // class when user click back press
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, utamaAplikasi.class));
-        super.onBackPressed();
-    }}
+}
