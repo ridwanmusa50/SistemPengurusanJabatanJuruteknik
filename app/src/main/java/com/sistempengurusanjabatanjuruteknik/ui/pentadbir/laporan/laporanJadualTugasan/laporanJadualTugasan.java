@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Query;
 import com.sistempengurusanjabatanjuruteknik.databinding.FragmentLaporanJadualTugasanBinding;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class laporanJadualTugasan extends Fragment implements penyambungJadual.OnTugasListener
 {
@@ -45,7 +46,7 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
                     .addSnapshotListener((value, error) -> {
                         if (error != null)
                         {
-                            Log.e("Firestore bermasalah", error.getMessage());
+                            Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
 
@@ -66,7 +67,7 @@ public class laporanJadualTugasan extends Fragment implements penyambungJadual.O
                 .addSnapshotListener((value, error) -> {
                     if (error != null)
                     {
-                        Log.e("Firestore bermasalah", error.getMessage());
+                        Log.e("Firestore bermasalah", Objects.requireNonNull(error.getMessage()));
                         return;
                     }
 
