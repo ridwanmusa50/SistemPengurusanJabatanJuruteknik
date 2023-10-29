@@ -44,12 +44,12 @@ public class mulaAplikasi extends AppCompatActivity {
 
                 String idPengguna = sp.getString("idPengguna", "");
 
-                Matcher idPenggunaJuruteknik = juruteknik.matcher((CharSequence) idPengguna);
+                Matcher idPenggunaJuruteknik = juruteknik.matcher(idPengguna);
                 while (idPenggunaJuruteknik.find()) {
                     startActivity(new Intent(mulaAplikasi.this, utamaJuruteknik.class));
                 }
 
-                Matcher idPenggunaPentadbir = pentadbir.matcher((CharSequence) idPengguna);
+                Matcher idPenggunaPentadbir = pentadbir.matcher(idPengguna);
                 while (idPenggunaPentadbir.find()) {
                     startActivity(new Intent(mulaAplikasi.this, utamaPentadbir.class));
                 }
