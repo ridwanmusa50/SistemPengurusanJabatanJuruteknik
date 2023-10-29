@@ -40,7 +40,7 @@ public class maklumat_pengguna extends Fragment {
         binding.userlist.setLayoutManager(new LinearLayoutManager(getContext()));
 
         list = new ArrayList<>();
-        penyambung = new Penyambung(getContext(), list);
+        penyambung = new Penyambung(list);
         binding.userlist.setAdapter(penyambung);
         list.clear();
         penyambung.notifyDataSetChanged();

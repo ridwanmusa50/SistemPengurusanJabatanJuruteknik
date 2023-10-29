@@ -1,44 +1,35 @@
-// Used to display the list data to senarai_pemgguna.xml
+// Used to display the list data to senarai_pengguna.xml
 package com.sistempengurusanjabatanjuruteknik.ui.pengadu.maklumatKomunikasi;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sistempengurusanjabatanjuruteknik.R;
+import com.sistempengurusanjabatanjuruteknik.databinding.SenaraiPenggunaBinding;
 
 import java.util.ArrayList;
 
 public class Penyambung extends RecyclerView.Adapter<Penyambung.MyViewHolder>
 {
-    private final Context context;
     private final ArrayList<Pengguna> list;
 
-    public Penyambung(Context context, ArrayList<Pengguna> list) {
-        this.context = context;
+    public Penyambung(ArrayList<Pengguna> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View v = LayoutInflater.from(context).inflate(R.layout.senarai_pengguna, parent, false);
-        return new MyViewHolder(v);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        SenaraiPenggunaBinding binding = SenaraiPenggunaBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new MyViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Pengguna pengguna = list.get(position);
-        holder.namaPenuh.setText(pengguna.getNamaPenuh());
-        holder.jawatanPengguna.setText(pengguna.getJawatanPengguna());
-        holder.nomborTelefon.setText(pengguna.getNomborTelefon());
+        holder.bind(pengguna);
     }
 
     @Override
@@ -49,17 +40,18 @@ public class Penyambung extends RecyclerView.Adapter<Penyambung.MyViewHolder>
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        private final TextView namaPenuh;
-        private final TextView jawatanPengguna;
-        private final TextView nomborTelefon;
+        private final SenaraiPenggunaBinding binding;
 
-        public MyViewHolder(@NonNull View itemView)
+        public MyViewHolder(SenaraiPenggunaBinding binding)
         {
-            super(itemView);
+            super(binding.getRoot());
+            this.binding = binding;
+        }
 
-            namaPenuh = itemView.findViewById(R.id.namaPenuh);
-            jawatanPengguna = itemView.findViewById(R.id.jawatanPengguna);
-            nomborTelefon = itemView.findViewById(R.id.nomborTelefon);
+        public void bind(Pengguna data) {
+            binding.namaPenuh.setText(data.getNamaPenuh());
+            binding.jawatanPengguna.setText(data.getJawatanPengguna());
+            binding.nomborTelefon.setText(data.getNomborTelefon());
         }
     }
 }
