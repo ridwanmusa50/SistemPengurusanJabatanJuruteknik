@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,8 +24,13 @@ public class utamaPentadbir extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        com.sistempengurusanjabatanjuruteknik.databinding.ActivityUtamaPentadbirBinding binding = ActivityUtamaPentadbirBinding.inflate(getLayoutInflater());
+        ActivityUtamaPentadbirBinding binding = ActivityUtamaPentadbirBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {}
+        });
 
         setSupportActionBar(binding.appBarUtamaPentadbir.toolbar);
 
@@ -41,11 +47,6 @@ public class utamaPentadbir extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_utama_pentadbir);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 
     @Override
