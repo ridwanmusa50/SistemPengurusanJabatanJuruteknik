@@ -2,7 +2,6 @@
 package com.sistempengurusanjabatanjuruteknik.ui.pentadbir.akaunPengguna.buangPengguna;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -51,7 +50,7 @@ public class buangPengguna extends Fragment {
         jawatanPengguna1.add("JURUTEKNIK");
 
         ArrayAdapter<String> dataAdapter;
-        dataAdapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
+        dataAdapter = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, jawatanPengguna1);
         dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         binding.spinner.setAdapter(dataAdapter);
 
@@ -119,7 +118,8 @@ public class buangPengguna extends Fragment {
 
                                     binding.spinner.setSelection(i);
 
-                                    if (emelPengguna[0].toLowerCase(Locale.ROOT).equals(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()))
+                                    //noinspection DataFlowIssue
+                                    if (emelPengguna[0].toLowerCase(Locale.ROOT).equals(mAuth.getCurrentUser().getEmail()))
                                     {
                                         Toast.makeText(getContext(), "Pengguna tidak boleh buang akaunnya sendiri!!!", Toast.LENGTH_LONG).show();
                                         binding.butangBuangPengguna.setEnabled(false);
@@ -151,7 +151,6 @@ public class buangPengguna extends Fragment {
                     + " dan akaun ini tidak akan dapat mengakses aplikasi lagi.")
             .setPositiveButton("Buang", (dialog1, which) -> {
                 mAuth.signOut();
-                final boolean[] hint = {true};
 
                 mAuth.signInWithEmailAndPassword(emelPengguna, kataLaluan)
                                 .addOnSuccessListener(authResult -> {
@@ -159,18 +158,11 @@ public class buangPengguna extends Fragment {
                                     binding.progressBar.setVisibility(View.GONE);
                                     Toast.makeText(getContext(), "Sistem berjaya membuang pengguna!", Toast.LENGTH_LONG).show();
                                     mAuth.signOut();
-                                    hint[0] = true;
                                 })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(getContext(), "Pengguna sudah tidak lagi boleh mengakses sistem.!", Toast.LENGTH_LONG).show();
-                                            hint[0] = false;
-                                        });
+                                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Pengguna sudah tidak lagi boleh mengakses sistem!", Toast.LENGTH_LONG).show());
 
                         mAuth.signInWithEmailAndPassword(sp.getString("emelPengguna", ""), sp.getString("kataLaluan", ""))
                                 .addOnSuccessListener(authResult -> {
-                                    if (hint.equals(true)) {
-                                        startActivity(new Intent(getContext(), requireActivity().getClass()));
-                                    }
                                 });
             })
                     .setNegativeButton("Tidak", (dialog12, which) -> dialog12.dismiss())
