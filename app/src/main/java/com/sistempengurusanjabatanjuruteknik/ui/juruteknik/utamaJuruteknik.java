@@ -1,10 +1,10 @@
 package com.sistempengurusanjabatanjuruteknik.ui.juruteknik;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,6 +22,12 @@ public class utamaJuruteknik extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {}
+        });
+
 
         ActivityUtamaJuruteknikBinding binding = ActivityUtamaJuruteknikBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -50,8 +56,4 @@ public class utamaJuruteknik extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-    }
 }
